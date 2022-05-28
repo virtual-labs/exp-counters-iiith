@@ -1,7 +1,7 @@
 import { registerGate, jsPlumbInstance } from "./main.js";
 import { setPosition } from "./layout.js";
-import { testRSFF, computeAnd, computeNand, computeNor, computeOr, computeXnor, computeXor, testJKFF, testDFF, testTFF } from "./validator.js";
-import { checkConnectionsRS, checkConnectionsJK, simulateFFJK, simulateFFRS, testSimulateFFJK, testSimulateFFRS, simulateFFDD, checkConnectionsDD, testSimulateDD } from "./flipflop.js";
+import {computeAnd, computeNand, computeNor, computeOr, computeXnor, computeXor, testJKFF, testDFF } from "./validator.js";
+import {checkConnectionsJK, simulateFFJK, testSimulateFFJK, simulateFFDD, checkConnectionsDD, testSimulateDD } from "./flipflop.js";
 
 'use strict';
 
@@ -233,14 +233,22 @@ function setInput(event) {
 
 window.setInput = setInput;
 
+export function printerrors(message) {
+    const result = document.getElementById('result');
+    result.innerHTML += message;
+    result.className = "failure-message";
+}
+
 export function checkConnections() {
     let correctConnection = true;
     for (let gateId in gates) {
         const gate = gates[gateId];
         if (gate.inputPoints.length != gate.inputs.length) {
+            printerrors( gate.name + " not connected.\n");
             correctConnection = false;
         }
         else if (!gate.isConnected && !gate.isOutput) {
+            printerrors("Input " + gate.name+" not connected" + ".\n");
             correctConnection = false;
         }
     }
@@ -248,7 +256,8 @@ export function checkConnections() {
         return true;
     }
     else {
-        alert("Connections are not correct");
+        //printerrors("Connections are not correct.\n")
+        // alert("Connections are not correct");
         return false;
     }
 }
@@ -256,6 +265,9 @@ export function checkConnections() {
 export function simulate() {
 
     window.simulate = 0; // status store of infinte clock ulte naming
+
+    const result = document.getElementById('result')
+    result.innerHTML = "";
 
     if (!checkConnections()) {
         return false;
@@ -272,7 +284,7 @@ export function simulate() {
         }
     }
 
-    // ori 
+    // handling ori for task 2
     if (window.currentTab === "task2") {
         for (let gateId in gates) {
             const gate = gates[gateId];
@@ -553,16 +565,6 @@ export function testSimulation(gates, flipFlops) {
             }
             
             testSimulateFFJK(flipFlops);
-            // if (window.currentTab === "task2") {
-            //     for (let gateId in gates) {
-            //         const gate = gates[gateId];
-            //         if (gate.type === "Input") {
-            //             if (gate.output === false) {
-            //                 gate.output = true;
-            //             }
-            //         }
-            //     }
-            // }
         }
 
     }
@@ -580,17 +582,6 @@ export function testSimulation(gates, flipFlops) {
             }
         }
     }
-    // ori 
-    // if (window.currentTab === "task2") {
-    //     for (let gateId in gates) {
-    //         const gate = gates[gateId];
-    //         if (gate.type === "Input") {
-    //             if (gate.output === false) {
-    //                 gate.output = true;
-    //             }
-    //         }
-    //     }
-    // }
     return true;
 }
 
@@ -598,6 +589,8 @@ export function testSimulation(gates, flipFlops) {
 export function submitCircuit() {
 
     document.getElementById("table-body").innerHTML = "";
+    const result =document.getElementById("result");
+    result.innerHTML = "";
     if (window.currentTab === "task2") {
         testDFF("Input-0", "Clock-0", "Output-1", "Output-2", "Output-3");
     }

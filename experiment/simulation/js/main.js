@@ -319,7 +319,7 @@ export const connectRSFF = function () {
                     output.addInput(input, "");
                 }
             }
-            // need to check
+            
             else if (fromEndpoint.elementId in gatejs.gates && toEndpoint.elementId in gatejs.gates) {
 
                 if (start_uuid === "output") {
@@ -364,7 +364,7 @@ export const connectJKFF = function () {
             if(end_type === "Clock"){
                 end_type = "Input";
             }
-            // ke kaam ki hai
+            
             if (start_type === "JKFlipFlop" && end_type === "JKFlipFlop") {
                 if (start_uuid === "output") {
                     const input = flipflopjs.flipFlops[fromEndpoint.elementId];
@@ -406,7 +406,7 @@ export const connectJKFF = function () {
                     }
                 }
             }
-            // ye kaam ki hai
+            
             else if (start_type === "JKFlipFlop" && end_type === "Input") {
                 if (end_uuid === "output") {
                     const input = gatejs.gates[toEndpoint.elementId];
@@ -423,7 +423,7 @@ export const connectJKFF = function () {
                     }
                 }
             }
-            // ye bhi kaam ki hai
+            
             else if (start_type === "Input" && end_type === "JKFlipFlop") {
                 if (start_uuid === "output") {
                     const input = gatejs.gates[fromEndpoint.elementId];
@@ -440,7 +440,7 @@ export const connectJKFF = function () {
                     }
                 }
             }
-            // ye bhi kaam ki hai
+            
             else if (start_type === "JKFlipFlop" && end_type === "Output") {
                 if (start_uuid === "output") {
                     const input = flipflopjs.flipFlops[fromEndpoint.elementId];
@@ -456,7 +456,7 @@ export const connectJKFF = function () {
                     output.addInput(input, pos);
                 }
             }
-            // ye bhi kaam ki hai
+            
             else if (start_type === "Output" && end_type === "JKFlipFlop") {
                 if (start_uuid === "input") {
                     const input = flipflopjs.flipFlops[toEndpoint.elementId];
@@ -472,7 +472,7 @@ export const connectJKFF = function () {
                     output.addInput(input, pos);
                 }
             }
-            // below kaam ke hai
+            
             else if (start_type === "Input" && end_type === "Output") {
                 if (start_uuid === "output") {
                     const input = gatejs.gates[fromEndpoint.elementId];
@@ -489,7 +489,7 @@ export const connectJKFF = function () {
                     output.addInput(input, "");
                 }
             }
-            // not that important
+           
             else if (start_type === "JKFlipFlop" && toEndpoint.elementId in gatejs.gates) {
                 // connection is started from the outputs of r-s flipflop
                 if (start_uuid === "output") {

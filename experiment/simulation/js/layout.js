@@ -83,11 +83,11 @@ window.changeTabs = changeTabs;
 function updateInstructions() {
   if (window.currentTab === "task1") {
     document.getElementById("TaskTitle").innerHTML = "Basic Counter";
-    document.getElementById("TaskDescription").innerHTML = 'Implement a Basic Counter using JK Flip flops'
+    document.getElementById("TaskDescription").innerHTML = 'Implement a Basic Counter using JK Flip-Flops where QB is MSB and QA is LSB.'
   }
   else if (window.currentTab === "task2") {
     document.getElementById("TaskTitle").innerHTML = "Ring Counter";
-    document.getElementById("TaskDescription").innerHTML = 'Implement a Ring Counter using D Flip-Flops ';
+    document.getElementById("TaskDescription").innerHTML = 'Implement a Ring Counter using D Flip-Flops where set bit must move from QA->QB->QC';
   }
 }
 

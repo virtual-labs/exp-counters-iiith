@@ -347,7 +347,7 @@ function fourXspeed() {
         tl.timeScale(4);
         OBSERV.innerHTML = "4x speed";
         decide = 1;
-        BUTTON.innerHTML = "Halt";
+        BUTTON.innerHTML = "Pause";
     }
 }
 function oneXspeed() {
@@ -356,7 +356,7 @@ function oneXspeed() {
         tl.timeScale(1);
         OBSERV.innerHTML = "1x speed";
         decide = 1;
-        BUTTON.innerHTML = "Halt";
+        BUTTON.innerHTML = "Pause";
     }
 }
 function doubleSpeed() {
@@ -365,7 +365,7 @@ function doubleSpeed() {
         tl.timeScale(2);
         OBSERV.innerHTML = "2x speed";
         decide = 1;
-        BUTTON.innerHTML = "Halt";
+        BUTTON.innerHTML = "Pause";
     }
 }
 function SetSpeed(speed) {
@@ -431,7 +431,7 @@ function startCircuit() {
         tl.timeScale(1);
         OBSERV.innerHTML = "Simulation has started.";
         decide = 1;
-        BUTTON.innerHTML = "Halt";
+        BUTTON.innerHTML = "Pause";
         SPEED.selectedIndex = 0;
     }
     else if (textI1.textContent == 2 || textClock.textcontent == 2) {

@@ -1,6 +1,6 @@
 import { registerGate, jsPlumbInstance } from "./main.js";
 import { setPosition } from "./layout.js";
-import { gates } from './gate.js';
+import { gates,printerrors } from './gate.js';
 
 'use strict';
 
@@ -212,7 +212,8 @@ export function checkConnectionsRS() {
         return true;
     }
     else {
-        alert("Connections are not correct");
+        // printerrors("Connections are not correct\n");
+        // alert("Connections are not correct");
         return false;
     }
 }
@@ -385,23 +386,23 @@ export function checkConnectionsJK() {
         // For Full Adder objects
         // Check if all the outputs are connected
         if (!gate.qIsConnected) {
+            printerrors("Q of Flip-Flop must be connected\n")
             correctConnection = false;
             break;
         }
-        // if (!gate.qbarIsConnected) {
-        //     correctConnection = false;
-        //     break;
-        // }
         // Check if all the inputs are connected
         if (gate.k == null || gate.k.length === 0) {
+            printerrors("K of Flip-Flop must be connected\n")
             correctConnection = false;
             break;
         }
         if (gate.j == null || gate.j.length === 0) {
+            printerrors("J of Flip-Flop must be connected\n")
             correctConnection = false;
             break;
         }
         if (gate.clk == null || gate.clk.length === 0) {
+            printerrors("Clock of Flip-Flop must be connected\n")
             correctConnection = false;
             break;
         }
@@ -438,13 +439,14 @@ export function checkConnectionsJK() {
     if (correctConnection) {
         if(count !==2)
         {
-            alert("J,K must be initialised to 1")
+            printerrors("J,K must be initialised to 1\n");
+            
             return false;
         }
         return true;
     }
     else {
-        alert("Connections are not correct");
+        
         return false;
     }
 }
@@ -620,15 +622,18 @@ export function checkConnectionsDD() {
         // Check if all the outputs are connected
         if (gate.qIsConnected == false) {
             correctConnection = false;
+            printerrors("Q of flip flops must be connected\n");
             break;
         }
         // Check if all the inputs are connected
         if (gate.d == null || gate.d.length == 0) {
             correctConnection = false;
+            printerrors("D of flip flops must be connected\n");
             break;
         }
         if (gate.clk == null || gate.clk.length == 0) {
             correctConnection = false;
+            printerrors("CLK of flip flops must be connected\n");
             break;
         }
     }
@@ -668,14 +673,15 @@ export function checkConnectionsDD() {
     if (correctConnection) {
         if(window.firstSimulation===true && ori_val===true)
         {
-            alert("Ori value has to be initalized to 0")
+            printerrors("Ori value has to be initalized to 0\n")
+            
             return false;
         }
         window.firstSimulation = false;
         return true;
     }
     else {
-        alert("Connections are not correct");
+        
         return false;
     }
 }
