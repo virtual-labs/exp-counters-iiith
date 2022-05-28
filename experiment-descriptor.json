@@ -42,6 +42,13 @@
       "content-type": "simulation"
     },
     {
+      "target": "practice.html",
+      "source": "simulation/practice.html",
+      "label": "Practice",
+      "unit-type": "task",
+      "content-type": "simulation"
+    },
+    {
       "target": "assignment.html",
       "source": "assignment.md",
       "label": "Assignment",
