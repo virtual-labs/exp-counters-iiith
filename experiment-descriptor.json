@@ -21,13 +21,6 @@
       "content-type": "text"
     },
     {
-      "target": "manual.html",
-      "source": "manual.md",
-      "label": "Manual",
-      "unit-type": "task",
-      "content-type": "text"
-    },
-    {
       "target": "procedure.html",
       "source": "procedure.md",
       "label": "Procedure",
@@ -35,9 +28,9 @@
       "content-type": "text"
     },
     {
-      "target": "simulation.html",
-      "source": "simulation/index.html",
-      "label": "Simulation",
+      "target": "basic_counter.html",
+      "source": "simulation/basic_counter.html",
+      "label": "Demo",
       "unit-type": "task",
       "content-type": "simulation"
     },

@@ -2,6 +2,7 @@ import { registerGate, jsPlumbInstance } from "./main.js";
 import { setPosition } from "./layout.js";
 import { gates,printerrors } from './gate.js';
 
+
 'use strict';
 
 export let flipFlops = {};
@@ -378,6 +379,8 @@ export function getResultJK(ff) {
 }
 
 
+
+
 // done checking
 export function checkConnectionsJK() {
     let correctConnection = true;
@@ -385,25 +388,34 @@ export function checkConnectionsJK() {
         const gate = flipFlops[ffID];
         // For Full Adder objects
         // Check if all the outputs are connected
+        const id = document.getElementById(gate.id);
         if (!gate.qIsConnected) {
             printerrors("Q of Flip-Flop must be connected\n")
             correctConnection = false;
+            id.classList.add("highlight")
+            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
         // Check if all the inputs are connected
         if (gate.k == null || gate.k.length === 0) {
             printerrors("K of Flip-Flop must be connected\n")
             correctConnection = false;
+            id.classList.add("highlight")
+            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
         if (gate.j == null || gate.j.length === 0) {
             printerrors("J of Flip-Flop must be connected\n")
             correctConnection = false;
+            id.classList.add("highlight")
+            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
         if (gate.clk == null || gate.clk.length === 0) {
             printerrors("Clock of Flip-Flop must be connected\n")
             correctConnection = false;
+            id.classList.add("highlight")
+            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
     }
@@ -620,20 +632,27 @@ export function checkConnectionsDD() {
         const gate = flipFlops[ffID];
         // For Full Adder objects
         // Check if all the outputs are connected
+        const id = document.getElementById(gate.id);
         if (gate.qIsConnected == false) {
             correctConnection = false;
             printerrors("Q of flip flops must be connected\n");
+            id.classList.add("highlight")
+            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
         // Check if all the inputs are connected
         if (gate.d == null || gate.d.length == 0) {
             correctConnection = false;
             printerrors("D of flip flops must be connected\n");
+            id.classList.add("highlight")
+            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
         if (gate.clk == null || gate.clk.length == 0) {
             correctConnection = false;
             printerrors("CLK of flip flops must be connected\n");
+            id.classList.add("highlight")
+            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
     }
@@ -712,25 +731,24 @@ export function deleteFF(id) {
     const ff = flipFlops[id];
     jsPlumbInstance.removeAllEndpoints(document.getElementById(ff.id));
     jsPlumbInstance._removeElement(document.getElementById(ff.id));
-
     for (let key in flipFlops) {
         if (ff.constructor.name === "JKFlipFlop") {
-            if (flipFlops[key].J[0] === ff) {
-                flipFlops[key].J = null;
+            if (flipFlops[key].j[0] === ff) {
+                flipFlops[key].j = null;
             }
-            if (flipFlops[key].K[0] === ff) {
-                flipFlops[key].K = null;
+            if (flipFlops[key].j[0] === ff) {
+                flipFlops[key].j = null;
             }
             if (flipFlops[key].clk[0] === ff) {
                 flipFlops[key].clk = null;
             }
         }
         else if (ff.constructor.name === "RSFlipFlop") {
-            if (flipFlops[key].R[0] === ff) {
-                flipFlops[key].R = null;
+            if (flipFlops[key].r[0] === ff) {
+                flipFlops[key].r = null;
             }
-            if (flipFlops[key].S[0] === ff) {
-                flipFlops[key].S = null;
+            if (flipFlops[key].s[0] === ff) {
+                flipFlops[key].s = null;
             }
             if (flipFlops[key].clk[0] === ff) {
                 flipFlops[key].clk = null;
@@ -743,14 +761,32 @@ export function deleteFF(id) {
             if (flipFlops[key].clk[0] === ff) {
                 flipFlops[key].clk = null;
             }
+            if(flipFlops[key].pr[0] === ff)
+            {
+                flipFlops[key].pr = null;
+            }
+            if(flipFlops[key].clr[0] === ff)
+            {
+                flipFlops[key].clr = null;
+            }
+        }
+    }
+
+    for (let elem in gates) {
+        let found = 0;
+        for (let index in gates[elem].inputs) {
+            if (gates[elem].inputs[index][0].id === ff.id) {
+                found = 1;
+                break;
+            }
+        }
+        if (found === 1) {
+            gates[elem].removeInput(ff);
         }
     }
 
 
-
     delete flipFlops[id];
 }
-
-
 
 
