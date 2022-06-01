@@ -1,12 +1,33 @@
 "use strict";
+
 // Dimensions of working area
 const circuitBoard = document.getElementById("circuit-board");
 const sidePanels = document.getElementsByClassName("v-datalist-container");
+
 // Distance of working area from top
 const circuitBoardTop = circuitBoard.offsetTop;
+
 // Full height of window
 const windowHeight = window.innerHeight;
 const width = window.innerWidth;
+const instructionBox = document.getElementsByClassName("instructions-box")[0];
+const svg = document.querySelector(".svg");
+const inputpath1 = document.querySelector("#inputpath1");
+const svgns = "http://www.w3.org/2000/svg";
+
+const I1 = document.getElementById("SERIALINPUT1");
+const I2 = document.getElementById("SERIALINPUT2");
+const I3 = document.getElementById("SERIALINPUT1");
+const I4 = document.getElementById("SERIALINPUT2");
+
+const CLOCK = document.getElementById("CLOCK");
+const O1 = document.getElementById("SERIALOUTPUT1");
+const O2 = document.getElementById("SERIALOUTPUT2");
+const BUTTON = document.getElementById("play/pause");
+const OBSERV = document.getElementById("Observations");
+
+const SPEED = document.getElementById("speed");
+
 if (width < 1024) {
   circuitBoard.style.height = 600 + "px";
 } else {
@@ -15,13 +36,9 @@ if (width < 1024) {
 sidePanels[0].style.height = circuitBoard.style.height;
 
 // Instruction box
-const instructionBox = document.getElementsByClassName("instructions-box")[0];
 instructionBox.addEventListener("click", (e) => {
   instructionBox.classList.toggle("expand");
 });
-const svg = document.querySelector(".svg");
-const inputpath1 = document.querySelector("#inputpath1");
-const svgns = "http://www.w3.org/2000/svg";
 gsap.registerPlugin(MotionPathPlugin);
 
 
@@ -33,6 +50,15 @@ let textClock = document.createElementNS(svgns, "text");
 let textO1 = document.createElementNS(svgns, "text");
 let textO2 = document.createElementNS(svgns, "text");
 
+let temp = 0;
+let tl = gsap.timeline({ repeat: 0, repeatDelay: 0 });
+let decide = 0;
+let circuitStarted = 0;
+let jDot1 = document.createElementNS(svgns, "circle");
+let jDot2 = document.createElementNS(svgns, "circle");
+let clockDot = document.createElementNS(svgns, "circle");
+let kDot1 = document.createElementNS(svgns, "circle");
+let kDot2 = document.createElementNS(svgns, "circle");
 textI1.textContent = 2;
 textI2.textContent = 2;
 textI3.textContent = 2;
@@ -51,35 +77,21 @@ gsap.set(textO2, {
 svg.appendChild(textO1);
 
 svg.appendChild(textO2);
-const I1 = document.getElementById("SERIALINPUT1");
-const I2 = document.getElementById("SERIALINPUT2");
-const I3 = document.getElementById("SERIALINPUT1");
-const I4 = document.getElementById("SERIALINPUT2");
 
-const CLOCK = document.getElementById("CLOCK");
-const O1 = document.getElementById("SERIALOUTPUT1");
-const O2 = document.getElementById("SERIALOUTPUT2");
-const BUTTON = document.getElementById("play/pause");
-const OBSERV = document.getElementById("Observations");
-
-let jDot1 = document.createElementNS(svgns, "circle");
 gsap.set(jDot1, {
     attr: { cx: 50, cy: 50, r: 15, fill: "#FF0000" }
 });
-let jDot2 = document.createElementNS(svgns, "circle");
 gsap.set(jDot2, {
     attr: { cx: 50, cy: 50, r: 15, fill: "#FF0000" }
 });
-let clockDot = document.createElementNS(svgns, "circle");
 gsap.set(clockDot, {
     attr: { cx: 50, cy: 400, r: 15, fill: "#FF0000" }
 });
 
-let kDot1 = document.createElementNS(svgns, "circle");
 gsap.set(kDot1, {
     attr: { cx: 50, cy: 250, r: 15, fill: "#FF0000" }
 });
-let kDot2 = document.createElementNS(svgns, "circle");
+
 gsap.set(kDot2, {
     attr: { cx: 50, cy: 250, r: 15, fill: "#FF0000" }
 });
@@ -182,8 +194,7 @@ function clockVisible() {
 function allDisappear() {
     serialDisappear1();
     serialDisappear2();
-    //serialDisappear3();
-    //serialDisappear4();
+    
     
     serialDotDisappear();
     clockDisappear();
@@ -238,9 +249,9 @@ function outputHandlerSetter() {
     textO2.textContent = 1;
     
 }
-let temp = 0;
-function outputHandler() { // to be seen
-    //temp = textO4.textContent;
+
+function outputHandler() { 
+    
     if(textO2.textContent==1 && textO1.textContent==1){
         textO1.textContent = 0;
         textO2.textContent = 0;
@@ -257,8 +268,7 @@ function outputHandler() { // to be seen
         
         textO2.textContent=1;
     }
-    // textO2.textContent = textO1.textContent;
-    // textO1.textContent = temp;
+    
 }
 function set(a) {
     gsap.set(a, {
@@ -509,7 +519,7 @@ function outputSetter() {
 function errno() {
 
 }
-function batado() {
+function display() {
     OBSERV.innerHTML = "Simulation has finished. Press Restart to start again"
 }
 function setter(a, b) {
@@ -522,7 +532,7 @@ function setter(a, b) {
     }
 }
 outputDisappear();
-let tl = gsap.timeline({ repeat: 0, repeatDelay: 0 });
+
 
 function fourXspeed() {
     if (textI1.textContent != 2 && textI3.textContent != 2 && textI2.textContent != 2  &&  textI4.textContent != 2 && tl.progress() != 1) {
@@ -559,7 +569,6 @@ function SetSpeed(speed) {
     
 
 }
-const SPEED = document.getElementById("speed");
 function restartCircuit() {
     if (circuitStarted == 0) {
         circuitStarted = 1;
@@ -574,8 +583,7 @@ function restartCircuit() {
     OBSERV.innerHTML = "Successfully restored";
     SPEED.selectedIndex=0;
 }
-let decide = 0;
-let circuitStarted = 0;
+
 function button() {
     if (decide == 0) {
         startCircuit();
@@ -682,10 +690,10 @@ tl.add(outputHandler, 39);
 tl.add(outputSetter, 39);
 tl.add(outputVisible, 39);
 
-tl.add(batado, 40);
+tl.add(display, 40);
 
 tl.eventCallback("onComplete", outputVisible);
-tl.eventCallback("onComplete", batado);
+tl.eventCallback("onComplete", display);
 
 
 tl.to(jDot1, {

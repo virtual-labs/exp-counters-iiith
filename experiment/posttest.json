@@ -1,0 +1,65 @@
+{
+    "version": 2.0,
+    "questions": [
+        {
+            "question": "1. In a basic counter, what should the values of input of input J and K be set to:",
+            "answers": {
+                "a": "1, 1",
+                "b": "0, 0",
+                "c": "0, 1",
+                "d": "1, 0"
+            },
+            "correctAnswer": "a",
+            "explanations": {},
+            "difficulty": "beginner"
+        },
+        {
+            "question": "2. What is the Clk input point of the JK flip-flop, whose Q output is connected to QB, connected to :",
+            "answers": {
+                "a": "Clock",
+                "b": "J",
+                "c": "Q of other JK flip flop",
+                "d": "Q' of other JK flip flop"
+            },
+            "correctAnswer": "c",
+            "explanations": {},
+            "difficulty": "intermediate"
+        },
+        {
+            "question": "3. In a ring counter circuit, ORI:",
+            "answers": {
+                "a": "is initially set to low and remains low throughout the experiment",
+                "b": "is used as clear and preset",
+                "c": "both A and B",
+                "d": "None of the above"
+            },
+            "correctAnswer": "b",
+            "explanations": {},
+            "difficulty": "intermediate"
+        },
+        {
+            "question": "4. In a ring counter number of states is equal to:",
+            "answers": {
+                "a": "half of the no. of flip-flops used ",
+                "b": "twice the no. of flip-flops used",
+                "c": "the no. of flip-flops used",
+                "d": "2^(the no. of flip-flops used)"
+            },
+            "correctAnswer": "c",
+            "explanations": {},
+            "difficulty": "beginner"
+        },
+        {
+            "question": "5. In a basic counter no. of flip-flops used is equal to:",
+            "answers": {
+                "a": "half of the no. of possible states ",
+                "b": "ln(the no. of possible states) ",
+                "c": "log2(the no. of possible states)",
+                "d": "2^(the no. of possible states)"
+            },
+            "correctAnswer": "c",
+            "explanations": {},
+            "difficulty": "advanced"
+        }
+    ]
+}

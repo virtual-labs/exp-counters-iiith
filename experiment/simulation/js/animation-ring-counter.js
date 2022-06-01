@@ -450,6 +450,7 @@ tl.add(serialDotDisappear, 7);
 tl.add(outputHandlerSetter, 7);
 tl.add(outputSetter, 7);
 tl.add(outputVisible, 7);
+tl.add(appendI1To1,8);
 tl.add(clockto1, 8);
 tl.add(clockto0, 15);
 tl.add(clockDotVisible, 15);
