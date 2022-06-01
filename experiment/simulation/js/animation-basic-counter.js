@@ -15,37 +15,37 @@ const svg = document.querySelector(".svg");
 const inputpath1 = document.querySelector("#inputpath1");
 const svgns = "http://www.w3.org/2000/svg";
 
-const I1 = document.getElementById("SERIALINPUT1");
-const I2 = document.getElementById("SERIALINPUT2");
-const I3 = document.getElementById("SERIALINPUT1");
-const I4 = document.getElementById("SERIALINPUT2");
+const I1 = document.getElementById("j");
+const I2 = document.getElementById("k");
+const I3 = document.getElementById("j");
+const I4 = document.getElementById("k");
 
-const CLOCK = document.getElementById("CLOCK");
-const O1 = document.getElementById("SERIALOUTPUT1");
-const O2 = document.getElementById("SERIALOUTPUT2");
-const BUTTON = document.getElementById("play/pause");
+const CLOCK = document.getElementById("clock");
+const O1 = document.getElementById("qb");
+const O2 = document.getElementById("qa");
+const STATUS = document.getElementById("playOrPause");
 const OBSERV = document.getElementById("Observations");
 
 const SPEED = document.getElementById("speed");
 
 
-let textI1 = document.createElementNS(svgns, "text");
-let textI2 = document.createElementNS(svgns, "text");
-let textI3 = document.createElementNS(svgns, "text");
-let textI4 = document.createElementNS(svgns, "text");
-let textClock = document.createElementNS(svgns, "text");
-let textO1 = document.createElementNS(svgns, "text");
-let textO2 = document.createElementNS(svgns, "text");
+const textI1 = document.createElementNS(svgns, "text");
+const textI2 = document.createElementNS(svgns, "text");
+const textI3 = document.createElementNS(svgns, "text");
+const textI4 = document.createElementNS(svgns, "text");
+const textClock = document.createElementNS(svgns, "text");
+const textO1 = document.createElementNS(svgns, "text");
+const textO2 = document.createElementNS(svgns, "text");
 
-let temp = 0;
+
 let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
 let decide = 0;
 let circuitStarted = 0;
-let jDot1 = document.createElementNS(svgns, "circle");
-let jDot2 = document.createElementNS(svgns, "circle");
-let clockDot = document.createElementNS(svgns, "circle");
-let kDot1 = document.createElementNS(svgns, "circle");
-let kDot2 = document.createElementNS(svgns, "circle");
+const jDot1 = document.createElementNS(svgns, "circle");
+const jDot2 = document.createElementNS(svgns, "circle");
+const clockDot = document.createElementNS(svgns, "circle");
+const kDot1 = document.createElementNS(svgns, "circle");
+const kDot2 = document.createElementNS(svgns, "circle");
 
 function demoWidth() {
     if (width < 1024) {
@@ -117,77 +117,77 @@ function inputDots() {
 
 function jkDotDisappear() {
     //makes the J,K dots disappear
-    TweenLite.to(jDot1, 0, { autoAlpha: 0 });
-    TweenLite.to(jDot2, 0, { autoAlpha: 0 });
-    TweenLite.to(kDot1, 0, { autoAlpha: 0 });
-    TweenLite.to(kDot2, 0, { autoAlpha: 0 });
+    gsap.to(jDot1, 0, { autoAlpha: 0 });
+    gsap.to(jDot2, 0, { autoAlpha: 0 });
+    gsap.to(kDot1, 0, { autoAlpha: 0 });
+    gsap.to(kDot2, 0, { autoAlpha: 0 });
 }
 
 function clockDotDisappear() {
     //makes the clock dot disappear
-    TweenLite.to(clockDot, 0, { autoAlpha: 0 });
+    gsap.to(clockDot, 0, { autoAlpha: 0 });
 
 }
 function jkDotVisible() {
     //makes the J,K dots appear
-    TweenLite.to(jDot1, 0, { autoAlpha: 1 });
-    TweenLite.to(jDot2, 0, { autoAlpha: 1 });
-    TweenLite.to(kDot1, 0, { autoAlpha: 1 });
-    TweenLite.to(kDot2, 0, { autoAlpha: 1 });
+    gsap.to(jDot1, 0, { autoAlpha: 1 });
+    gsap.to(jDot2, 0, { autoAlpha: 1 });
+    gsap.to(kDot1, 0, { autoAlpha: 1 });
+    gsap.to(kDot2, 0, { autoAlpha: 1 });
     
 
 }
 
 function clockDotVisible() {
     //makes the clock dot appear
-    TweenLite.to(clockDot, 0, { autoAlpha: 1 });
+    gsap.to(clockDot, 0, { autoAlpha: 1 });
 
 }
 function outputDisappear() {
     //makes the output text disappear
-    TweenLite.to(textO1, 0, { autoAlpha: 0 });
-    TweenLite.to(textO2, 0, { autoAlpha: 0 });
+    gsap.to(textO1, 0, { autoAlpha: 0 });
+    gsap.to(textO2, 0, { autoAlpha: 0 });
 
 }
 function outputVisible() {
     //makes the output text appear
-    TweenLite.to(textO1, 0, { autoAlpha: 1 });
-    TweenLite.to(textO2, 0, { autoAlpha: 1 });
+    gsap.to(textO1, 0, { autoAlpha: 1 });
+    gsap.to(textO2, 0, { autoAlpha: 1 });
 
 }
 function jDisappear() {
     //makes the J text disappear
-    TweenLite.to(textI1, 0, { autoAlpha: 0 });
-    TweenLite.to(textI3, 0, { autoAlpha: 0 });
+    gsap.to(textI1, 0, { autoAlpha: 0 });
+    gsap.to(textI3, 0, { autoAlpha: 0 });
 }
 function kDisappear() {
     //makes the K text disappear
-    TweenLite.to(textI2, 0, { autoAlpha: 0 });
-    TweenLite.to(textI4, 0, { autoAlpha: 0 });
+    gsap.to(textI2, 0, { autoAlpha: 0 });
+    gsap.to(textI4, 0, { autoAlpha: 0 });
 }
 
 
 function clockDisappear() {
     //makes the clock text disappear
-    TweenLite.to(textClock, 0, { autoAlpha: 0 });
+    gsap.to(textClock, 0, { autoAlpha: 0 });
 }
-function free() {
+function clearObservation() {
 
     OBSERV.innerHTML = "";
 }
 function jVisible() {
     //makes the J text appear
-    TweenLite.to(textI1, 0, { autoAlpha: 1 });
-    TweenLite.to(textI3, 0, { autoAlpha: 1 });
+    gsap.to(textI1, 0, { autoAlpha: 1 });
+    gsap.to(textI3, 0, { autoAlpha: 1 });
 }
 function kVisible() {
     //makes the K text appear
-    TweenLite.to(textI2, 0, { autoAlpha: 1 });
-    TweenLite.to(textI4, 0, { autoAlpha: 1 });
+    gsap.to(textI2, 0, { autoAlpha: 1 });
+    gsap.to(textI4, 0, { autoAlpha: 1 });
 }
 function clockVisible() {
     //makes the clock text appear
-    TweenLite.to(textClock, 0, { autoAlpha: 1 });
+    gsap.to(textClock, 0, { autoAlpha: 1 });
 }
 
 
@@ -245,19 +245,19 @@ function outputHandlerSetter() {
 
 function outputHandler() {
     //changes the outputs
-    if (textO2.textContent == 1 && textO1.textContent == 1) {
+    if (textO2.textContent === "1" && textO1.textContent === "1") {
         textO1.textContent = 0;
         textO2.textContent = 0;
     }
-    else if (textO2.textContent == 1 && textO1.textContent == 0) {
+    else if (textO2.textContent === "1" && textO1.textContent ==="0") {
         textO2.textContent = 0;
         textO1.textContent = 1;
     }
-    else if (textO2.textContent == 0 && textO1.textContent == 1) {
+    else if (textO2.textContent === "0" && textO1.textContent === "1") {
 
         textO2.textContent = 1;
     }
-    else if (textO2.textContent == 0 && textO1.textContent == 0) {
+    else if (textO2.textContent === "0" && textO1.textContent === "0") {
 
         textO2.textContent = 1;
     }
@@ -276,7 +276,7 @@ function unset(a) {
     });
 }//output 1
 function unsetI1() {
-    if (textI1.textContent != 0 && timeline.progress() == 0) {
+    if (textI1.textContent !== "0" && timeline.progress() === 0) {
         jDisappear();
         textI1.textContent = 0;
         textI3.textContent = 0;
@@ -298,14 +298,14 @@ function unsetI1() {
 
             fill: "#eeeb22"
         });
-        free();
+        clearObservation();
         jVisible();
         setter(textI1.textContent, jDot1);
         setter(textI3.textContent, jDot2);
 
         OBSERV.innerHTML = "J is set to 0";
     }
-    else if (textI1.textContent != 1 && timeline.progress() == 0) {
+    else if (textI1.textContent !== "1" && timeline.progress() === 0) {
         setI1();
     }
 
@@ -335,7 +335,7 @@ function setI1() {
 
         fill: "#29e"
     });
-    free();
+    clearObservation();
     jVisible();
     
     setter(textI1.textContent, jDot1);
@@ -345,7 +345,7 @@ function setI1() {
 
 }
 function unsetI2() {
-    if (textI2.textContent != 0 && timeline.progress() == 0) {
+    if (textI2.textContent !== "0" && timeline.progress() === 0) {
         kDisappear();
         textI2.textContent = 0;
         textI4.textContent = 0;
@@ -367,7 +367,7 @@ function unsetI2() {
 
             fill: "#eeeb22"
         });
-        free();
+        clearObservation();
         kVisible();
         
         setter(textI2.textContent, kDot1);
@@ -375,7 +375,7 @@ function unsetI2() {
 
         OBSERV.innerHTML = "K is set to 0";
     }
-    else if (textI2.textContent != 1 && timeline.progress() == 0) {
+    else if (textI2.textContent !== "1" && timeline.progress() === 0) {
         setI2();
     }
 
@@ -405,7 +405,7 @@ function setI2() {
 
         fill: "#29e"
     });
-    free();
+    clearObservation();
     kVisible();
     
     setter(textI2.textContent, kDot1);
@@ -441,7 +441,7 @@ function clockToOne() {
 
 
 function unsetClock() {
-    if (textClock.textContent != 0 && timeline.progress() == 0) {
+    if (textClock.textContent !== "0" && timeline.progress() === 0) {
         clockDisappear();
         textClock.textContent = 0;
         svg.appendChild(textClock);
@@ -453,14 +453,14 @@ function unsetClock() {
 
             fill: "#eeeb22"
         });
-        free();
+        clearObservation();
         clockVisible();
         setter(textClock.textContent, clockDot);
 
         
 
     }
-    else if (textClock.textContent != 1 && timeline.progress() == 0) {
+    else if (textClock.textContent !== "1" && timeline.progress() === 0) {
         setClock();
     }
 
@@ -477,7 +477,7 @@ function setClock() {
 
         fill: "#29e"
     });
-    free();
+    clearObservation();
     clockVisible();
     setter(textClock.textContent, clockDot);
     OBSERV.innerHTML = "Clock has Started";
@@ -505,54 +505,45 @@ function display() {
     OBSERV.innerHTML = "Simulation has finished. Press Restart to start again"
 }
 function setter(a, b) {
-    if (a == 1) {
+    //toggles the text content a of input/output component b
+    if (a === "1") {
         unset(b);
 
     }
-    else if (a == 0) {
+    else if (a === "0") {
         set(b);
     }
 }
 outputDisappear();
 
-
-function fourXspeed() {
-    if (textI1.textContent != 2 && textI3.textContent != 2 && textI2.textContent != 2 && textI4.textContent != 2 && timeline.progress() != 1) {
+function changeSpeed(newSpeed) {
+    if (textI1.textContent !== "2" && textI3.textContent !== "2" && textI2.textContent !== "2" && textI4.textContent !== "2" && timeline.progress() !== 1) {
         timeline.resume();
-        timeline.timeScale(4);
-        OBSERV.innerHTML = "4x speed";
+        timeline.timeScale(newSpeed);
+        OBSERV.innerHTML = newSpeed + "x speed";
         decide = 1;
-        BUTTON.innerHTML = "Pause";
-    }
-}
-function doubleSpeed() {
-    if (textI1.textContent != 2 && textI3.textContent != 2 && textI2.textContent != 2 && textI4.textContent != 2 && timeline.progress() != 1) {
-        timeline.resume();
-        timeline.timeScale(2);
-        OBSERV.innerHTML = "2x speed";
-        decide = 1;
-        BUTTON.innerHTML = "Pause";
+        STATUS.innerHTML = "Pause";
     }
 }
 function setSpeed(speed) {
     if (circuitStarted != 0) {
 
 
-        if (speed == "1") {
-            startCircuit();
+        if (speed === "1") {
+            startCircuit();            
         }
-        else if (speed == "2") {
-            doubleSpeed();
+        else if (speed === "2") {
+            changeSpeed(2);
         }
-        else if (speed == "4") {
-            fourXspeed();
+        else if (speed === "4") {
+            changeSpeed(4);
         }
     }
 
 
 }
 function restartCircuit() {
-    if (circuitStarted == 0) {
+    if (circuitStarted === 0) {
         circuitStarted = 1;
     }
     timeline.seek(0);
@@ -560,62 +551,62 @@ function restartCircuit() {
     allDisappear();
     reboot();
     
-    free();
+    clearObservation();
     decide = 0;
-    BUTTON.innerHTML = "Start";
+    STATUS.innerHTML = "Start";
     OBSERV.innerHTML = "Successfully restored";
     SPEED.selectedIndex = 0;
 }
 
-function button() {
-    if (decide == 0) {
+function simulationStatus() {
+    if (decide === 0) {
         startCircuit();
 
     }
-    else if (decide == 1) {
+    else if (decide === 1) {
         stopCircuit();
 
     }
 }
 function stopCircuit() {
-    if (timeline.time() != 0 && timeline.progress() != 1) {
+    if (timeline.time() !== 0 && timeline.progress() !== 1) {
         timeline.pause();
         OBSERV.innerHTML = "Simulation has been stopped.";
         decide = 0;
-        BUTTON.innerHTML = "Start";
+        STATUS.innerHTML = "Start";
         SPEED.selectedIndex = 0;
     }
-    else if (timeline.progress() == 1) {
+    else if (timeline.progress() === 1) {
         OBSERV.innerHTML = "Please Restart the simulation";
     }
 }
 
 function startCircuit() {
-    if (textI1.textContent != 1 || textI3.textContent != 1) {
+    if (textI1.textContent !== "1" || textI3.textContent !== "1") {
         OBSERV.innerHTML = "J must be set to 1.";
     }
-    else if (textI2.textContent != 1 || textI4.textContent != 1) {
+    else if (textI2.textContent !== "1" || textI4.textContent !== "1") {
         OBSERV.innerHTML = "K must be set to 1.";
     }
-    else if (textClock.textContent == 0 && textI1.textContent != 2 && textI3.textContent != 2 && textI2.textContent != 2 && textI4.textContent != 2 && timeline.progress() != 1) {
-        if (circuitStarted == 0) {
+    else if (textClock.textContent === "0" && textI1.textContent !== "2" && textI3.textContent !== "2" && textI2.textContent !== "2" && textI4.textContent !== "2" && timeline.progress() !== 1) {
+        if (circuitStarted === 0) {
             circuitStarted = 1;
         }
         timeline.play();
         timeline.timeScale(1);
         OBSERV.innerHTML = "Simulation has started.";
         decide = 1;
-        BUTTON.innerHTML = "Pause";
+        STATUS.innerHTML = "Pause";
         SPEED.selectedIndex = 0;
     }
-    else if (textI1.textContent == 2 || textI2.textContent == 2 || textI3.textContent == 2 || textI4.textContent == 2 || textClock.textcontent == 2) {
+    else if (textI1.textContent === "2" || textI2.textContent === "2" || textI3.textContent === "2" || textI4.textContent === "2" || textClock.textcontent === "2") {
         OBSERV.innerHTML = "Please select the values";
     }
-    else if (textClock.textContent != 0 && timeline.progress() == 0) {
+    else if (textClock.textContent !== "0" && timeline.progress() === 0) {
         OBSERV.innerHTML = "Please setup the clock.";
     }
 
-    else if (timeline.progress() == 1) {
+    else if (timeline.progress() === 1) {
         OBSERV.innerHTML = "Please Restart the simulation";
     }
 }

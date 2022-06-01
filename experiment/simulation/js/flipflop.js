@@ -1,6 +1,6 @@
 import { registerGate, jsPlumbInstance } from "./main.js";
 import { setPosition } from "./layout.js";
-import { gates,printerrors } from './gate.js';
+import { gates,printErrors } from './gate.js';
 
 
 'use strict';
@@ -213,7 +213,7 @@ export function checkConnectionsRS() {
         return true;
     }
     else {
-        // printerrors("Connections are not correct\n");
+        // printErrors("Connections are not correct\n");
         // alert("Connections are not correct");
         return false;
     }
@@ -378,9 +378,6 @@ export function getResultJK(ff) {
     return;
 }
 
-
-
-
 // done checking
 export function checkConnectionsJK() {
     let correctConnection = true;
@@ -390,32 +387,24 @@ export function checkConnectionsJK() {
         // Check if all the outputs are connected
         const id = document.getElementById(gate.id);
         if (!gate.qIsConnected) {
-            printerrors("Q of Flip-Flop must be connected\n")
+            printErrors("Q of Flip-Flop must be connected\n",id);
             correctConnection = false;
-            id.classList.add("highlight")
-            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
         // Check if all the inputs are connected
         if (gate.k == null || gate.k.length === 0) {
-            printerrors("K of Flip-Flop must be connected\n")
+            printErrors("K of Flip-Flop must be connected\n",id);
             correctConnection = false;
-            id.classList.add("highlight")
-            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
         if (gate.j == null || gate.j.length === 0) {
-            printerrors("J of Flip-Flop must be connected\n")
+            printErrors("J of Flip-Flop must be connected\n",id);
             correctConnection = false;
-            id.classList.add("highlight")
-            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
         if (gate.clk == null || gate.clk.length === 0) {
-            printerrors("Clock of Flip-Flop must be connected\n")
+            printErrors("Clock of Flip-Flop must be connected\n",id);
             correctConnection = false;
-            id.classList.add("highlight")
-            setTimeout(function () {id.classList.remove("highlight")}, 2000);
             break;
         }
     }
@@ -451,7 +440,7 @@ export function checkConnectionsJK() {
     if (correctConnection) {
         if(count !==2)
         {
-            printerrors("J,K must be initialised to 1\n");
+            printErrors("J,K must be initialised to 1\n",null);
             
             return false;
         }
@@ -635,33 +624,27 @@ export function checkConnectionsDD() {
         const id = document.getElementById(gate.id);
         if (gate.qIsConnected == false) {
             correctConnection = false;
-            printerrors("Q of flip flops must be connected\n");
-            id.classList.add("highlight")
-            setTimeout(function () {id.classList.remove("highlight")}, 2000);
+            printErrors("Q of flip flops must be connected\n",id);
             break;
         }
         // Check if all the inputs are connected
         if (gate.d == null || gate.d.length == 0) {
             correctConnection = false;
-            printerrors("D of flip flops must be connected\n");
-            id.classList.add("highlight")
-            setTimeout(function () {id.classList.remove("highlight")}, 2000);
+            printErrors("D of flip flops must be connected\n",id);
             break;
         }
         if (gate.clk == null || gate.clk.length == 0) {
             correctConnection = false;
-            printerrors("CLK of flip flops must be connected\n");
-            id.classList.add("highlight")
-            setTimeout(function () {id.classList.remove("highlight")}, 2000);
+            printErrors("CLK of flip flops must be connected\n",id);
             break;
         }
     }
     let count=0;
-    let ori_val=false;
+    let oriVal=false;
     for (let gateId in gates) {
         const gate = gates[gateId];
         if(gate.type==="Input"){
-            ori_val=gate.output;
+            oriVal=gate.output;
         }
         if(gate.type === "Output" && gate.output==null)
         {
@@ -690,9 +673,9 @@ export function checkConnectionsDD() {
     }
 
     if (correctConnection) {
-        if(window.firstSimulation===true && ori_val===true)
+        if(window.firstSimulation===true && oriVal===true)
         {
-            printerrors("Ori value has to be initalized to 0\n")
+            printErrors("Ori value has to be initalized to 0\n",null)
             
             return false;
         }

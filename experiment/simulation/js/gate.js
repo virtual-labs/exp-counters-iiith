@@ -1,6 +1,6 @@
 import { registerGate, jsPlumbInstance } from "./main.js";
 import { setPosition } from "./layout.js";
-import {computeAnd, computeNand, computeNor, computeOr, computeXnor, computeXor, testJKFF, testDFF } from "./validator.js";
+import {computeAnd, computeNand, computeNor, computeOr, computeXnor, computeXor, testBasicCounter, testRingCounter } from "./validator.js";
 import {checkConnectionsJK, simulateFFJK, testSimulateFFJK, simulateFFDD, checkConnectionsDD, testSimulateDD } from "./flipflop.js";
 
 'use strict';
@@ -233,10 +233,15 @@ function setInput(event) {
 
 window.setInput = setInput;
 
-export function printerrors(message) {
+export function printErrors(message,objectId) {
     const result = document.getElementById('result');
     result.innerHTML += message;
     result.className = "failure-message";
+    if(objectId !== null)
+    {
+        objectId.classList.add("highlight")
+        setTimeout(function () {objectId.classList.remove("highlight")}, 2000);
+    }
 }
 
 export function checkConnections() {
@@ -244,11 +249,11 @@ export function checkConnections() {
     for (let gateId in gates) {
         const gate = gates[gateId];
         if (gate.inputPoints.length != gate.inputs.length) {
-            printerrors( gate.name + " not connected.\n");
+            printErrors( gate.name + " not connected.\n",null);
             correctConnection = false;
         }
         else if (!gate.isConnected && !gate.isOutput) {
-            printerrors("Input " + gate.name+" not connected" + ".\n");
+            printErrors("Input " + gate.name+" not connected" + ".\n",null);
             correctConnection = false;
         }
     }
@@ -256,7 +261,7 @@ export function checkConnections() {
         return true;
     }
     else {
-        //printerrors("Connections are not correct.\n")
+        //printErrors("Connections are not correct.\n")
         // alert("Connections are not correct");
         return false;
     }
@@ -592,10 +597,10 @@ export function submitCircuit() {
     const result =document.getElementById("result");
     result.innerHTML = "";
     if (window.currentTab === "task2") {
-        testDFF("Input-0", "Clock-0", "Output-1", "Output-2", "Output-3");
+        testRingCounter("Input-0", "Clock-0", "Output-1", "Output-2", "Output-3");
     }
     else if (window.currentTab === "task1") {
-        testJKFF("Input-0", "Input-1", "Clock-0", "Output-2", "Output-3");
+        testBasicCounter("Input-0", "Input-1", "Clock-0", "Output-2", "Output-3");
     }
 }
 window.submitCircuit = submitCircuit;
