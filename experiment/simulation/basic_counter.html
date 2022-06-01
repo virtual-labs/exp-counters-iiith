@@ -46,21 +46,17 @@
                     <div class="v-instruction-title" id="TaskTitle">Basic Counter</div>
                     <div class="v-instruction-text" id="TaskDescription">
                         Simulation of a Basic Counter using JK flip-flops.
-                        <p></p>
+                        <br>
                     </div>
                     <div>
-                        <p></p>
-                        <p>Start- Starts the simulation after the inputs are properly selected. Default speed is 1x Select the speed through dropdown menu</p>
+                        
+                        <p>Start- Starts the simulation after the inputs are properly selected. <br> Default speed is 1x.<br> Select the speed through dropdown menu</p>
                         <p>Reset - Resets the simulation</p>
-                        <p>
-                            Click on the green input bits to set their values.
-                            <p></p>
-                        </p>
-                        <p></p>
-                        <p>
-							This is a Basic Counter .</p><p> There is a clock which can be started by the user but it's cycle cannot be controlled.</p>
+                        <p>Click on the green input bits to set their values.</p>
+                                              
+                        <p>This is a Basic Counter. </p>
+                        <p> There is a clock which can be started by the user but it's cycle cannot be controlled.</p>
                         <p>There are two outputs(QA,QB) </p>
-					 </p>
                     </div>
                 </div>
             </div>
@@ -73,7 +69,7 @@
         </div>
         <div class="column" style="text-align:center">
             <div class="v-select">
-                <select  autocomplete="off" name="speed" onchange="SetSpeed(this.value)" id="speed">
+                <select  autocomplete="off" name="speed" onchange="setSpeed(this.value)" id="speed">
                   <option value="1" >1x</option>
                   <option value="2">2x</option>
                   <option value="4">4x</option>
@@ -116,16 +112,16 @@
 
                         <rect id="JKFLIPFLOP2" x="350" y="420" width="150" height="250"
                             style="fill:#29e;stroke:rgb(68, 68, 119);stroke-width:5;fill-opacity:1;stroke-opacity:1" />
-                         <circle id="SERIALINPUT1" cx="50" cy="150" r="15" onclick="appendI1()"
+                         <circle id="SERIALINPUT1" cx="50" cy="150" r="15" onclick="unsetI1()"
                             style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
-                        <circle id="SERIALINPUT2" cx="50" cy="625" r="15" onclick="appendI2()"
+                        <circle id="SERIALINPUT2" cx="50" cy="625" r="15" onclick="unsetI2()"
                             style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
                         <circle id="SERIALOUTPUT1" cx="600" cy="150" r="15"
                             style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
                         <circle id="SERIALOUTPUT2" cx="600" cy="475" r="15"
                             style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
                         
-                        <circle id="CLOCK" cx="50" cy="400" r="15" onclick="appendClock()"
+                        <circle id="CLOCK" cx="50" cy="400" r="15" onclick="unsetClock()"
                             style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
                         
                         <text font-size="1em" x="360" y="154" fill="black">J</text>
@@ -143,7 +139,7 @@
                         <text font-size="1em" x="360" y="229" fill="black">&#8827clk</text>
                         <text font-size="1em" x="360" y="554" fill="black">&#8827clk</text>
                         
-                        <text font-size="0.9em" x="45" y="100" fill="black">J</text>
+                        <text font-size="0.9em" x="45" y="125" fill="black">J</text>
                         <text font-size="0.8em" x="45" y="375" fill="black"> CLOCK</text>
                         <text font-size="0.9em" x="45" y="600" fill="black">K</text>
                         

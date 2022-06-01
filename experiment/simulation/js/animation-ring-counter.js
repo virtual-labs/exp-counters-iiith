@@ -5,144 +5,185 @@ const sidePanels = document.getElementsByClassName("v-datalist-container");
 // Distance of working area from top
 const circuitBoardTop = circuitBoard.offsetTop;
 // Full height of window
+
 const windowHeight = window.innerHeight;
 const width = window.innerWidth;
-if (width < 1024) {
-    circuitBoard.style.height = 600 + "px";
-} else {
-    circuitBoard.style.height = windowHeight - circuitBoardTop - 20 + "px";
-}
-sidePanels[0].style.height = circuitBoard.style.height;
-// Instruction box
 const instructionBox = document.getElementsByClassName("instructions-box")[0];
-instructionBox.addEventListener("click", (e) => {
-    instructionBox.classList.toggle("expand");
-});
+
 const svg = document.querySelector(".svg");
 const inputpath1 = document.querySelector("#inputpath1");
 const svgns = "http://www.w3.org/2000/svg";
-gsap.registerPlugin(MotionPathPlugin);
-let textI1 = document.createElementNS(svgns, "text");
-let textClock = document.createElementNS(svgns, "text");
-let textO1 = document.createElementNS(svgns, "text");
-let textO2 = document.createElementNS(svgns, "text");
-let textO3 = document.createElementNS(svgns, "text");
-textI1.textContent = 2;
-textClock.textContent = 2;
-gsap.set(textO1, {
-    x: 297,
-    y: 64
-});
-gsap.set(textO2, {
-    x: 497,
-    y: 64
-});
-gsap.set(textO3, {
-    x: 697,
-    y: 64
-});
-svg.appendChild(textO1);
-svg.appendChild(textO2);
-svg.appendChild(textO3);
-const I1 = document.getElementById("ORI");
+
+
+// stroing the necessary div elements in const
+const ORI = document.getElementById("ORI");
 const CLOCK = document.getElementById("CLOCK");
 const O1 = document.getElementById("QA");
 const O2 = document.getElementById("QB");
 const O3 = document.getElementById("QC");
 const BUTTON = document.getElementById("play/pause");
 const OBSERV = document.getElementById("Observations");
-let oriDot1 = document.createElementNS(svgns, "circle");
-gsap.set(oriDot1, {
-    attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
-});
-let oriDot2 = document.createElementNS(svgns, "circle");
-gsap.set(oriDot2, {
-    attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
-});
-let oriDot3 = document.createElementNS(svgns, "circle");
-gsap.set(oriDot3, {
-    attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
-});
-let clockDot1 = document.createElementNS(svgns, "circle");
-gsap.set(clockDot1, {
-    attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
-});
-let clockDot2 = document.createElementNS(svgns, "circle");
-gsap.set(clockDot2, {
-    attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
-});
-let clockDot3 = document.createElementNS(svgns, "circle");
-gsap.set(clockDot3, {
-    attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
-});
+const SPEED = document.getElementById("speed");
 
-svg.appendChild(oriDot1);
-svg.appendChild(oriDot2);
-svg.appendChild(oriDot3);
-svg.appendChild(clockDot1);
-svg.appendChild(clockDot2);
-svg.appendChild(clockDot3);
-function myFunction() {
-    OBSERV.innerHTML = "";
+// global varaibles declared here
+let textORI = document.createElementNS(svgns, "text");
+let textClock = document.createElementNS(svgns, "text");
+let textO1 = document.createElementNS(svgns, "text");
+let textO2 = document.createElementNS(svgns, "text");
+let textO3 = document.createElementNS(svgns, "text");
+let oriDot1 = document.createElementNS(svgns, "circle");
+let oriDot2 = document.createElementNS(svgns, "circle");
+let oriDot3 = document.createElementNS(svgns, "circle");
+let clockDot1 = document.createElementNS(svgns, "circle");
+let clockDot2 = document.createElementNS(svgns, "circle");
+let clockDot3 = document.createElementNS(svgns, "circle");
+let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
+
+// decide help to decide the speed
+let decide = 0;
+// circuitStarted is initialised to 0 which depicts that demo hasn't started whereas circuitStarted 1 depicts that the demo has started.
+let circuitStarted = 0;
+
+
+// function to take care of width
+function demoWidth() {
+    if (width < 1024) {
+        circuitBoard.style.height = 600 + "px";
+    } else {
+        circuitBoard.style.height = windowHeight - circuitBoardTop - 20 + "px";
+    }
+    sidePanels[0].style.height = circuitBoard.style.height;
 }
 
-function serialDotDisappear() {
+// function to initialise the instruction box
+function instructionBoxInit() {
+    // Instruction box
+    instructionBox.addEventListener("click", () => {
+        instructionBox.classList.toggle("expand");
+    });
+}
+
+// function to initialise the input text i.e. either 0/1 that gets displayed after user click on them
+function textIOInit() {
+    textORI.textContent = 2;
+}
+
+// function to initialise clock text
+function textClockInit() {
+    textClock.textContent = 2;
+}
+
+// function to mark the output coordinates
+function outputCoordinates() {
+    gsap.set(textO1, {
+        x: 297,
+        y: 64
+    });
+    gsap.set(textO2, {
+        x: 497,
+        y: 64
+    });
+    gsap.set(textO3, {
+        x: 697,
+        y: 64
+    });
+    svg.appendChild(textO1);
+    svg.appendChild(textO2);
+    svg.appendChild(textO3);
+}
+
+// function to mark the input dots
+function inputDots() {
+    gsap.set(oriDot1, {
+        attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
+    });
+    gsap.set(oriDot2, {
+        attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
+    });
+    gsap.set(oriDot3, {
+        attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
+    });
+    gsap.set(clockDot1, {
+        attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
+    });
+    gsap.set(clockDot2, {
+        attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
+    });
+    gsap.set(clockDot3, {
+        attr: { cx: 20, cy: 550, r: 15, fill: "#FF0000" }
+    });
+
+    svg.appendChild(oriDot1);
+    svg.appendChild(oriDot2);
+    svg.appendChild(oriDot3);
+    svg.appendChild(clockDot1);
+    svg.appendChild(clockDot2);
+    svg.appendChild(clockDot3);
+}
+
+// function to disappear ori dots (1,2,3)
+function oriDotDisappear() {
     TweenLite.to(oriDot1, 0, { autoAlpha: 0 });
     TweenLite.to(oriDot2, 0, { autoAlpha: 0 });
     TweenLite.to(oriDot3, 0, { autoAlpha: 0 });
-
+    
 }
+// function to disappear clock dots (1,2,3)
 function clockDotDisappear() {
     TweenLite.to(clockDot1, 0, { autoAlpha: 0 });
     TweenLite.to(clockDot2, 0, { autoAlpha: 0 });
     TweenLite.to(clockDot3, 0, { autoAlpha: 0 });
 }
-function serialDotVisible() {
+// function to appear ori dots (1,2,3)
+function oriDotVisible() {
     TweenLite.to(oriDot1, 0, { autoAlpha: 1 });
     TweenLite.to(oriDot2, 0, { autoAlpha: 1 });
     TweenLite.to(oriDot3, 0, { autoAlpha: 1 });
-
 }
+// function to appear clock dots (1,2,3)
 function clockDotVisible() {
     TweenLite.to(clockDot1, 0, { autoAlpha: 1 });
     TweenLite.to(clockDot2, 0, { autoAlpha: 1 });
     TweenLite.to(clockDot3, 0, { autoAlpha: 1 });
 }
+// function to disappear the output text
 function outputDisappear() {
     TweenLite.to(textO1, 0, { autoAlpha: 0 });
     TweenLite.to(textO2, 0, { autoAlpha: 0 });
     TweenLite.to(textO3, 0, { autoAlpha: 0 });
-
 }
+// function to appear the input text
 function outputVisible() {
     TweenLite.to(textO1, 0, { autoAlpha: 1 });
     TweenLite.to(textO2, 0, { autoAlpha: 1 });
     TweenLite.to(textO3, 0, { autoAlpha: 1 });
-
 }
-function serialDisappear1() {
-    TweenLite.to(textI1, 0, { autoAlpha: 0 });
+// function to disappear ori text
+function oriTextDisappear() {
+    TweenLite.to(textORI, 0, { autoAlpha: 0 });
 }
+// function to disappear clock text
 function clockDisappear() {
     TweenLite.to(textClock, 0, { autoAlpha: 0 });
+}
+// function to appear ori text
+function oriTextVisible() {
+    TweenLite.to(textORI, 0, { autoAlpha: 1 });
+}
+// function to appear clock text
+function clockVisible() {
+    TweenLite.to(textClock, 0, { autoAlpha: 1 });
 }
 function free() {
     OBSERV.innerHTML = "";
 }
-function serialVisible1() {
-    TweenLite.to(textI1, 0, { autoAlpha: 1 });
-}
-function clockVisible() {
-    TweenLite.to(textClock, 0, { autoAlpha: 1 });
-}
-
 function allDisappear() {
-    serialDisappear1();
-    serialDotDisappear();
+    oriTextDisappear();
+    oriDotDisappear();
     clockDisappear();
     clockDotDisappear();
     outputDisappear();
-    gsap.set(I1, {
+    gsap.set(ORI, {
         fill: "#008000"
     });
     gsap.set(CLOCK, {
@@ -158,25 +199,17 @@ function allDisappear() {
         fill: "#008000"
     });
 }
-function outputDot() {
-    gsap.set(O1, {
-        fill: "#008000"
-    });
-    gsap.set(O2, {
-        fill: "#008000"
-    });
-    gsap.set(O3, {
-        fill: "#008000"
-    });
-}
+// to set the output dots
+// this will only be called once
 function outputHandlerSetter() {
     textO1.textContent = 1;
     textO2.textContent = 0;
     textO3.textContent = 0;
 
 }
-let temp = 0;
+// shifting the outputs
 function outputHandler() {
+    let temp = 0;
     temp = textO3.textContent;
     textO3.textContent = textO2.textContent;
     textO2.textContent = textO1.textContent;
@@ -186,60 +219,55 @@ function set(a) {
     gsap.set(a, {
         fill: "#eeeb22"
     });
-}//output 0
+}
 function unset(a) {
     gsap.set(a, {
         fill: "#29e"
     });
-}//output 1
-function appendOri() {
-    if (textI1.textContent != 0 && tl.progress() == 0) {
-        serialDisappear1();
-        textI1.textContent = 0;
-        svg.appendChild(textI1);
-        gsap.set(textI1, {
+}
+function unsetOri() {
+    if (textORI.textContent != 0 && timeline.progress() == 0) {
+        oriTextDisappear();
+        textORI.textContent = 0;
+        svg.appendChild(textORI);
+        gsap.set(textORI, {
             x: 17,
             y: 554
         });
-        gsap.set(I1, {
+        gsap.set(ORI, {
             fill: "#eeeb22"
         });
         free();
-        serialVisible1();
-        errno();
-        setter(textI1.textContent, oriDot1);
-        setter(textI1.textContent, oriDot2);
-        setter(textI1.textContent, oriDot3);
+        oriTextVisible();
+        setter(textORI.textContent, oriDot1);
+        setter(textORI.textContent, oriDot2);
+        setter(textORI.textContent, oriDot3);
         OBSERV.innerHTML = "ori is set to 0";
     }
-    else if (textI1.textContent != 1 && tl.progress() == 0) {
-        appendI1To1();
+    else if (textORI.textContent != 1 && timeline.progress() == 0) {
+        setOri();
     }
-
-
-
 }
-function appendI1To1() {
-    serialDisappear1();
-    textI1.textContent = 1;
-    svg.appendChild(textI1);
-    gsap.set(textI1, {
+function setOri() {
+    oriTextDisappear();
+    textORI.textContent = 1;
+    svg.appendChild(textORI);
+    gsap.set(textORI, {
         x: 17,
         y: 554
     });
-    gsap.set(I1, {
+    gsap.set(ORI, {
         fill: "#29e"
     });
     free();
-    serialVisible1();
-    errno();
-    setter(textI1.textContent, oriDot1);
-    setter(textI1.textContent, oriDot2);
-    setter(textI1.textContent, oriDot3);
+    oriTextVisible();
+    setter(textORI.textContent, oriDot1);
+    setter(textORI.textContent, oriDot2);
+    setter(textORI.textContent, oriDot3);
     OBSERV.innerHTML = "ori is set to 1";
 }
-function appendClock() {
-    if (textClock.textContent != 0 && tl.progress() == 0) {
+function unsetClock() {
+    if (textClock.textContent != 0 && timeline.progress() == 0) {
         clockDisappear();
         textClock.textContent = 0;
         svg.appendChild(textClock);
@@ -255,13 +283,12 @@ function appendClock() {
         setter(textClock.textContent, clockDot1);
         setter(textClock.textContent, clockDot2);
         setter(textClock.textContent, clockDot3);
-        errno();
     }
-    else if (textClock.textContent != 1 && tl.progress() == 0) {
-        appendClockTo1();
+    else if (textClock.textContent != 1 && timeline.progress() == 0) {
+        setClock();
     }
 }
-function appendClockTo1() {
+function setClock() {
     clockDisappear();
     textClock.textContent = 1;
     svg.appendChild(textClock);
@@ -277,20 +304,13 @@ function appendClockTo1() {
     setter(textClock.textContent, clockDot1);
     setter(textClock.textContent, clockDot2);
     setter(textClock.textContent, clockDot3);
-    errno();
     OBSERV.innerHTML = "Clock has Started";
 }
 
-
-
 function reboot() {
-    textI1.textContent = 2;
+    textORI.textContent = 2;
     textClock.textContent = 2;
 }
-
-
-
-
 
 function outputSetter() {
     setter(textO1.textContent, O1);
@@ -299,11 +319,8 @@ function outputSetter() {
     setter(textO1.textContent, clockDot1);
     setter(textO2.textContent, clockDot2);
     setter(textO3.textContent, clockDot3);
-
 }
-function errno() {
-}
-function batado() {
+function display() {
     OBSERV.innerHTML = "Simulation has finished. Press Restart to start again"
 }
 function setter(a, b) {
@@ -314,9 +331,7 @@ function setter(a, b) {
         set(b);
     }
 }
-outputDisappear();
-let tl = gsap.timeline({ repeat: 0, repeatDelay: 0 });
-function clockto0() {
+function clockToZero() {
     textClock.textContent = 0;
     svg.appendChild(textClock);
     gsap.set(textClock, {
@@ -328,7 +343,7 @@ function clockto0() {
     });
     OBSERV.innerHTML = "Negative edge triggered change in output expected now";
 }
-function clockto1() {
+function clockToOne() {
     textClock.textContent = 1;
     svg.appendChild(textClock);
     gsap.set(textClock, {
@@ -342,34 +357,34 @@ function clockto1() {
 }
 
 function fourXspeed() {
-    if (textClock.textContent != 2 && textI1.textContent != 2 && tl.progress() != 1) {
-        tl.resume();
-        tl.timeScale(4);
+    if (textClock.textContent != 2 && textORI.textContent != 2 && timeline.progress() != 1) {
+        timeline.resume();
+        timeline.timeScale(4);
         OBSERV.innerHTML = "4x speed";
         decide = 1;
         BUTTON.innerHTML = "Pause";
     }
 }
 function oneXspeed() {
-    if (textClock.textContent != 2 && textI1.textContent != 2 && tl.progress() != 1) {
-        tl.resume();
-        tl.timeScale(1);
+    if (textClock.textContent != 2 && textORI.textContent != 2 && timeline.progress() != 1) {
+        timeline.resume();
+        timeline.timeScale(1);
         OBSERV.innerHTML = "1x speed";
         decide = 1;
         BUTTON.innerHTML = "Pause";
     }
 }
 function doubleSpeed() {
-    if (textClock.textContent != 2 && textI1.textContent != 2 && tl.progress() != 1) {
-        tl.resume();
-        tl.timeScale(2);
+    if (textClock.textContent != 2 && textORI.textContent != 2 && timeline.progress() != 1) {
+        timeline.resume();
+        timeline.timeScale(2);
         OBSERV.innerHTML = "2x speed";
         decide = 1;
         BUTTON.innerHTML = "Pause";
     }
 }
-function SetSpeed(speed) {
-    if (circuitStarted!=0) {
+function setSpeed(speed) {
+    if (circuitStarted != 0) {
         if (speed == "1") {
             oneXspeed();
         }
@@ -382,23 +397,22 @@ function SetSpeed(speed) {
     }
 
 }
-const SPEED = document.getElementById("speed");
+
 function restartCircuit() {
     if (circuitStarted == 1) {
         circuitStarted = 0;
     }
-    tl.seek(0);
-    tl.pause();
+    timeline.seek(0);
+    timeline.pause();
     allDisappear();
     reboot();
-    myFunction();
+    free();
     decide = 0;
     BUTTON.innerHTML = "Start";
     OBSERV.innerHTML = "Successfully restored";
     SPEED.selectedIndex = 0;
 }
-let decide = 0;
-let circuitStarted = 0;
+
 function button() {
     if (decide == 0) {
         startCircuit();
@@ -408,68 +422,83 @@ function button() {
     }
 }
 function stopCircuit() {
-    if (tl.time() != 0 && tl.progress() != 1) {
-        tl.pause();
+    if (timeline.time() != 0 && timeline.progress() != 1) {
+        timeline.pause();
         OBSERV.innerHTML = "Simulation has been stopped.";
         decide = 0;
         BUTTON.innerHTML = "Start";
         SPEED.selectedIndex = 0;
     }
-    else if (tl.progress() == 1) {
+    else if (timeline.progress() == 1) {
         OBSERV.innerHTML = "Please Restart the simulation";
     }
 }
 function startCircuit() {
-    if (textI1.textContent != 0 && textClock.textContent != 0) {
+    if (textORI.textContent != 0 && textClock.textContent != 0) {
         OBSERV.innerHTML = "ori and clock must be set to 0.";
     }
-    else if (textI1.textContent == 0 && textClock.textContent == 0 && textI1.textContent != 2 && tl.progress() != 1) {
+    else if (textORI.textContent == 0 && textClock.textContent == 0 && textORI.textContent != 2 && timeline.progress() != 1) {
         if (circuitStarted == 0) {
             circuitStarted = 1;
         }
-        tl.play();
-        tl.timeScale(1);
+        timeline.play();
+        timeline.timeScale(1);
         OBSERV.innerHTML = "Simulation has started.";
         decide = 1;
         BUTTON.innerHTML = "Pause";
         SPEED.selectedIndex = 0;
     }
-    else if (textI1.textContent == 2 || textClock.textcontent == 2) {
+    else if (textORI.textContent == 2 || textClock.textcontent == 2) {
         OBSERV.innerHTML = "Please select the values";
     }
-    else if (textClock.textContent != 0 && tl.progress() == 0) {
+    else if (textClock.textContent != 0 && timeline.progress() == 0) {
         OBSERV.innerHTML = "Please set the clock to 0.";
     }
 
-    else if (tl.progress() == 1) {
+    else if (timeline.progress() == 1) {
         OBSERV.innerHTML = "Please Restart the simulation";
     }
 }
-tl.add(serialDotVisible, 0);
-tl.add(serialDotDisappear, 7);
-tl.add(outputHandlerSetter, 7);
-tl.add(outputSetter, 7);
-tl.add(outputVisible, 7);
-tl.add(appendI1To1,8);
-tl.add(clockto1, 8);
-tl.add(clockto0, 15);
-tl.add(clockDotVisible, 15);
-tl.add(clockDotDisappear, 20);
-tl.add(outputHandler, 21);
-tl.add(outputSetter, 21);
-tl.add(outputVisible, 21);
-tl.add(clockto1, 22);
-tl.add(clockto0, 29);
-tl.add(clockDotVisible, 29);
-tl.add(clockDotDisappear, 34);
-tl.add(outputHandler, 33);
-tl.add(outputSetter, 34);
-tl.add(outputVisible, 34);
-tl.add(batado, 34);
-tl.eventCallback("onComplete", outputVisible);
-tl.eventCallback("onComplete", batado);
 
-tl.to(oriDot1, {
+// all the execution begin here
+gsap.registerPlugin(MotionPathPlugin);
+demoWidth();
+// calling all the functions that are going to initialise 
+instructionBoxInit();
+textIOInit();
+textClockInit();
+outputCoordinates();
+inputDots();
+outputDisappear();
+
+// calling functions according to the time 
+timeline.add(oriDotVisible, 0);
+timeline.add(oriDotDisappear, 7);
+timeline.add(outputHandlerSetter, 7);
+timeline.add(outputSetter, 7);
+timeline.add(outputVisible, 7);
+timeline.add(setOri, 8);
+timeline.add(clockToOne, 8);
+timeline.add(clockToZero, 15);
+timeline.add(clockDotVisible, 15);
+timeline.add(clockDotDisappear, 20);
+timeline.add(outputHandler, 21);
+timeline.add(outputSetter, 21);
+timeline.add(outputVisible, 21);
+timeline.add(clockToOne, 22);
+timeline.add(clockToZero, 29);
+timeline.add(clockDotVisible, 29);
+timeline.add(clockDotDisappear, 34);
+timeline.add(outputHandler, 33);
+timeline.add(outputSetter, 34);
+timeline.add(outputVisible, 34);
+timeline.add(display, 34);
+timeline.eventCallback("onComplete", outputVisible);
+timeline.eventCallback("onComplete", display);
+
+
+// animations with appropriate delays
+timeline.to(oriDot1, {
     motionPath: {
         path: "#path6",
         align: "#path6",
@@ -483,7 +512,7 @@ tl.to(oriDot1, {
     ease: "none",
     paused: false,
 }, 0);
-tl.to(oriDot2, {
+timeline.to(oriDot2, {
     motionPath: {
         path: "#path7",
         align: "#path7",
@@ -499,7 +528,7 @@ tl.to(oriDot2, {
 }, 0);
 
 
-tl.to(oriDot3, {
+timeline.to(oriDot3, {
     motionPath: {
         path: "#path8",
         align: "#path8",
@@ -513,7 +542,7 @@ tl.to(oriDot3, {
     ease: "none",
     paused: false,
 }, 0);
-tl.to(clockDot1, {
+timeline.to(clockDot1, {
     motionPath: {
         path: "#path9",
         align: "#path9",
@@ -528,7 +557,7 @@ tl.to(clockDot1, {
     ease: "none",
     paused: false,
 }, 0);
-tl.to(clockDot2, {
+timeline.to(clockDot2, {
     motionPath: {
         path: "#path10",
         align: "#path10",
@@ -543,7 +572,7 @@ tl.to(clockDot2, {
     ease: "none",
     paused: false,
 }, 0);
-tl.to(clockDot3, {
+timeline.to(clockDot3, {
     motionPath: {
         path: "#path11",
         align: "#path11",
@@ -558,7 +587,7 @@ tl.to(clockDot3, {
     ease: "none",
     paused: false,
 }, 0);
-tl.to(clockDot1, {
+timeline.to(clockDot1, {
     motionPath: {
         path: "#path9",
         align: "#path9",
@@ -573,7 +602,7 @@ tl.to(clockDot1, {
     ease: "none",
     paused: false,
 }, 0);
-tl.to(clockDot2, {
+timeline.to(clockDot2, {
     motionPath: {
         path: "#path10",
         align: "#path10",
@@ -588,7 +617,7 @@ tl.to(clockDot2, {
     ease: "none",
     paused: false,
 }, 0);
-tl.to(clockDot3, {
+timeline.to(clockDot3, {
     motionPath: {
         path: "#path11",
         align: "#path11",
@@ -604,7 +633,6 @@ tl.to(clockDot3, {
     paused: false,
 }, 0);
 
-tl.pause();
-serialDotDisappear();
-serialDotDisappear();
+timeline.pause();
+oriDotDisappear();
 clockDotDisappear();
