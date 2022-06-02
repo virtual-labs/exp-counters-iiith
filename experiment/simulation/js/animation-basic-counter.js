@@ -1,0 +1,684 @@
+"use strict";
+
+// Dimensions of working area
+const circuitBoard = document.getElementById("circuit-board");
+const sidePanels = document.getElementsByClassName("v-datalist-container");
+
+// Distance of working area from top
+const circuitBoardTop = circuitBoard.offsetTop;
+
+// Full height of window
+const windowHeight = window.innerHeight;
+const width = window.innerWidth;
+const instructionBox = document.getElementsByClassName("instructions-box")[0];
+const svg = document.querySelector(".svg");
+const inputpath1 = document.querySelector("#inputpath1");
+const svgns = "http://www.w3.org/2000/svg";
+
+
+const STATUS = document.getElementById("playOrPause");
+const OBSERV = document.getElementById("Observations");
+const SPEED = document.getElementById("speed");
+
+const OBJECTS = [document.getElementById("j"), document.getElementById("k"), document.getElementById("j"),document.getElementById("k"), document.getElementById("clock"), document.getElementById("qb"), document.getElementById("qa")];
+const TEXTINPUT=[document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text")];
+const TEXTCLOCK=[document.createElementNS(svgns, "text")];
+const TEXTOUTPUT=[document.createElementNS(svgns, "text"),document.createElementNS(svgns, "text")];
+const CLOCKDOT=[document.createElementNS(svgns, "circle")];
+const INPUTDOTS=[document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle")];
+
+
+
+
+let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
+let decide = 0;
+let circuitStarted = 0;
+
+function demoWidth() {
+    if (width < 1024) {
+        circuitBoard.style.height = 600 + "px";
+    } else {
+        circuitBoard.style.height = windowHeight - circuitBoardTop - 20 + "px";
+    }
+    sidePanels[0].style.height = circuitBoard.style.height;
+}
+// Instruction box
+function instructionBoxInit() {
+    instructionBox.addEventListener("click", (e) => {
+        instructionBox.classList.toggle("expand");
+    });
+}
+
+//initialise input text
+function textIOInit() {
+    
+    for (let index = 0; index < TEXTINPUT.length; index++) {
+        TEXTINPUT[index].textContent = 2;
+    }
+    
+}
+//initialise clock text
+function textClockInit() {
+    for (let index = 0; index < TEXTCLOCK.length; index++) {
+        TEXTCLOCK[index].textContent = 2;
+    }
+}
+function setCoordinates(xObject,yObject,textObject){
+    gsap.set(textObject,{
+        x: xObject,
+        y: yObject
+    })
+}
+function outputCoordinates() {
+    
+    let xcor = 596;
+    let ycor = 154;
+    let gap=325;
+    for (let index = 0; index < TEXTOUTPUT.length; index++) {
+        setCoordinates(xcor ,ycor+index*gap,TEXTOUTPUT[index]);
+        svg.appendChild(TEXTOUTPUT[index]);   
+    }
+}
+function fillInputDots(object,cxObject,cyObject,rObject,fillObject) {
+    gsap.set(object, {
+        attr: { cx: cxObject, cy: cyObject, r: rObject, fill: fillObject }
+    });
+}
+function inputDots() {
+    //sets the coordinates of the input dots
+    for (let index = 0; index < INPUTDOTS.length; index++) {
+        if(index===0||index===1){
+            fillInputDots(INPUTDOTS[index],50,50,15,"#FF0000");
+        }
+        else if(index==2||index==3){
+            fillInputDots(INPUTDOTS[index],50,250,15,"#FF0000");
+        }
+
+        svg.append(INPUTDOTS[index]);
+    }
+    for (let index = 0; index < CLOCKDOT.length; index++) {
+        fillInputDots(CLOCKDOT[index],50,400,15,"#FF0000");
+        svg.append(CLOCKDOT[index]);
+    }
+    
+}
+function objectDisappear(object){
+    gsap.to(object, 0, { autoAlpha: 0 });
+}
+function objectAppear(object){
+    gsap.to(object, 0, { autoAlpha: 1 });
+}
+function jkDotDisappear() {
+    
+    for (let index = 0; index < INPUTDOTS.length; index++) {
+        objectDisappear(INPUTDOTS[index]);
+    }
+}
+
+function clockDotDisappear() {
+    //makes the clock dot disappear
+    
+    for (let index = 0; index < CLOCKDOT.length; index++) {
+        objectDisappear(CLOCKDOT[index]);
+    }
+
+}
+function jkDotVisible() {
+    //makes the J,K dots appear
+    
+    for (let index = 0; index < INPUTDOTS.length; index++) {
+        objectAppear(INPUTDOTS[index]);
+    }
+    
+
+}
+
+function clockDotVisible() {
+    //makes the clock dot appear
+    
+    for (let index = 0; index < CLOCKDOT.length; index++) {
+        objectAppear(CLOCKDOT[index]);
+    }
+
+}
+function outputDisappear() {
+    //makes the output text disappear
+    
+    for (let index = 0; index < TEXTOUTPUT.length; index++) {
+        objectDisappear(TEXTOUTPUT[index]);
+    }
+
+}
+function outputVisible() {
+    //makes the output text appear
+    
+    for (let index = 0; index < TEXTOUTPUT.length; index++) {
+        objectAppear(TEXTOUTPUT[index]);
+    }
+
+}
+function jDisappear() {
+    //makes the J text disappear
+    
+    for (let index = 0; index < TEXTINPUT.length; index+=2) {
+        objectDisappear(TEXTINPUT[index]);
+    }
+    
+}
+function kDisappear() {
+    //makes the K text disappear
+    
+    for (let index = 1; index < TEXTINPUT.length; index+=2) {
+        objectDisappear(TEXTINPUT[index]);
+    }
+}
+
+
+function clockDisappear() {
+    //makes the clock text disappear
+    
+    for (let index = 0; index < TEXTCLOCK.length; index++) {
+        objectDisappear(TEXTCLOCK[index]);
+    }
+}
+
+function jVisible() {
+    //makes the J text appear
+    for (let index = 0; index < TEXTINPUT.length; index+=2) {
+        objectAppear(TEXTINPUT[index]);
+    }
+}
+function kVisible() {
+    //makes the K text appear
+    
+    for (let index = 1; index < TEXTINPUT.length; index+=2) {
+        objectAppear(TEXTINPUT[index]);
+    }
+}
+function clockVisible() {
+    //makes the clock text appear
+    for (let index = 0; index < TEXTCLOCK.length; index++) {
+        objectAppear(TEXTCLOCK[index]);
+    }
+}
+function fillColor(object,color){
+    gsap.set(object, {
+        fill: color
+    });
+}
+
+function clearObservation() {
+
+    OBSERV.innerHTML = "";
+}
+
+function allDisappear() {
+    jDisappear();
+    kDisappear();
+
+
+    jkDotDisappear();
+    clockDisappear();
+    clockDotDisappear();
+    outputDisappear();
+    for (let index = 0; index < OBJECTS.length; index++) {
+        fillColor(OBJECTS[index],"#008000");
+    }
+    
+
+
+}
+
+function outputHandlerSetter() {
+    //to set output dots
+    //this is called only once
+    
+    for (let index = 0; index < TEXTOUTPUT.length; index++) {
+        TEXTOUTPUT[index].textContent = 1;
+    }
+
+}
+
+function outputHandler() {
+    //changes the outputs
+    if (TEXTOUTPUT[1].textContent === "1" && TEXTOUTPUT[0].textContent === "1") {
+        TEXTOUTPUT[0].textContent = "0";
+        TEXTOUTPUT[1].textContent = "0";
+    }
+    else if (TEXTOUTPUT[1].textContent === "1" && TEXTOUTPUT[0].textContent ==="0") {
+        TEXTOUTPUT[0].textContent = "1";
+        TEXTOUTPUT[1].textContent = "0";
+    }
+    else if (TEXTOUTPUT[1].textContent === "0" && TEXTOUTPUT[0].textContent === "1") {
+
+        
+        TEXTOUTPUT[1].textContent = "1";
+    }
+    else if (TEXTOUTPUT[1].textContent=== "0" && TEXTOUTPUT[0].textContent === "0") {
+
+        TEXTOUTPUT[1].textContent = "1";
+    }
+
+}
+function set(object) {
+    
+    fillColor(object,"#eeeb22");
+}
+function unset(object) {
+    fillColor(object,"#29e");
+}
+function unsetI1() {
+    if (TEXTINPUT[0].textContent !== "0" && timeline.progress() === 0) {
+        jDisappear();
+        TEXTINPUT[0].textContent = 0;
+        TEXTINPUT[2].textContent = 0;
+        svg.appendChild(TEXTINPUT[0]);
+        svg.appendChild(TEXTINPUT[2]);
+        setCoordinates(46,155,TEXTINPUT[0]);
+        setCoordinates(46,155,TEXTINPUT[2]);
+        
+        fillColor(OBJECTS[0],"#eeeb22");
+        fillColor(OBJECTS[2],"#eeeb22");
+        clearObservation();
+        jVisible();
+        for(let index=0;index<INPUTDOTS.length;index+=2){
+            setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
+        }
+
+        OBSERV.innerHTML = "J is set to 0";
+    }
+    else if (TEXTINPUT[0] !== "1" && timeline.progress() === 0) {
+        setI1();
+    }
+
+
+
+
+}
+function setI1() {
+    jDisappear();
+    
+    TEXTINPUT[0].textContent = 1;
+    TEXTINPUT[2].textContent = 1;
+    svg.appendChild(TEXTINPUT[0]);
+    svg.appendChild(TEXTINPUT[2]);
+    
+    setCoordinates(46,155,TEXTINPUT[0]);
+    setCoordinates(46,155,TEXTINPUT[2]);
+   
+    fillColor(OBJECTS[0],"#29e");
+    fillColor(OBJECTS[2],"#29e");
+    clearObservation();
+    jVisible();
+    
+    
+    for(let index=0;index<INPUTDOTS.length;index+=2){
+        setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
+    }
+
+    OBSERV.innerHTML = "J is set to 1";
+
+}
+function unsetI2() {
+    
+    if (TEXTINPUT[1].textContent !== "0" && timeline.progress() === 0) {
+        kDisappear();
+        TEXTINPUT[1].textContent = 0;
+        TEXTINPUT[3].textContent = 0;
+        svg.appendChild(TEXTINPUT[1]);
+        svg.appendChild(TEXTINPUT[3]);
+        setCoordinates(46,630,TEXTINPUT[1]);
+        setCoordinates(46,630,TEXTINPUT[3]);
+       
+        fillColor(OBJECTS[1],"#eeeb22");
+        fillColor(OBJECTS[3],"#eeeb22");
+        clearObservation();
+        kVisible();
+        
+        for(let index=1;index<INPUTDOTS.length;index+=2){
+            setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
+        }
+
+        OBSERV.innerHTML = "K is set to 0";
+    }
+    else if (TEXTINPUT[1] !== "1" && timeline.progress() === 0) {
+        setI2();
+    }
+
+
+
+
+}
+function setI2() {
+    
+    kDisappear();
+    TEXTINPUT[1].textContent = 1;
+    TEXTINPUT[3].textContent = 1;
+    svg.appendChild(TEXTINPUT[1]);
+    svg.appendChild(TEXTINPUT[3]);
+    setCoordinates(46,630,TEXTINPUT[1]);
+    setCoordinates(46,630,TEXTINPUT[3]);
+    fillColor(OBJECTS[1],"#29e");
+    fillColor(OBJECTS[3],"#29e");
+    clearObservation();
+    kVisible();
+    for(let index=1;index<INPUTDOTS.length;index+=2){
+        setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
+    }
+
+
+}
+function clockToZero() {
+    TEXTCLOCK[0].textContent = 0;
+    svg.appendChild(TEXTCLOCK[0]);
+    setCoordinates(46,405,TEXTCLOCK[0]);
+    fillColor(OBJECTS[4],"#eeeb22");
+    OBSERV.innerHTML = "Negative edge triggered change in output expected now";
+}
+function clockToOne() {
+    
+    TEXTCLOCK[0].textContent = 1;
+    svg.appendChild(TEXTCLOCK[0]);
+    setCoordinates(46,405,TEXTCLOCK[0]);
+    fillColor(OBJECTS[4],"#29e");
+    OBSERV.innerHTML = "No change in output";
+}
+
+
+function unsetClock() {
+    
+    if (TEXTCLOCK[0].textContent !== "0" && timeline.progress() === 0) {
+        clockDisappear();
+        TEXTCLOCK[0].textContent = 0;
+        svg.appendChild(TEXTCLOCK[0]);
+        setCoordinates(46,405,TEXTCLOCK[0]);
+        fillColor(OBJECTS[4],"#eeeb22");
+        clearObservation();
+        clockVisible();
+        for(let index=0;index<CLOCKDOT.length;index++){
+            setter(TEXTCLOCK[0].textContent,CLOCKDOT[index]);
+        }
+
+    }
+    else if (TEXTCLOCK[0].textContent !== "1" && timeline.progress() === 0) {
+        setClock();
+    }
+
+}
+function setClock() {
+    
+    clockDisappear();
+    TEXTCLOCK[0].textContent = 1;
+    svg.appendChild(TEXTCLOCK[0]);
+    setCoordinates(46,405,TEXTCLOCK[0]);
+    fillColor(OBJECTS[4],"#29e");
+    clearObservation();
+    clockVisible();
+    for(let index=0;index<CLOCKDOTS.length;index++){
+        setter(TEXTCLOCK[0].textContent,CLOCKDOT[index]);
+    }
+    OBSERV.innerHTML = "Clock has Started";
+
+}
+function reboot() {
+    
+    for(let index=0;index<TEXTINPUT.length;index++){
+        TEXTINPUT[index].textContent = 2;   
+    }
+    for(let index=0;index<TEXTCLOCK.length;index++){
+        TEXTCLOCK[index].textContent = 2;
+    }
+}
+
+function outputSetter() {
+    
+    for(let index=0;index<TEXTOUTPUT.length;index++){
+        setter(TEXTOUTPUT[index].textContent, OBJECTS[index+5]);
+    }
+
+}
+
+
+function display() {
+    OBSERV.innerHTML = "Simulation has finished. Press Restart to start again"
+}
+function setter(value, component) {
+    //toggles the text content a of input/output component b
+    if (value === "1") {
+        unset(component);
+
+    }
+    else if (value === "0") {
+        set(component);
+    }
+}
+
+
+function changeSpeed(newSpeed) {
+    
+    if (TEXTINPUT[0].textContent !== "2" && TEXTINPUT[2].textContent !== "2" && TEXTINPUT[1].textContent !== "2" && TEXTINPUT[3].textContent !== "2" && timeline.progress() !== 1) {
+        timeline.resume();
+        timeline.timeScale(newSpeed);
+        OBSERV.innerHTML = newSpeed + "x speed";
+        decide = 1;
+        STATUS.innerHTML = "Pause";
+    }
+}
+function setSpeed(speed) {
+    if (circuitStarted != 0) {
+
+
+        if (speed === "1") {
+            startCircuit();            
+        }
+        else if (speed === "2") {
+            changeSpeed(2);
+        }
+        else if (speed === "4") {
+            changeSpeed(4);
+        }
+    }
+
+
+}
+function restartCircuit() {
+    if (circuitStarted === 0) {
+        circuitStarted = 1;
+    }
+    timeline.seek(0);
+    timeline.pause();
+    allDisappear();
+    reboot();
+    
+    clearObservation();
+    decide = 0;
+    STATUS.innerHTML = "Start";
+    OBSERV.innerHTML = "Successfully restored";
+    SPEED.selectedIndex = 0;
+}
+
+function simulationStatus() {
+    if (decide === 0) {
+        startCircuit();
+
+    }
+    else if (decide === 1) {
+        stopCircuit();
+
+    }
+}
+function stopCircuit() {
+    if (timeline.time() !== 0 && timeline.progress() !== 1) {
+        timeline.pause();
+        OBSERV.innerHTML = "Simulation has been stopped.";
+        decide = 0;
+        STATUS.innerHTML = "Start";
+        SPEED.selectedIndex = 0;
+    }
+    else if (timeline.progress() === 1) {
+        OBSERV.innerHTML = "Please Restart the simulation";
+    }
+}
+
+function startCircuit() {
+    
+    if (TEXTINPUT[0].textContent !== "1" || TEXTINPUT[2].textContent !== "1") {
+        OBSERV.innerHTML = "J must be set to 1.";
+    }
+    else if (TEXTINPUT[1].textContent !== "1" || TEXTINPUT[3].textContent !== "1") {
+        OBSERV.innerHTML = "K must be set to 1.";
+    }
+    else if (TEXTCLOCK[0].textContent === "0" && TEXTINPUT[0].textContent !== "2" && TEXTINPUT[2].textContent !== "2" && TEXTINPUT[1].textContent !== "2" && TEXTINPUT[3].textContent !== "2" && timeline.progress() !== 1) {
+        if (circuitStarted === 0) {
+            circuitStarted = 1;
+        }
+        timeline.play();
+        timeline.timeScale(1);
+        OBSERV.innerHTML = "Simulation has started.";
+        decide = 1;
+        STATUS.innerHTML = "Pause";
+        SPEED.selectedIndex = 0;
+    }
+    else if (TEXTINPUT[0].textContent === "2" || TEXTINPUT[1].textContent === "2" || TEXTINPUT[2].textContent === "2" || TEXTINPUT[3].textContent === "2" || TEXTCLOCK[0].textcontent === "2") {
+        OBSERV.innerHTML = "Please select the values";
+    }
+    else if (TEXTCLOCK[0].textContent !== "0" && timeline.progress() === 0) {
+        OBSERV.innerHTML = "Please setup the clock.";
+    }
+    else if(timeline.progress() === 1) {
+        OBSERV.innerHTML = "Please Restart the simulation";
+    }
+}
+//execution starts here
+gsap.registerPlugin(MotionPathPlugin);
+demoWidth();
+instructionBoxInit();
+textIOInit();
+textClockInit();
+outputCoordinates();
+inputDots();
+outputDisappear();
+// calling all the functions that are going to initialise 
+
+timeline.add(jkDotVisible, 0);
+
+timeline.add(clockDotVisible, 0);
+
+timeline.add(clockDotDisappear, 10);
+
+timeline.add(jkDotDisappear, 10);
+timeline.add(outputHandlerSetter, 10);
+timeline.add(outputSetter, 10);
+timeline.add(outputVisible, 10);
+
+timeline.add(clockToOne, 11);
+timeline.add(clockToZero, 15);
+
+timeline.add(outputHandler, 15);
+timeline.add(outputSetter, 15);
+timeline.add(outputVisible, 15);
+timeline.add(clockToOne, 19);
+timeline.add(clockToZero, 23);
+
+timeline.add(outputHandler, 23);
+timeline.add(outputSetter, 23);
+timeline.add(outputVisible, 23);
+
+timeline.add(clockToOne, 27);
+timeline.add(clockToZero, 31);
+
+timeline.add(outputHandler, 31);
+timeline.add(outputSetter, 31);
+timeline.add(outputVisible, 31);
+
+timeline.add(clockToOne, 35);
+timeline.add(clockToZero, 39);
+
+
+timeline.add(outputHandler, 39);
+timeline.add(outputSetter, 39);
+timeline.add(outputVisible, 39);
+
+timeline.add(display, 40);
+
+timeline.eventCallback("onComplete", outputVisible);
+timeline.eventCallback("onComplete", display);
+
+// animations with appropriate delays
+timeline.to(INPUTDOTS[0], {
+    motionPath: {
+        path: "#path1",
+        align: "#path1",
+        autoRotate: true,
+        alignOrigin: [0.5, 0.5]
+    },
+
+    duration: 10,
+    repeat: 0,
+    repeatDelay: 3,
+    yoyo: true,
+    ease: "none",
+    paused: false,
+
+}, 0);
+timeline.to(INPUTDOTS[2], {
+    motionPath: {
+        path: "#path2",
+        align: "#path2",
+        autoRotate: true,
+        alignOrigin: [0.5, 0.5]
+    },
+
+    duration: 4,
+    repeat: 0,
+    repeatDelay: 3,
+    yoyo: true,
+    ease: "none",
+    paused: false,
+
+}, 0);
+
+
+
+
+timeline.to(INPUTDOTS[3], {
+    motionPath: {
+        path: "#path5",
+        align: "#path5",
+        autoRotate: true,
+        alignOrigin: [0.5, 0.5]
+    },
+
+    duration: 9,
+    repeat: 0,
+    repeatDelay: 3,
+    yoyo: true,
+    ease: "none",
+    paused: false,
+
+}, 0);
+timeline.to(INPUTDOTS[1], {
+    motionPath: {
+        path: "#path4",
+        align: "#path4",
+        autoRotate: true,
+        alignOrigin: [0.5, 0.5]
+    },
+
+    duration: 5,
+    repeat: 0,
+    repeatDelay: 3,
+    yoyo: true,
+    ease: "none",
+    paused: false,
+
+}, 0);
+
+
+
+timeline.pause();
+
+jkDotDisappear();
+jkDotDisappear();
+
+clockDotDisappear();

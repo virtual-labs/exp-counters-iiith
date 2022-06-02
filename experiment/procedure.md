@@ -1,7 +1,9 @@
-1. With The help of Theory Page , try to build the Counter Circuit.  
-2. First of all build the basic counter.  
-3. Then make the Ring Counter.  
-4. If You are unable to make it , load or export the circuit directly and use it.  
-5. Use Time variant input pulses to analyze the output.  
-6. There is an import feature, which lets you construct building blocks. Click on import and then click on circuit board to see the imported block. For more details, refer import section in manual.  
+1. Firstly learn everything from the 'Demo' section.
+
+2. Then in the 'Practice' section in the task-1 "Basic Counter", make a 2-bit asynchronous basic binary counter using JK flip-flops. Remember to set J and K to 1. Observe that the flip-flops are negative edge triggered. Also try to find the ratio of rate of change of output of the output bits
+
+3. Then, in the task-2 "Ring Counter", implement a 3-bit synchronous ring counter using D flip-flops. Remember to set ORI to 0. Observe how ori's value change through the course of simulation. Observe how the three bits will form a ring.
+
+4. After performing both the tasks observe that we need different number of flip-flops for making an n-bit counter.
+
 
