@@ -65,7 +65,10 @@
     </div>
     
     <div class="columns is-centered">
-        <div class="column" style="margin:auto;text-align:center">
+        <div class="column is-one-quarter" style="margin:auto;text-align:center">
+
+        </div>
+        <div class="column" style="text-align:center">
             <div class="v-select">
                 <select  autocomplete="off" name="speed" onchange="setSpeed(this.value)" id="speed">
                   <option value="1" >1x</option>
@@ -75,6 +78,10 @@
             </div>
             <button class="v-button" id="playOrPause" onclick="simulationStatus()">Start</button>
             <button class="v-button" id="restart" onclick="restartCircuit()">Reset</button>
+        </div>
+        <div class="column is-one-third">
+
+
         </div>
     </div>
     <div class="columns is-centered is-flex is-flex-direction-row is-flex-wrap-wrap is-align-content-start">
@@ -118,27 +125,27 @@
                         <circle id="clock" cx="50" cy="400" r="15" onclick="unsetClock()"
                             style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
                         
-                        <text font-size="1em" x="360" y="154" fill="black">J</text>
-                        <text font-size="1em" x="360" y="304" fill="black">K</text>
+                        <text font-size="1.5em" x="360" y="154" fill="black">J</text>
+                        <text font-size="1.5em" x="360" y="304" fill="black">K</text>
                         
-                        <text font-size="1em" x="360" y="479" fill="black">J</text>
-                        <text font-size="1em" x="360" y="629" fill="black">K</text>
+                        <text font-size="1.5em" x="360" y="479" fill="black">J</text>
+                        <text font-size="1.5em" x="360" y="629" fill="black">K</text>
 
-                        <text font-size="1em" x="480" y="154" fill="black">Q</text>
-                        <text font-size="1em" x="480" y="304" fill="black">Q'</text>
+                        <text font-size="1.5em" x="470" y="154" fill="black">Q</text>
+                        <text font-size="1.5em" x="470" y="304" fill="black">Q'</text>
 
-                         <text font-size="1em" x="480" y="479" fill="black">Q</text>
-                        <text font-size="1em" x="480" y="629" fill="black">Q'</text> 
+                         <text font-size="1.5em" x="470" y="479" fill="black">Q</text>
+                        <text font-size="1.5em" x="470" y="629" fill="black">Q'</text> 
 
-                        <text font-size="1em" x="360" y="229" fill="black">&#8827clk</text>
-                        <text font-size="1em" x="360" y="554" fill="black">&#8827clk</text>
+                        <text font-size="1.5em" x="360" y="229" fill="black">&#8827clk</text>
+                        <text font-size="1.5em" x="360" y="554" fill="black">&#8827clk</text>
                         
-                        <text font-size="0.9em" x="45" y="125" fill="black">J</text>
-                        <text font-size="0.8em" x="45" y="375" fill="black"> CLOCK</text>
-                        <text font-size="0.9em" x="45" y="600" fill="black">K</text>
+                        <text font-size="1.5em" x="45" y="125" fill="black">J</text>
+                        <text font-size="1.5em" x="20" y="375" fill="black"> CLOCK</text>
+                        <text font-size="1.5em" x="45" y="600" fill="black">K</text>
                         
-                        <text font-size="0.9em" x="591" y="180" fill="black">QB</text>
-                        <text font-size="0.9em" x="591" y="505" fill="black">QA</text>
+                        <text font-size="1.5em" x="591" y="190" fill="black">QB</text>
+                        <text font-size="1.5em" x="591" y="515" fill="black">QA</text>
                         
 
 

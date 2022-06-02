@@ -44,7 +44,7 @@
             "difficulty": "intermediate"
         },
         {
-            "question": "Raghav was making a modulus 4 bit asynchronous counter instead of connecting clk of flip flop 2 with Q of flip flop 1 he connects it with Q` what will be observe ",
+            "question": "4. Raghav was making a modulus 4 bit asynchronous counter instead of connecting clk of flip flop 2 with Q of flip flop 1 he connects it with Q` what will be observe ",
             "answers": {
                 "a": "It acts as modulus 16 bit asynchronous up counter",
                 "b": "It acts as modulus 4 bit asynchronous up counter",
@@ -58,7 +58,7 @@
             "difficulty": "advanced"
         },
         {
-            "question": "A 5 bit ripple-counter is created, for this task T flip flops are used. What should be the value of the inputs that the T flip flop should receive ",
+            "question": "5. A 5 bit ripple-counter is created, for this task T flip flops are used. What should be the value of the inputs that the T flip flop should receive ",
             "answers": {
                 "a": "1,0,1,0,1",
                 "b": "0,1,1,1,1",
