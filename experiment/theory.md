@@ -5,7 +5,7 @@ The counters will be assembled using two 74LS73 dual J-K flip-flop chips and a 7
 
 <img src="images/counters.png">
 
-**Binary Ripple Counter** 
+**Basic Counter (Binary Ripple Counter)** 
 
 1.. Make J = K = 1 for all the flip-flops, thereby converting the J-K flip-flops to T flip-flops. Connect all R’ inputs together to an Input Switch, and the outputs Q0,Q1,Q2,Q3 to four LED Displays.  
 2. Set up an Up-counting Binary Ripple Counter by making clock connections as follows: CK0 = Manual Clock (CLK-M), CK1 = Q0, CK2 = Q1, CK3 = Q2.  

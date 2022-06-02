@@ -622,6 +622,13 @@ export function checkConnectionsDD() {
         // For Full Adder objects
         // Check if all the outputs are connected
         const id = document.getElementById(gate.id);
+
+        if(gate.pr.length != 0 && gate.clr.length != 0){
+            correctConnection = false;
+            printErrors("Can't activate both preset and clear\n",id);
+            break;
+        }
+
         if (gate.qIsConnected == false) {
             correctConnection = false;
             printErrors("Q of flip flops must be connected\n",id);
@@ -771,5 +778,3 @@ export function deleteFF(id) {
 
     delete flipFlops[id];
 }
-
-

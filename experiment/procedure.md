@@ -1,10 +1,9 @@
 1. Firstly learn everything from the 'Demo' section.
 
-2. Then, test your understanding about counters in the 'Pretest' section.
+2. Then in the 'Practice' section in the task-1 "Basic Counter", make a 2-bit asynchronous basic binary counter using JK flip-flops. Remember to set J and K to 1. Observe that the flip-flops are negative edge triggered. Also try to find the ratio of rate of change of output of the output bits
 
-3. Then in the 'Practice' section in the task-1 "Basic Counter", make a 2-bit asynchronous basic binary counter using JK flip-flops. Remember to set J and K to 1.
+3. Then, in the task-2 "Ring Counter", implement a 3-bit synchronous ring counter using D flip-flops. Remember to set ORI to 0. Observe how ori's value change through the course of simulation. Observe how the three bits will form a ring.
 
-4. Then, in the task-2 "Ring Counter", implement a 3-bit ring counter using D flip-flops. Remember to set ORI to 0.
+4. After performing both the tasks observe that we need different number of flip-flops for making an n-bit counter.
 
-5. After that, test your understanding of the experiment in the 'Posttest' section.
 

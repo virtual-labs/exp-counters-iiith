@@ -10,7 +10,7 @@
                 "d": "1, 0"
             },
             "correctAnswer": "a",
-            "explanations": {},
+            "explanations": {"a":"J and K are required to be set to 1 thereby converting the J-K flip-flops to T flip-flops"},
             "difficulty": "beginner"
         },
         {
@@ -22,7 +22,7 @@
                 "d": "Q' of other JK flip flop"
             },
             "correctAnswer": "c",
-            "explanations": {},
+            "explanations": {"c":"Only the first flip flop is connected to Clock, clocks of all other flip flops are connected to Q of the previous flip flop"},
             "difficulty": "intermediate"
         },
         {
@@ -34,7 +34,7 @@
                 "d": "None of the above"
             },
             "correctAnswer": "b",
-            "explanations": {},
+            "explanations": {"b":"ORI becomes high just before the first clock cycle"},
             "difficulty": "intermediate"
         },
         {
@@ -46,7 +46,7 @@
                 "d": "2^(the no. of flip-flops used)"
             },
             "correctAnswer": "c",
-            "explanations": {},
+            "explanations": {"c":"Number of states=number of flip flops for a ring counter as at a given time only one flip flop can have the value 1"},
             "difficulty": "beginner"
         },
         {
@@ -58,7 +58,7 @@
                 "d": "2^(the no. of possible states)"
             },
             "correctAnswer": "c",
-            "explanations": {},
+            "explanations": {"c":"number of possible states=2^(number of flip flops) for a basic counter"},
             "difficulty": "advanced"
         }
     ]

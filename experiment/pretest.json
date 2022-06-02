@@ -10,7 +10,9 @@
                 "d": "20: 1 counter"
             },
             "correctAnswer": "c",
-            "explanations": {},
+            "explanations": {
+                "c":"For n flip-flops the basic counter acts as 2^n: 1 counter"
+            },
             "difficulty": "beginner"
         },
         {
@@ -22,7 +24,9 @@
                 "d": "20: 1 counter"
             },
             "correctAnswer": "a",
-            "explanations": {},
+            "explanations": {
+                "a":"For n flip-flops the basic counter acts as n: 1 counter"
+            },
             "difficulty": "beginner"
         },
         {
@@ -34,7 +38,9 @@
                 "d": "neither a nor b"
             },
             "correctAnswer": "c",
-            "explanations": {},
+            "explanations": {
+                "c":"+ve edge trigger makes down-counter and 5 flip-flops would make 31 bit counter"
+            },
             "difficulty": "intermediate"
         },
         {
@@ -46,7 +52,9 @@
                 "d": "It acts as modulus 4 bit asynchronous down counter"
             },
             "correctAnswer": "d",
-            "explanations": {},
+            "explanations": {
+                "a":"Use of Q` instead of Q makes it a asynchronous down counter"
+            },
             "difficulty": "advanced"
         },
         {
@@ -58,7 +66,9 @@
                 "d": "1,0,0,0,0"
             },
             "correctAnswer": "c",
-            "explanations": {},
+            "explanations": {
+                "c": "All of them need to be initialised to 1"
+            },
             "difficulty": "advanced"
         }
     ]

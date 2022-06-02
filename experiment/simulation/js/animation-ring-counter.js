@@ -16,16 +16,12 @@ const svgns = "http://www.w3.org/2000/svg";
 
 
 // stroing the necessary div elements in const
-const ORI = document.getElementById("ori");
-const CLOCK = document.getElementById("clock");
-const O1 = document.getElementById("qa");
-const O2 = document.getElementById("qb");
-const O3 = document.getElementById("qc");
 const STATUS = document.getElementById("playOrPause");
 const OBSERV = document.getElementById("Observations");
 const SPEED = document.getElementById("speed");
 
 // global varaibles declared here
+const OBJECTS = [document.getElementById("ori"),document.getElementById("clock"),document.getElementById("qa"),document.getElementById("qb"),document.getElementById("qc")];
 const TEXTINPUT = [document.createElementNS(svgns, "text")];
 const TEXTCLOCK = [document.createElementNS(svgns, "text")];
 const TEXTOUTPUT = [document.createElementNS(svgns, "text"),document.createElementNS(svgns, "text"),document.createElementNS(svgns, "text")];
@@ -58,11 +54,17 @@ function instructionBoxInit() {
     });
 }
 
-function fillOutputDots(xObject,yObject,textObject){
+function setCoordinates(xObject,yObject,textObject){
     gsap.set(textObject,{
         x: xObject,
         y: yObject
     })
+}
+
+function fillColor(object,color){
+    gsap.set(object, {
+        fill: color
+    });
 }
 
 function fillInputDots(object,cxObject,cyObject,rObject,fillObject) {
@@ -95,12 +97,12 @@ function textClockInit() {
 
 // function to mark the output coordinates
 function outputCoordinates() {
-    fillOutputDots(297,64,TEXTOUTPUT[0]);
-    fillOutputDots(497,64,TEXTOUTPUT[1]);
-    fillOutputDots(697,64,TEXTOUTPUT[2]);
-    svg.appendChild(TEXTOUTPUT[0]);
-    svg.appendChild(TEXTOUTPUT[1]);
-    svg.appendChild(TEXTOUTPUT[2]);
+    let xcor = 297;
+    let ycor = 64;
+    for (let index = 0; index < TEXTOUTPUT.length; index++) {
+        setCoordinates(xcor +(200*index),ycor,TEXTOUTPUT[index]);
+        svg.appendChild(TEXTOUTPUT[index]);   
+    }
 }
 
 // function to mark the input dots
@@ -153,19 +155,19 @@ function outputVisible() {
 }
 // function to disappear ori text
 function oriTextDisappear() {
-    gsap.to(TEXTINPUT[0], 0, { autoAlpha: 0 });
+    objectDisappear(TEXTINPUT[0]);
 }
 // function to disappear clock text
 function clockDisappear() {
-    gsap.to(TEXTCLOCK[0], 0, { autoAlpha: 0 });
+    objectDisappear(TEXTCLOCK[0]);
 }
 // function to appear ori text
 function oriTextVisible() {
-    gsap.to(TEXTINPUT[0], 0, { autoAlpha: 1 });
+    objectAppear(TEXTINPUT[0]);
 }
 // function to appear clock text
 function clockVisible() {
-    gsap.to(TEXTCLOCK[0], 0, { autoAlpha: 1 });
+    objectAppear(TEXTCLOCK[0]);
 }
 function clearObservation() {
     OBSERV.innerHTML = "";
@@ -176,21 +178,9 @@ function allDisappear() {
     clockDisappear();
     clockDotDisappear();
     outputDisappear();
-    gsap.set(ORI, {
-        fill: "#008000"
-    });
-    gsap.set(CLOCK, {
-        fill: "#008000"
-    });
-    gsap.set(O1, {
-        fill: "#008000"
-    });
-    gsap.set(O2, {
-        fill: "#008000"
-    });
-    gsap.set(O3, {
-        fill: "#008000"
-    });
+    for (let index = 0; index < OBJECTS.length; index++) {
+        fillColor(OBJECTS[index],"#008000");
+    }
 }
 // to set the output dots
 // this will only be called once
@@ -208,33 +198,24 @@ function outputHandler() {
     TEXTOUTPUT[1].textContent = TEXTOUTPUT[0].textContent;
     TEXTOUTPUT[0].textContent = temp;
 }
-function set(a) {
-    gsap.set(a, {
-        fill: "#eeeb22"
-    });
+function set(object) {
+    fillColor(object,"#eeeb22");
 }
-function unset(a) {
-    gsap.set(a, {
-        fill: "#29e"
-    });
+function unset(object) {
+    fillColor(object,"#29e");
 }
 function unsetOri() {
     if (TEXTINPUT[0].textContent !== "0" && timeline.progress() === 0) {
         oriTextDisappear();
         TEXTINPUT[0].textContent = 0;
         svg.appendChild(TEXTINPUT[0]);
-        gsap.set(TEXTINPUT[0], {
-            x: 17,
-            y: 554
-        });
-        gsap.set(ORI, {
-            fill: "#eeeb22"
-        });
+        setCoordinates(17,554,TEXTINPUT[0]);
+        fillColor(OBJECTS[0],"#eeeb22");
         clearObservation();
         oriTextVisible();
-        setter(TEXTINPUT[0].textContent, ORIDOT[0]);
-        setter(TEXTINPUT[0].textContent, ORIDOT[1]);
-        setter(TEXTINPUT[0].textContent, ORIDOT[2]);
+        for (let index = 0; index < ORIDOT.length; index++) {
+            setter(TEXTINPUT[0].textContent,ORIDOT[index]);    
+        }
         OBSERV.innerHTML = "ori is set to 0";
     }
     else if (TEXTINPUT[0].textContent !== "1" && timeline.progress() === 0) {
@@ -245,18 +226,13 @@ function setOri() {
     oriTextDisappear();
     TEXTINPUT[0].textContent = 1;
     svg.appendChild(TEXTINPUT[0]);
-    gsap.set(TEXTINPUT[0], {
-        x: 17,
-        y: 554
-    });
-    gsap.set(ORI, {
-        fill: "#29e"
-    });
+    setCoordinates(17,554,TEXTINPUT[0]);
+    fillColor(OBJECTS[0],"#29e");
     clearObservation();
     oriTextVisible();
-    setter(TEXTINPUT[0].textContent, ORIDOT[0]);
-    setter(TEXTINPUT[0].textContent, ORIDOT[1]);
-    setter(TEXTINPUT[0].textContent, ORIDOT[2]);
+    for (let index = 0; index < ORIDOT.length; index++) {
+        setter(TEXTINPUT[0].textContent,ORIDOT[index]);    
+    }
     OBSERV.innerHTML = "ori is set to 1";
 }
 function unsetClock() {
@@ -264,18 +240,13 @@ function unsetClock() {
         clockDisappear();
         TEXTCLOCK[0].textContent = 0;
         svg.appendChild(TEXTCLOCK[0]);
-        gsap.set(TEXTCLOCK[0], {
-            x: 17,
-            y: 504
-        });
-        gsap.set(CLOCK, {
-            fill: "#eeeb22"
-        });
+        setCoordinates(17,504,TEXTCLOCK[0]);
+        fillColor(OBJECTS[1],"#eeeb22");
         clearObservation();
         clockVisible();
-        setter(TEXTCLOCK[0].textContent, CLOCKDOT[0]);
-        setter(TEXTCLOCK[0].textContent, CLOCKDOT[1]);
-        setter(TEXTCLOCK[0].textContent, CLOCKDOT[2]);
+        for (let index = 0; index < CLOCKDOT.length; index++) {
+            setter(TEXTCLOCK[0].textContent,CLOCKDOT[index]);    
+        }
     }
     else if (TEXTCLOCK[0].textContent !== "1" && timeline.progress() === 0) {
         setClock();
@@ -285,18 +256,13 @@ function setClock() {
     clockDisappear();
     TEXTCLOCK[0].textContent = 1;
     svg.appendChild(TEXTCLOCK[0]);
-    gsap.set(TEXTCLOCK[0], {
-        x: 17,
-        y: 504
-    });
-    gsap.set(CLOCK, {
-        fill: "#29e"
-    });
+    setCoordinates(17,504,TEXTCLOCK[0]);
+    fillColor(OBJECTS[1],"#29e");
     clearObservation();
     clockVisible();
-    setter(TEXTCLOCK[0].textContent, CLOCKDOT[0]);
-    setter(TEXTCLOCK[0].textContent, CLOCKDOT[1]);
-    setter(TEXTCLOCK[0].textContent, CLOCKDOT[2]);
+    for (let index = 0; index < CLOCKDOT.length; index++) {
+        setter(TEXTCLOCK[0].textContent,CLOCKDOT[index]);    
+    }
     OBSERV.innerHTML = "Clock has Started";
 }
 
@@ -306,46 +272,34 @@ function reboot() {
 }
 
 function outputSetter() {
-    setter(TEXTOUTPUT[0].textContent, O1);
-    setter(TEXTOUTPUT[1].textContent, O2);
-    setter(TEXTOUTPUT[2].textContent, O3);
-    setter(TEXTOUTPUT[0].textContent, CLOCKDOT[0]);
-    setter(TEXTOUTPUT[1].textContent, CLOCKDOT[1]);
-    setter(TEXTOUTPUT[2].textContent, CLOCKDOT[2]);
+    for(let index=0;index<TEXTOUTPUT.length;index++){
+        setter(TEXTOUTPUT[index].textContent, OBJECTS[index+2]);
+        setter(TEXTOUTPUT[index].textContent, CLOCKDOT[index]);
+    }
 }
 function display() {
     OBSERV.innerHTML = "Simulation has finished. Press Restart to start again"
 }
-function setter(a, b) {
-    if (a === "1") {
-        unset(b);
+function setter(value, component) {
+    if (value === "1") {
+        unset(component);
     }
-    else if (a === "0") {
-        set(b);
+    else if (value === "0") {
+        set(component);
     }
 }
 function clockToZero() {
     TEXTCLOCK[0].textContent = 0;
     svg.appendChild(TEXTCLOCK[0]);
-    gsap.set(TEXTCLOCK[0], {
-        x: 17,
-        y: 504
-    });
-    gsap.set(CLOCK, {
-        fill: "#eeeb22"
-    });
+    setCoordinates(17,504,TEXTCLOCK[0]);
+    fillColor(OBJECTS[1],"#eeeb22");
     OBSERV.innerHTML = "Negative edge triggered change in output expected now";
 }
 function clockToOne() {
     TEXTCLOCK[0].textContent = 1;
     svg.appendChild(TEXTCLOCK[0]);
-    gsap.set(TEXTCLOCK[0], {
-        x: 17,
-        y: 504
-    });
-    gsap.set(CLOCK, {
-        fill: "#29e"
-    });
+    setCoordinates(17,504,TEXTCLOCK[0]);
+    fillColor(OBJECTS[1],"#29e");
     OBSERV.innerHTML = "No change in output";
 }
 
