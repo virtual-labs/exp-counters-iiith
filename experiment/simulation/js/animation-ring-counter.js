@@ -1,5 +1,13 @@
-"use strict";
-// Dimensions of working area
+import { setCoordinates,fillInputDots,fillColor,objectDisappear,objectAppear,setColor,unsetColor} from "./animation-utility.js";
+'use strict';
+
+window.unsetOri = unsetOri;
+window.unsetClock = unsetClock;
+window.simulationStatus = simulationStatus;
+window.restartCircuit = restartCircuit;
+window.setSpeed=setSpeed;
+
+// Dimensions of working areaS
 const circuitBoard = document.getElementById("circuit-board");
 const sidePanels = document.getElementsByClassName("v-datalist-container");
 // Distance of working area from top
@@ -14,10 +22,10 @@ const svg = document.querySelector(".svg");
 const inputpath1 = document.querySelector("#inputpath1");
 const svgns = "http://www.w3.org/2000/svg";
 
-
+const EMPTY="";
 // stroing the necessary div elements in const
-const STATUS = document.getElementById("playOrPause");
-const OBSERV = document.getElementById("Observations");
+const STATUS = document.getElementById("play-or-pause");
+const OBSERV = document.getElementById("observations");
 const SPEED = document.getElementById("speed");
 
 // global varaibles declared here
@@ -39,9 +47,9 @@ let circuitStarted = 0;
 // function to take care of width
 function demoWidth() {
     if (width < 1024) {
-        circuitBoard.style.height = 600 + "px";
+        circuitBoard.style.height = "600px";
     } else {
-        circuitBoard.style.height = windowHeight - circuitBoardTop - 20 + "px";
+        circuitBoard.style.height = `${windowHeight - circuitBoardTop - 20}px`;
     }
     sidePanels[0].style.height = circuitBoard.style.height;
 }
@@ -54,44 +62,17 @@ function instructionBoxInit() {
     });
 }
 
-function setCoordinates(xObject,yObject,textObject){
-    gsap.set(textObject,{
-        x: xObject,
-        y: yObject
-    })
-}
-
-function fillColor(object,color){
-    gsap.set(object, {
-        fill: color
-    });
-}
-
-function fillInputDots(object,cxObject,cyObject,rObject,fillObject) {
-    gsap.set(object, {
-        attr: { cx: cxObject, cy: cyObject, r: rObject, fill: fillObject }
-    });
-}
-
-function objectDisappear(object){
-    gsap.to(object, 0, { autoAlpha: 0 });
-}
-
-function objectAppear(object){
-    gsap.to(object, 0, { autoAlpha: 1 });
-}
-
 // function to initialise the input text i.e. either 0/1 that gets displayed after user click on them
 function textIOInit() {
-    for (let index = 0; index < TEXTINPUT.length; index++) {
-        TEXTINPUT[index].textContent = 2;
+    for( const text of TEXTINPUT){
+        text.textContent = 2;
     }
 }
 
 // function to initialise clock text
 function textClockInit() {
-    for (let index = 0; index < TEXTCLOCK.length; index++) {
-        TEXTCLOCK[index].textContent = 2;
+    for( const text of TEXTCLOCK){
+        text.textContent = 2;
     }
 }
 
@@ -99,58 +80,62 @@ function textClockInit() {
 function outputCoordinates() {
     let xcor = 297;
     let ycor = 64;
-    for (let index = 0; index < TEXTOUTPUT.length; index++) {
-        setCoordinates(xcor +(200*index),ycor,TEXTOUTPUT[index]);
-        svg.appendChild(TEXTOUTPUT[index]);   
+    for(const text of TEXTOUTPUT){
+        setCoordinates(xcor,ycor,text);
+        xcor += 200;
+        svg.append(text);
     }
 }
 
 // function to mark the input dots
 function inputDots() {
-    for (let index = 0; index < ORIDOT.length; index++) {
-        fillInputDots(ORIDOT[index],20,550,15,"#FF0000");
-        svg.append(ORIDOT[index]);
+
+    for(const dot of ORIDOT){
+        fillInputDots(dot,20,550,15,"#FF0000");
+        svg.append(dot);
     }
-    for (let index = 0; index < CLOCKDOT.length; index++) {
-        fillInputDots(CLOCKDOT[index],20,550,15,"#FF0000");
-        svg.append(CLOCKDOT[index]);
+
+    for(const dot of CLOCKDOT){
+        fillInputDots(dot,20,550,15,"#FF0000");
+        svg.append(dot);
     }
+
 }
 
 // function to disappear ori dots (1,2,3)
 function oriDotDisappear() {
-    for (let index = 0; index < ORIDOT.length; index++) {
-        objectDisappear(ORIDOT[index]);
+    for(const dot of ORIDOT){
+        objectDisappear(dot);
     }
 }
 // function to disappear clock dots (1,2,3)
 function clockDotDisappear() {
-    for (let index = 0; index < CLOCKDOT.length; index++) {
-        objectDisappear(CLOCKDOT[index]);
+    for(const dot of CLOCKDOT){
+        objectDisappear(dot);
     }
 }
 // function to appear ori dots (1,2,3)
 function oriDotVisible() {
-    for (let index = 0; index < ORIDOT.length; index++) {
-        objectAppear(ORIDOT[index]);
+    for(const dot of ORIDOT){
+        objectAppear(dot);
     }
 }
 // function to appear clock dots (1,2,3)
 function clockDotVisible() {
-    for (let index = 0; index < CLOCKDOT.length; index++) {
-        objectAppear(CLOCKDOT[index]);
+    for(const dot of CLOCKDOT){
+        objectAppear(dot);
     }
 }
 // function to disappear the output text
 function outputDisappear() {
-    for (let index = 0; index < TEXTOUTPUT.length; index++) {
-        objectDisappear(TEXTOUTPUT[index]);
+    for(const text of TEXTOUTPUT){
+        objectDisappear(text);
     }
 }
 // function to appear the input text
 function outputVisible() {
-    for (let index = 0; index < TEXTOUTPUT.length; index++) {
-        objectAppear(TEXTOUTPUT[index]);
+    for(const text of TEXTOUTPUT){
+        objectAppear(text);
     }
 }
 // function to disappear ori text
@@ -170,7 +155,7 @@ function clockVisible() {
     objectAppear(TEXTCLOCK[0]);
 }
 function clearObservation() {
-    OBSERV.innerHTML = "";
+    OBSERV.innerHTML = EMPTY;
 }
 function allDisappear() {
     oriTextDisappear();
@@ -178,8 +163,8 @@ function allDisappear() {
     clockDisappear();
     clockDotDisappear();
     outputDisappear();
-    for (let index = 0; index < OBJECTS.length; index++) {
-        fillColor(OBJECTS[index],"#008000");
+    for(const object of OBJECTS){
+        fillColor(object,"#008000");
     }
 }
 // to set the output dots
@@ -198,12 +183,6 @@ function outputHandler() {
     TEXTOUTPUT[1].textContent = TEXTOUTPUT[0].textContent;
     TEXTOUTPUT[0].textContent = temp;
 }
-function set(object) {
-    fillColor(object,"#eeeb22");
-}
-function unset(object) {
-    fillColor(object,"#29e");
-}
 function unsetOri() {
     if (TEXTINPUT[0].textContent !== "0" && timeline.progress() === 0) {
         oriTextDisappear();
@@ -213,8 +192,9 @@ function unsetOri() {
         fillColor(OBJECTS[0],"#eeeb22");
         clearObservation();
         oriTextVisible();
-        for (let index = 0; index < ORIDOT.length; index++) {
-            setter(TEXTINPUT[0].textContent,ORIDOT[index]);    
+
+        for(const dot of ORIDOT){
+            setter(TEXTINPUT[0].textContent,dot);
         }
         OBSERV.innerHTML = "ori is set to 0";
     }
@@ -230,8 +210,8 @@ function setOri() {
     fillColor(OBJECTS[0],"#29e");
     clearObservation();
     oriTextVisible();
-    for (let index = 0; index < ORIDOT.length; index++) {
-        setter(TEXTINPUT[0].textContent,ORIDOT[index]);    
+    for(const dot of ORIDOT){
+        setter(TEXTINPUT[0].textContent,dot);
     }
     OBSERV.innerHTML = "ori is set to 1";
 }
@@ -244,8 +224,9 @@ function unsetClock() {
         fillColor(OBJECTS[1],"#eeeb22");
         clearObservation();
         clockVisible();
-        for (let index = 0; index < CLOCKDOT.length; index++) {
-            setter(TEXTCLOCK[0].textContent,CLOCKDOT[index]);    
+
+        for(const dot of CLOCKDOT){
+            setter(TEXTCLOCK[0].textContent,dot);
         }
     }
     else if (TEXTCLOCK[0].textContent !== "1" && timeline.progress() === 0) {
@@ -260,8 +241,8 @@ function setClock() {
     fillColor(OBJECTS[1],"#29e");
     clearObservation();
     clockVisible();
-    for (let index = 0; index < CLOCKDOT.length; index++) {
-        setter(TEXTCLOCK[0].textContent,CLOCKDOT[index]);    
+    for(const dot of CLOCKDOT){
+        setter(TEXTCLOCK[0].textContent,dot);
     }
     OBSERV.innerHTML = "Clock has Started";
 }
@@ -282,10 +263,10 @@ function display() {
 }
 function setter(value, component) {
     if (value === "1") {
-        unset(component);
+        unsetColor(component);
     }
     else if (value === "0") {
-        set(component);
+        setColor(component);
     }
 }
 function clockToZero() {

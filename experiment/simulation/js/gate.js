@@ -4,7 +4,7 @@ import {computeAnd, computeNand, computeNor, computeOr, computeXnor, computeXor,
 import {checkConnectionsJK, simulateFFJK, testSimulateFFJK, simulateFFDD, checkConnectionsDD, testSimulateDD } from "./flipflop.js";
 
 'use strict';
-
+const EMPTY="";
 export let gates = {}; // Array of gates
 window.numComponents = 0;
 export function clearGates() {
@@ -62,7 +62,7 @@ export class Gate {
     }
 
     generateComponent() {
-        let component = "";
+        let component = EMPTY;
 
         switch (this.type) {
             case "Input":
@@ -172,7 +172,7 @@ function getOutput(input) {
     let gate = input[0];
     let pos = input[1];
 
-    if (pos === "") {
+    if (pos === EMPTY) {
         return gate.output;
     }
     else if (pos === "Q") {
@@ -272,7 +272,7 @@ export function simulate() {
     window.simulate = 0; // status store of infinte clock ulte naming
 
     const result = document.getElementById('result')
-    result.innerHTML = "";
+    result.innerHTML = EMPTY;
 
     if (!checkConnections()) {
         return false;
@@ -593,9 +593,9 @@ export function testSimulation(gates, flipFlops) {
 // function to submit the desired circuit and get the final success or failure message
 export function submitCircuit() {
 
-    document.getElementById("table-body").innerHTML = "";
+    document.getElementById("table-body").innerHTML = EMPTY;
     const result =document.getElementById("result");
-    result.innerHTML = "";
+    result.innerHTML = EMPTY;
     if (window.currentTab === "task2") {
         testRingCounter("Input-0", "Clock-0", "Output-1", "Output-2", "Output-3");
     }

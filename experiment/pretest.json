@@ -2,7 +2,7 @@
     "version": 2.0,
     "questions": [
         {
-            "question": "1. In an asynchronous basic counter that consist of 10 flip-flops can act as a  ",
+            "question": "1. An asynchronous basic counter that consist of 10 flip-flops can act as a  ",
             "answers": {
                 "a": "10: 1 counter",
                 "b": "512: 1 counter",

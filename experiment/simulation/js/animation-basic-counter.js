@@ -1,5 +1,12 @@
-"use strict";
+import {setCoordinates,fillInputDots,objectDisappear,objectAppear,fillColor,setColor,unsetColor} from "./animation-utility.js";
+'use strict';
 
+window.unsetI1 = unsetI1;
+window.unsetI2 = unsetI2;
+window.unsetClock = unsetClock;
+window.simulationStatus = simulationStatus;
+window.restartCircuit = restartCircuit;
+window.setSpeed=setSpeed;
 // Dimensions of working area
 const circuitBoard = document.getElementById("circuit-board");
 const sidePanels = document.getElementsByClassName("v-datalist-container");
@@ -15,9 +22,9 @@ const svg = document.querySelector(".svg");
 const inputpath1 = document.querySelector("#inputpath1");
 const svgns = "http://www.w3.org/2000/svg";
 
-
-const STATUS = document.getElementById("playOrPause");
-const OBSERV = document.getElementById("Observations");
+const EMPTY="";
+const STATUS = document.getElementById("play-or-pause");
+const OBSERV = document.getElementById("observations");
 const SPEED = document.getElementById("speed");
 
 const OBJECTS = [document.getElementById("j"), document.getElementById("k"), document.getElementById("j"),document.getElementById("k"), document.getElementById("clock"), document.getElementById("qb"), document.getElementById("qa")];
@@ -36,54 +43,47 @@ let circuitStarted = 0;
 
 function demoWidth() {
     if (width < 1024) {
-        circuitBoard.style.height = 600 + "px";
+        circuitBoard.style.height = "600px";
     } else {
-        circuitBoard.style.height = windowHeight - circuitBoardTop - 20 + "px";
+        circuitBoard.style.height = `${windowHeight - circuitBoardTop - 20}px`;
     }
     sidePanels[0].style.height = circuitBoard.style.height;
 }
 // Instruction box
 function instructionBoxInit() {
-    instructionBox.addEventListener("click", (e) => {
+    instructionBox.addEventListener("click", () => {
         instructionBox.classList.toggle("expand");
     });
 }
 
 //initialise input text
 function textIOInit() {
-    
-    for (let index = 0; index < TEXTINPUT.length; index++) {
-        TEXTINPUT[index].textContent = 2;
+    for(const text of TEXTINPUT){
+        text.textContent = 2;
     }
-    
 }
 //initialise clock text
 function textClockInit() {
-    for (let index = 0; index < TEXTCLOCK.length; index++) {
-        TEXTCLOCK[index].textContent = 2;
+    for(const text of TEXTCLOCK){
+        text.textContent = 2;
     }
 }
-function setCoordinates(xObject,yObject,textObject){
-    gsap.set(textObject,{
-        x: xObject,
-        y: yObject
-    })
-}
+
 function outputCoordinates() {
     
     let xcor = 596;
     let ycor = 154;
     let gap=325;
-    for (let index = 0; index < TEXTOUTPUT.length; index++) {
-        setCoordinates(xcor ,ycor+index*gap,TEXTOUTPUT[index]);
-        svg.appendChild(TEXTOUTPUT[index]);   
+    
+    for(const text of TEXTOUTPUT){
+        setCoordinates(xcor,ycor,text);
+        ycor+=gap;
+        svg.append(text);
     }
 }
-function fillInputDots(object,cxObject,cyObject,rObject,fillObject) {
-    gsap.set(object, {
-        attr: { cx: cxObject, cy: cyObject, r: rObject, fill: fillObject }
-    });
-}
+
+
+
 function inputDots() {
     //sets the coordinates of the input dots
     for (let index = 0; index < INPUTDOTS.length; index++) {
@@ -96,66 +96,44 @@ function inputDots() {
 
         svg.append(INPUTDOTS[index]);
     }
-    for (let index = 0; index < CLOCKDOT.length; index++) {
-        fillInputDots(CLOCKDOT[index],50,400,15,"#FF0000");
-        svg.append(CLOCKDOT[index]);
-    }
     
 }
-function objectDisappear(object){
-    gsap.to(object, 0, { autoAlpha: 0 });
-}
-function objectAppear(object){
-    gsap.to(object, 0, { autoAlpha: 1 });
-}
-function jkDotDisappear() {
-    
-    for (let index = 0; index < INPUTDOTS.length; index++) {
-        objectDisappear(INPUTDOTS[index]);
+function jkDotDisappear() {   
+    for(const dot of INPUTDOTS){
+        objectDisappear(dot);
     }
 }
 
 function clockDotDisappear() {
     //makes the clock dot disappear
-    
-    for (let index = 0; index < CLOCKDOT.length; index++) {
-        objectDisappear(CLOCKDOT[index]);
+    for(const dot of CLOCKDOT){
+        objectDisappear(dot);
     }
-
 }
 function jkDotVisible() {
     //makes the J,K dots appear
-    
-    for (let index = 0; index < INPUTDOTS.length; index++) {
-        objectAppear(INPUTDOTS[index]);
+    for(const dot of INPUTDOTS){
+        objectAppear(dot);
     }
-    
-
 }
 
 function clockDotVisible() {
     //makes the clock dot appear
-    
-    for (let index = 0; index < CLOCKDOT.length; index++) {
-        objectAppear(CLOCKDOT[index]);
+    for(const dot of CLOCKDOT){
+        objectAppear(dot);
     }
-
 }
 function outputDisappear() {
     //makes the output text disappear
-    
-    for (let index = 0; index < TEXTOUTPUT.length; index++) {
-        objectDisappear(TEXTOUTPUT[index]);
+    for(const text of TEXTOUTPUT){
+        objectDisappear(text);
     }
-
 }
 function outputVisible() {
     //makes the output text appear
-    
-    for (let index = 0; index < TEXTOUTPUT.length; index++) {
-        objectAppear(TEXTOUTPUT[index]);
+    for(const text of TEXTOUTPUT){
+        objectAppear(text);
     }
-
 }
 function jDisappear() {
     //makes the J text disappear
@@ -176,9 +154,8 @@ function kDisappear() {
 
 function clockDisappear() {
     //makes the clock text disappear
-    
-    for (let index = 0; index < TEXTCLOCK.length; index++) {
-        objectDisappear(TEXTCLOCK[index]);
+    for(const text of TEXTCLOCK){
+        objectDisappear(text);
     }
 }
 
@@ -197,19 +174,14 @@ function kVisible() {
 }
 function clockVisible() {
     //makes the clock text appear
-    for (let index = 0; index < TEXTCLOCK.length; index++) {
-        objectAppear(TEXTCLOCK[index]);
+    for(const text of TEXTCLOCK){
+        objectAppear(text);
     }
-}
-function fillColor(object,color){
-    gsap.set(object, {
-        fill: color
-    });
 }
 
 function clearObservation() {
 
-    OBSERV.innerHTML = "";
+    OBSERV.innerHTML = EMPTY;
 }
 
 function allDisappear() {
@@ -221,22 +193,17 @@ function allDisappear() {
     clockDisappear();
     clockDotDisappear();
     outputDisappear();
-    for (let index = 0; index < OBJECTS.length; index++) {
-        fillColor(OBJECTS[index],"#008000");
-    }
-    
-
-
+    for(const object of OBJECTS){
+        fillColor(object,"#008000");
+    }    
 }
 
 function outputHandlerSetter() {
     //to set output dots
     //this is called only once
-    
-    for (let index = 0; index < TEXTOUTPUT.length; index++) {
-        TEXTOUTPUT[index].textContent = 1;
+    for(const text of TEXTOUTPUT){
+        text.textContent = 1;
     }
-
 }
 
 function outputHandler() {
@@ -249,23 +216,9 @@ function outputHandler() {
         TEXTOUTPUT[0].textContent = "1";
         TEXTOUTPUT[1].textContent = "0";
     }
-    else if (TEXTOUTPUT[1].textContent === "0" && TEXTOUTPUT[0].textContent === "1") {
-
-        
-        TEXTOUTPUT[1].textContent = "1";
+    else{
+        TEXTOUTPUT[1].textContent="1";
     }
-    else if (TEXTOUTPUT[1].textContent=== "0" && TEXTOUTPUT[0].textContent === "0") {
-
-        TEXTOUTPUT[1].textContent = "1";
-    }
-
-}
-function set(object) {
-    
-    fillColor(object,"#eeeb22");
-}
-function unset(object) {
-    fillColor(object,"#29e");
 }
 function unsetI1() {
     if (TEXTINPUT[0].textContent !== "0" && timeline.progress() === 0) {
@@ -290,10 +243,6 @@ function unsetI1() {
     else if (TEXTINPUT[0] !== "1" && timeline.progress() === 0) {
         setI1();
     }
-
-
-
-
 }
 function setI1() {
     jDisappear();
@@ -310,7 +259,6 @@ function setI1() {
     fillColor(OBJECTS[2],"#29e");
     clearObservation();
     jVisible();
-    
     
     for(let index=0;index<INPUTDOTS.length;index+=2){
         setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
@@ -344,10 +292,6 @@ function unsetI2() {
     else if (TEXTINPUT[1] !== "1" && timeline.progress() === 0) {
         setI2();
     }
-
-
-
-
 }
 function setI2() {
     
@@ -395,8 +339,9 @@ function unsetClock() {
         fillColor(OBJECTS[4],"#eeeb22");
         clearObservation();
         clockVisible();
-        for(let index=0;index<CLOCKDOT.length;index++){
-            setter(TEXTCLOCK[0].textContent,CLOCKDOT[index]);
+
+        for(const dot of CLOCKDOTS){
+            setter(TEXTCLOCK[0].textContent,dot);
         }
 
     }
@@ -414,19 +359,18 @@ function setClock() {
     fillColor(OBJECTS[4],"#29e");
     clearObservation();
     clockVisible();
-    for(let index=0;index<CLOCKDOTS.length;index++){
-        setter(TEXTCLOCK[0].textContent,CLOCKDOT[index]);
+    for(const dot of CLOCKDOTS){
+        setter(TEXTCLOCK[0].textContent,dot);
     }
     OBSERV.innerHTML = "Clock has Started";
 
 }
 function reboot() {
-    
-    for(let index=0;index<TEXTINPUT.length;index++){
-        TEXTINPUT[index].textContent = 2;   
+    for(const text of TEXTINPUT){
+        text.textContent = 2;
     }
-    for(let index=0;index<TEXTCLOCK.length;index++){
-        TEXTCLOCK[index].textContent = 2;
+    for(const text of TEXTCLOCK){
+        text.textContent = 2;
     }
 }
 
@@ -445,11 +389,11 @@ function display() {
 function setter(value, component) {
     //toggles the text content a of input/output component b
     if (value === "1") {
-        unset(component);
+        unsetColor(component);
 
     }
     else if (value === "0") {
-        set(component);
+        setColor(component);
     }
 }
 
