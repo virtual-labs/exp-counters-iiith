@@ -38,7 +38,7 @@ const INPUTDOTS=[document.createElementNS(svgns, "circle"),document.createElemen
 
 
 let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
-let decide = 0;
+let decide = true;
 let circuitStarted = 0;
 
 function demoWidth() {
@@ -404,12 +404,12 @@ function changeSpeed(newSpeed) {
         timeline.resume();
         timeline.timeScale(newSpeed);
         OBSERV.innerHTML = newSpeed + "x speed";
-        decide = 1;
+        decide = true;
         STATUS.innerHTML = "Pause";
     }
 }
 function setSpeed(speed) {
-    if (circuitStarted != 0) {
+    if (circuitStarted !== 0) {
 
 
         if (speed === "1") {
@@ -435,18 +435,18 @@ function restartCircuit() {
     reboot();
     
     clearObservation();
-    decide = 0;
+    decide = false;
     STATUS.innerHTML = "Start";
     OBSERV.innerHTML = "Successfully restored";
     SPEED.selectedIndex = 0;
 }
 
 function simulationStatus() {
-    if (decide === 0) {
+    if (!decide) {
         startCircuit();
 
     }
-    else if (decide === 1) {
+    else if (decide) {
         stopCircuit();
 
     }
@@ -455,7 +455,7 @@ function stopCircuit() {
     if (timeline.time() !== 0 && timeline.progress() !== 1) {
         timeline.pause();
         OBSERV.innerHTML = "Simulation has been stopped.";
-        decide = 0;
+        decide = false;
         STATUS.innerHTML = "Start";
         SPEED.selectedIndex = 0;
     }
@@ -479,7 +479,7 @@ function startCircuit() {
         timeline.play();
         timeline.timeScale(1);
         OBSERV.innerHTML = "Simulation has started.";
-        decide = 1;
+        decide = true;
         STATUS.innerHTML = "Pause";
         SPEED.selectedIndex = 0;
     }

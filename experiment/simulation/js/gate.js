@@ -95,7 +95,7 @@ export class Gate {
         el.style.left = x + "px";
         el.style.top = y + "px";
 
-        if (this.type != "Input" && this.type != "Output") {
+        if (this.type !== "Input" && this.type !== "Output") {
 
             el.addEventListener(
                 "contextmenu",
@@ -187,7 +187,9 @@ function getOutput(input) {
 function addGate(event) {
     let type = event.target.innerHTML;
     if (type === "3-NAND")
+    {
         type = "ThreeIPNAND";
+    }
     const gate = new Gate(type);
     const component = gate.generateComponent();
     const parent = document.getElementById("working-area");
@@ -198,7 +200,7 @@ function addGate(event) {
 window.addGate = addGate;
 
 export function getResult(gate) {
-    if (gate.output != null) {
+    if (gate.output !== null) {
         return;
     }
     for (let i = 0; i < gate.inputs.length; i++) {
@@ -248,7 +250,7 @@ export function checkConnections() {
     let correctConnection = true;
     for (let gateId in gates) {
         const gate = gates[gateId];
-        if (gate.inputPoints.length != gate.inputs.length) {
+        if (gate.inputPoints.length !== gate.inputs.length) {
             printErrors( gate.name + " not connected.\n",null);
             correctConnection = false;
         }
@@ -257,14 +259,7 @@ export function checkConnections() {
             correctConnection = false;
         }
     }
-    if (correctConnection) {
-        return true;
-    }
-    else {
-        //printErrors("Connections are not correct.\n")
-        // alert("Connections are not correct");
-        return false;
-    }
+    return correctConnection;
 }
 
 export function simulate() {
@@ -356,7 +351,7 @@ function simulate2() {
     for (let iterations = 0; iterations < 4; iterations++) {
         for (let gateId in gates) {
             const gate = gates[gateId];
-            if (gate.isOutput === false && gate.isInput === false && gate.type != "NOT" && gate.type != "ThreeIPNAND") {
+            if (gate.isOutput === false && gate.isInput === false && gate.type !== "NOT" && gate.type !== "ThreeIPNAND") {
                 const val1 = getOutput(gate.inputs[0]);
                 const val2 = getOutput(gate.inputs[1]);
                 if (val1 == null || val2 == null) {
@@ -402,11 +397,11 @@ function simulate2() {
                 const val2 = getOutput(gate.inputs[1]);
                 const val3 = getOutput(gate.inputs[2]);
                 const val = [];
-                if (val1 != null)
+                if (val1 !== null)
                     val.push(val1);
-                if (val2 != null)
+                if (val2 !== null)
                     val.push(val2);
-                if (val3 != null)
+                if (val3 !== null)
                     val.push(val3);
                 if (val.length === 0) {
                     continue;
@@ -546,11 +541,11 @@ export function testSimulation(gates, flipFlops) {
                     const val2 = getOutput(gate.inputs[1]);
                     const val3 = getOutput(gate.inputs[2]);
                     const val = [];
-                    if (val1 != null)
+                    if (val1 !== null)
                         val.push(val1);
-                    if (val2 != null)
+                    if (val2 !== null)
                         val.push(val2);
-                    if (val3 != null)
+                    if (val3 !== null)
                         val.push(val3);
                     if (val.length === 0) {
                         continue;
@@ -582,7 +577,7 @@ export function testSimulation(gates, flipFlops) {
         const gate = gates[gateId];
         if (gate.isOutput) {
             let input = gate.inputs[0];
-            if (getOutput(input) != null) {
+            if (getOutput(input) !== null) {
                 gate.setOutput(getOutput(input));
             }
         }

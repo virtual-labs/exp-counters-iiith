@@ -39,9 +39,9 @@ const CLOCKDOT = [document.createElementNS(svgns, "circle"),document.createEleme
 let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
 
 // decide help to decide the speed
-let decide = 0;
+let decide = false;
 // circuitStarted is initialised to 0 which depicts that demo hasn't started whereas circuitStarted 1 depicts that the demo has started.
-let circuitStarted = 0;
+let circuitStarted = false;
 
 
 // function to take care of width
@@ -289,12 +289,12 @@ function changeSpeed(newSpeed){
         timeline.resume();
         timeline.timeScale(newSpeed);
         OBSERV.innerHTML = "2x speed";
-        decide = 1;
+        decide = true;
         STATUS.innerHTML = "Pause";
     }
 }
 function setSpeed(speed) {
-    if (circuitStarted !== 0) {
+    if (circuitStarted) {
         if (speed === "1") {
             changeSpeed(1);
         }
@@ -309,25 +309,25 @@ function setSpeed(speed) {
 }
 
 function restartCircuit() {
-    if (circuitStarted === 1) {
-        circuitStarted = 0;
+    if (circuitStarted) {
+        circuitStarted = false;
     }
     timeline.seek(0);
     timeline.pause();
     allDisappear();
     reboot();
     clearObservation();
-    decide = 0;
+    decide = false;
     STATUS.innerHTML = "Start";
     OBSERV.innerHTML = "Successfully restored";
     SPEED.selectedIndex = 0;
 }
 
 function simulationStatus() {
-    if (decide === 0) {
+    if (!decide) {
         startCircuit();
     }
-    else if (decide === 1) {
+    else if (decide) {
         stopCircuit();
     }
 }
@@ -335,7 +335,7 @@ function stopCircuit() {
     if (timeline.time() !== 0 && timeline.progress() !== 1) {
         timeline.pause();
         OBSERV.innerHTML = "Simulation has been stopped.";
-        decide = 0;
+        decide = false;
         STATUS.innerHTML = "Start";
         SPEED.selectedIndex = 0;
     }
@@ -348,13 +348,13 @@ function startCircuit() {
         OBSERV.innerHTML = "ori and clock must be set to 0.";
     }
     else if (TEXTINPUT[0].textContent === "0" && TEXTCLOCK[0].textContent === "0" && TEXTINPUT[0].textContent !== "2" && timeline.progress() !== 1) {
-        if (circuitStarted === 0) {
-            circuitStarted = 1;
+        if (!circuitStarted) {
+            circuitStarted = true;
         }
         timeline.play();
         timeline.timeScale(1);
         OBSERV.innerHTML = "Simulation has started.";
-        decide = 1;
+        decide = true;
         STATUS.innerHTML = "Pause";
         SPEED.selectedIndex = 0;
     }
