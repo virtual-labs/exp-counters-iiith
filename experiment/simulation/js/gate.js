@@ -242,24 +242,24 @@ export function printErrors(message,objectId) {
     if(objectId !== null)
     {
         objectId.classList.add("highlight")
-        setTimeout(function () {objectId.classList.remove("highlight")}, 2000);
+        setTimeout(function () {objectId.classList.remove("highlight")}, 5000);
     }
 }
 
 export function checkConnections() {
-    let correctConnection = true;
     for (let gateId in gates) {
         const gate = gates[gateId];
+        const id = document.getElementById(gate.id);
         if (gate.inputPoints.length !== gate.inputs.length) {
-            printErrors( gate.name + " not connected.\n",null);
-            correctConnection = false;
+            printErrors("highlighted component not connected properly",id);
+            return false;
         }
         else if (!gate.isConnected && !gate.isOutput) {
-            printErrors("Input " + gate.name+" not connected" + ".\n",null);
-            correctConnection = false;
+            printErrors("highlighted component not connected properly",id);
+            return false;
         }
     }
-    return correctConnection;
+    return true;
 }
 
 export function simulate() {

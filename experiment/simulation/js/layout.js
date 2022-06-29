@@ -82,12 +82,10 @@ window.changeTabs = changeTabs;
 
 function updateInstructions() {
   if (window.currentTab === "task1") {
-    document.getElementById("task-title").innerHTML = "Basic Counter";
-    document.getElementById("task-description").innerHTML = 'Implement a Basic Counter using JK Flip-Flops where QB is MSB and QA is LSB.'
+    document.getElementById("task-description").innerHTML = 'Instructions<br>Implement a Basic Counter using JK Flip-Flops where QB is MSB and QA is LSB.'
   }
   else if (window.currentTab === "task2") {
-    document.getElementById("task-title").innerHTML = "Ring Counter";
-    document.getElementById("task-description").innerHTML = 'Implement a Ring Counter using D Flip-Flops where set bit must move from QA->QB->QC';
+    document.getElementById("task-description").innerHTML = 'Instructions<br>Implement a Ring Counter using D Flip-Flops where set bit must move from QA->QB->QC';
   }
 }
 
@@ -137,14 +135,6 @@ function toggleSimulation() {
 }
 
 simButton.addEventListener("click", toggleSimulation);
-
-
-
-// Instruction box
-const instructionBox = document.getElementsByClassName("instructions-box")[0];
-instructionBox.addEventListener("click", (e) => {
-  instructionBox.classList.toggle("expand");
-});
 
 // Making webpage responsive
 
