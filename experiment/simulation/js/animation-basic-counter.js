@@ -31,14 +31,14 @@ const OBJECTS = [document.getElementById("j"), document.getElementById("k"), doc
 const TEXTINPUT=[document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text")];
 const TEXTCLOCK=[document.createElementNS(svgns, "text")];
 const TEXTOUTPUT=[document.createElementNS(svgns, "text"),document.createElementNS(svgns, "text")];
-const CLOCKDOT=[document.createElementNS(svgns, "circle")];
+const CLOCKDOTS=[document.createElementNS(svgns, "circle")];
 const INPUTDOTS=[document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle")];
 
 
 
 
 let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
-let decide = true;
+let decide = false;
 let circuitStarted = 0;
 
 function demoWidth() {
@@ -106,7 +106,7 @@ function jkDotDisappear() {
 
 function clockDotDisappear() {
     //makes the clock dot disappear
-    for(const dot of CLOCKDOT){
+    for(const dot of CLOCKDOTS){
         objectDisappear(dot);
     }
 }
@@ -119,7 +119,7 @@ function jkDotVisible() {
 
 function clockDotVisible() {
     //makes the clock dot appear
-    for(const dot of CLOCKDOT){
+    for(const dot of CLOCKDOTS){
         objectAppear(dot);
     }
 }
@@ -309,7 +309,7 @@ function setI2() {
     for(let index=1;index<INPUTDOTS.length;index+=2){
         setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
     }
-
+    OBSERV.innerHTML = "K is set to 1";
 
 }
 function clockToZero() {
@@ -465,7 +465,6 @@ function stopCircuit() {
 }
 
 function startCircuit() {
-    
     if (TEXTINPUT[0].textContent !== "1" || TEXTINPUT[2].textContent !== "1") {
         OBSERV.innerHTML = "J must be set to 1.";
     }
