@@ -1,9 +1,37 @@
-1. Learn everything from the 'Demo' section.
+# Two Bit Asynchronous Basic Binary Counter
 
-2. In the 'Practice' section of task-1 "Basic Counter", make a 2-bit asynchronous basic binary counter using JK flip-flops. Remember to set J and K to 1. Observe that the flip-flops are negative edge triggered. Also try to find the ratio of rate of change of output of the output bits
+## Components Required - 
 
-3. Then, in task-2 "Ring Counter", implement a 3-bit synchronous ring counter using D flip-flops. Remember to set ORI to 0. Observe how ori's value change through the course of simulation. Observe how the three bits will form a ring.
+* 2 J-K flip flops
 
-4. After performing both the tasks observe that we need different number of flip-flops for making an n-bit counter.
+## Circuit Connections - 
 
+* Drag the first J-K flip flop and connect its J,K and clk input points to J, K and Clock inputs respectively.
+* Drag the second J-K flip flop and connect its J and K input points to J and K inputs.
+* Connect the clk input of second flip flop to Q of first flip flop.
+* Connect Q of first flip flop to QA output bit and Q of second flip flop to QB output bit.
+* Set J and K to 1 and Clock to 0. Click on "Simulate".
 
+## Observations - 
+
+* The output bits change from 11 -> 00 -> 01 -> 10 -> 11 and so on whenever the clock gets negative edge triggered.
+* If the circuit has been made as described above, a "Success" message will be displayed upon clicking "Submit".
+
+# Three Bit Asynchronous Ring Counter
+
+## Components Required - 
+
+* 3 D flip-flops
+
+## Circuit Connections - 
+
+* Drag 3 D flip-flops, place one of them near the QA output bit, one near QB output bit and the third one near QC output bit.
+* Connect the ORI input bit to PR of the first (uppermost) flip-flop and also to CLR of the other 2 flip-flops.
+* Connect the Clock input bit to clk of all the 3 flip-flops.
+* Connect the D of first flip-flop to the Q of third (lowermost) flip-flop, D of second flip-flop to Q of first flip-flop and D of third flip-flop to Q of second flip-flop.
+* Set ORI and Clock to 0 and click on "Simulate".
+
+## Observations - 
+
+* Initially the output bits are QA=1,QB=0 and QC=0. When the clock gets negative edge triggered the output bits change to QA=0,QB=1 and QC=1 then to QA=0,QB=0 and QC=1 and then again to QA=1,QB=0 and QC=0 and so on.
+* If the circuit has been made as described above, a "Success" message will be displayed upon clicking "Submit".

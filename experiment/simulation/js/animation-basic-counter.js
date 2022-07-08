@@ -1,4 +1,4 @@
-import {setCoordinates,fillInputDots,objectDisappear,objectAppear,fillColor,setColor,unsetColor} from "./animation-utility.js";
+import { setCoordinates, fillInputDots, objectDisappear, objectAppear, fillColor, setColor, unsetColor } from "./animation-utility.js";
 'use strict';
 
 window.unsetI1 = unsetI1;
@@ -6,7 +6,7 @@ window.unsetI2 = unsetI2;
 window.unsetClock = unsetClock;
 window.simulationStatus = simulationStatus;
 window.restartCircuit = restartCircuit;
-window.setSpeed=setSpeed;
+window.setSpeed = setSpeed;
 // Dimensions of working area
 const circuitBoard = document.getElementById("circuit-board");
 const sidePanels = document.getElementsByClassName("v-datalist-container");
@@ -17,29 +17,44 @@ const circuitBoardTop = circuitBoard.offsetTop;
 // Full height of window
 const windowHeight = window.innerHeight;
 const width = window.innerWidth;
-const instructionBox = document.getElementsByClassName("instructions-box")[0];
 const svg = document.querySelector(".svg");
-const inputpath1 = document.querySelector("#inputpath1");
 const svgns = "http://www.w3.org/2000/svg";
 
-const EMPTY="";
-const STATUS = document.getElementById("play-or-pause");
-const OBSERV = document.getElementById("observations");
-const SPEED = document.getElementById("speed");
+const EMPTY = "";
+const status = document.getElementById("play-or-pause");
+const observ = document.getElementById("observations");
+const speed = document.getElementById("speed");
 
-const OBJECTS = [document.getElementById("j"), document.getElementById("k"), document.getElementById("j"),document.getElementById("k"), document.getElementById("clock"), document.getElementById("qb"), document.getElementById("qa")];
-const TEXTINPUT=[document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text"),document.createElementNS(svgns,"text")];
-const TEXTCLOCK=[document.createElementNS(svgns, "text")];
-const TEXTOUTPUT=[document.createElementNS(svgns, "text"),document.createElementNS(svgns, "text")];
-const CLOCKDOTS=[document.createElementNS(svgns, "circle")];
-const INPUTDOTS=[document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle")];
+const OBJECTS = [
+    document.getElementById("j"), 
+    document.getElementById("k"), 
+    document.getElementById("j"), 
+    document.getElementById("k"), 
+    document.getElementById("clock"), 
+    document.getElementById("qb"), 
+    document.getElementById("qa")
+];
+const TEXTINPUT = [
+    document.createElementNS(svgns, "text"), 
+    document.createElementNS(svgns, "text"), 
+    document.createElementNS(svgns, "text"), 
+    document.createElementNS(svgns, "text")
+];
+const TEXTCLOCK = [document.createElementNS(svgns, "text")];
+const TEXTOUTPUT = [
+    document.createElementNS(svgns, "text"), 
+    document.createElementNS(svgns, "text")
+];
+const CLOCKDOTS = [document.createElementNS(svgns, "circle")];
+const INPUTDOTS = [
+    document.createElementNS(svgns, "circle"), 
+    document.createElementNS(svgns, "circle"), 
+    document.createElementNS(svgns, "circle"), 
+    document.createElementNS(svgns, "circle")
+];
 
-
-
-
-let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
 let decide = false;
-let circuitStarted = 0;
+let circuitStarted = false;
 
 function demoWidth() {
     if (width < 1024) {
@@ -49,35 +64,29 @@ function demoWidth() {
     }
     sidePanels[0].style.height = circuitBoard.style.height;
 }
-// Instruction box
-function instructionBoxInit() {
-    instructionBox.addEventListener("click", () => {
-        instructionBox.classList.toggle("expand");
-    });
-}
 
 //initialise input text
 function textIOInit() {
-    for(const text of TEXTINPUT){
+    for (const text of TEXTINPUT) {
         text.textContent = 2;
     }
 }
 //initialise clock text
 function textClockInit() {
-    for(const text of TEXTCLOCK){
+    for (const text of TEXTCLOCK) {
         text.textContent = 2;
     }
 }
 
 function outputCoordinates() {
-    
+
     let xcor = 596;
     let ycor = 154;
-    let gap=325;
-    
-    for(const text of TEXTOUTPUT){
-        setCoordinates(xcor,ycor,text);
-        ycor+=gap;
+    let gap = 325;
+
+    for (const text of TEXTOUTPUT) {
+        setCoordinates(xcor, ycor, text);
+        ycor += gap;
         svg.append(text);
     }
 }
@@ -87,66 +96,66 @@ function outputCoordinates() {
 function inputDots() {
     //sets the coordinates of the input dots
     for (let index = 0; index < INPUTDOTS.length; index++) {
-        if(index===0||index===1){
-            fillInputDots(INPUTDOTS[index],50,50,15,"#FF0000");
+        if (index === 0 || index === 1) {
+            fillInputDots(INPUTDOTS[index], 50, 50, 15, "#FF0000");
         }
-        else if(index==2||index==3){
-            fillInputDots(INPUTDOTS[index],50,250,15,"#FF0000");
+        else if (index == 2 || index == 3) {
+            fillInputDots(INPUTDOTS[index], 50, 250, 15, "#FF0000");
         }
 
         svg.append(INPUTDOTS[index]);
     }
-    
+
 }
-function jkDotDisappear() {   
-    for(const dot of INPUTDOTS){
+function jkDotDisappear() {
+    for (const dot of INPUTDOTS) {
         objectDisappear(dot);
     }
 }
 
 function clockDotDisappear() {
     //makes the clock dot disappear
-    for(const dot of CLOCKDOTS){
+    for (const dot of CLOCKDOTS) {
         objectDisappear(dot);
     }
 }
 function jkDotVisible() {
     //makes the J,K dots appear
-    for(const dot of INPUTDOTS){
+    for (const dot of INPUTDOTS) {
         objectAppear(dot);
     }
 }
 
 function clockDotVisible() {
     //makes the clock dot appear
-    for(const dot of CLOCKDOTS){
+    for (const dot of CLOCKDOTS) {
         objectAppear(dot);
     }
 }
 function outputDisappear() {
     //makes the output text disappear
-    for(const text of TEXTOUTPUT){
+    for (const text of TEXTOUTPUT) {
         objectDisappear(text);
     }
 }
 function outputVisible() {
     //makes the output text appear
-    for(const text of TEXTOUTPUT){
+    for (const text of TEXTOUTPUT) {
         objectAppear(text);
     }
 }
 function jDisappear() {
     //makes the J text disappear
-    
-    for (let index = 0; index < TEXTINPUT.length; index+=2) {
+
+    for (let index = 0; index < TEXTINPUT.length; index += 2) {
         objectDisappear(TEXTINPUT[index]);
     }
-    
+
 }
 function kDisappear() {
     //makes the K text disappear
-    
-    for (let index = 1; index < TEXTINPUT.length; index+=2) {
+
+    for (let index = 1; index < TEXTINPUT.length; index += 2) {
         objectDisappear(TEXTINPUT[index]);
     }
 }
@@ -154,34 +163,34 @@ function kDisappear() {
 
 function clockDisappear() {
     //makes the clock text disappear
-    for(const text of TEXTCLOCK){
+    for (const text of TEXTCLOCK) {
         objectDisappear(text);
     }
 }
 
 function jVisible() {
     //makes the J text appear
-    for (let index = 0; index < TEXTINPUT.length; index+=2) {
+    for (let index = 0; index < TEXTINPUT.length; index += 2) {
         objectAppear(TEXTINPUT[index]);
     }
 }
 function kVisible() {
     //makes the K text appear
-    
-    for (let index = 1; index < TEXTINPUT.length; index+=2) {
+
+    for (let index = 1; index < TEXTINPUT.length; index += 2) {
         objectAppear(TEXTINPUT[index]);
     }
 }
 function clockVisible() {
     //makes the clock text appear
-    for(const text of TEXTCLOCK){
+    for (const text of TEXTCLOCK) {
         objectAppear(text);
     }
 }
 
 function clearObservation() {
 
-    OBSERV.innerHTML = EMPTY;
+    observ.innerHTML = EMPTY;
 }
 
 function allDisappear() {
@@ -193,15 +202,15 @@ function allDisappear() {
     clockDisappear();
     clockDotDisappear();
     outputDisappear();
-    for(const object of OBJECTS){
-        fillColor(object,"#008000");
-    }    
+    for (const object of OBJECTS) {
+        fillColor(object, "#008000");
+    }
 }
 
 function outputHandlerSetter() {
     //to set output dots
     //this is called only once
-    for(const text of TEXTOUTPUT){
+    for (const text of TEXTOUTPUT) {
         text.textContent = 1;
     }
 }
@@ -212,12 +221,12 @@ function outputHandler() {
         TEXTOUTPUT[0].textContent = "0";
         TEXTOUTPUT[1].textContent = "0";
     }
-    else if (TEXTOUTPUT[1].textContent === "1" && TEXTOUTPUT[0].textContent ==="0") {
+    else if (TEXTOUTPUT[1].textContent === "1" && TEXTOUTPUT[0].textContent === "0") {
         TEXTOUTPUT[0].textContent = "1";
         TEXTOUTPUT[1].textContent = "0";
     }
-    else{
-        TEXTOUTPUT[1].textContent="1";
+    else {
+        TEXTOUTPUT[1].textContent = "1";
     }
 }
 function unsetI1() {
@@ -227,18 +236,18 @@ function unsetI1() {
         TEXTINPUT[2].textContent = 0;
         svg.appendChild(TEXTINPUT[0]);
         svg.appendChild(TEXTINPUT[2]);
-        setCoordinates(46,155,TEXTINPUT[0]);
-        setCoordinates(46,155,TEXTINPUT[2]);
-        
-        fillColor(OBJECTS[0],"#eeeb22");
-        fillColor(OBJECTS[2],"#eeeb22");
+        setCoordinates(46, 155, TEXTINPUT[0]);
+        setCoordinates(46, 155, TEXTINPUT[2]);
+
+        fillColor(OBJECTS[0], "#eeeb22");
+        fillColor(OBJECTS[2], "#eeeb22");
         clearObservation();
         jVisible();
-        for(let index=0;index<INPUTDOTS.length;index+=2){
-            setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
+        for (let index = 0; index < INPUTDOTS.length; index += 2) {
+            setter(TEXTINPUT[index].textContent, INPUTDOTS[index]);
         }
 
-        OBSERV.innerHTML = "J is set to 0";
+        observ.innerHTML = "J is set to 0";
     }
     else if (TEXTINPUT[0] !== "1" && timeline.progress() === 0) {
         setI1();
@@ -246,102 +255,102 @@ function unsetI1() {
 }
 function setI1() {
     jDisappear();
-    
+
     TEXTINPUT[0].textContent = 1;
     TEXTINPUT[2].textContent = 1;
     svg.appendChild(TEXTINPUT[0]);
     svg.appendChild(TEXTINPUT[2]);
-    
-    setCoordinates(46,155,TEXTINPUT[0]);
-    setCoordinates(46,155,TEXTINPUT[2]);
-   
-    fillColor(OBJECTS[0],"#29e");
-    fillColor(OBJECTS[2],"#29e");
+
+    setCoordinates(46, 155, TEXTINPUT[0]);
+    setCoordinates(46, 155, TEXTINPUT[2]);
+
+    fillColor(OBJECTS[0], "#29e");
+    fillColor(OBJECTS[2], "#29e");
     clearObservation();
     jVisible();
-    
-    for(let index=0;index<INPUTDOTS.length;index+=2){
-        setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
+
+    for (let index = 0; index < INPUTDOTS.length; index += 2) {
+        setter(TEXTINPUT[index].textContent, INPUTDOTS[index]);
     }
 
-    OBSERV.innerHTML = "J is set to 1";
+    observ.innerHTML = "J is set to 1";
 
 }
 function unsetI2() {
-    
+
     if (TEXTINPUT[1].textContent !== "0" && timeline.progress() === 0) {
         kDisappear();
         TEXTINPUT[1].textContent = 0;
         TEXTINPUT[3].textContent = 0;
         svg.appendChild(TEXTINPUT[1]);
         svg.appendChild(TEXTINPUT[3]);
-        setCoordinates(46,630,TEXTINPUT[1]);
-        setCoordinates(46,630,TEXTINPUT[3]);
-       
-        fillColor(OBJECTS[1],"#eeeb22");
-        fillColor(OBJECTS[3],"#eeeb22");
+        setCoordinates(46, 630, TEXTINPUT[1]);
+        setCoordinates(46, 630, TEXTINPUT[3]);
+
+        fillColor(OBJECTS[1], "#eeeb22");
+        fillColor(OBJECTS[3], "#eeeb22");
         clearObservation();
         kVisible();
-        
-        for(let index=1;index<INPUTDOTS.length;index+=2){
-            setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
+
+        for (let index = 1; index < INPUTDOTS.length; index += 2) {
+            setter(TEXTINPUT[index].textContent, INPUTDOTS[index]);
         }
 
-        OBSERV.innerHTML = "K is set to 0";
+        observ.innerHTML = "K is set to 0";
     }
     else if (TEXTINPUT[1] !== "1" && timeline.progress() === 0) {
         setI2();
     }
 }
 function setI2() {
-    
+
     kDisappear();
     TEXTINPUT[1].textContent = 1;
     TEXTINPUT[3].textContent = 1;
     svg.appendChild(TEXTINPUT[1]);
     svg.appendChild(TEXTINPUT[3]);
-    setCoordinates(46,630,TEXTINPUT[1]);
-    setCoordinates(46,630,TEXTINPUT[3]);
-    fillColor(OBJECTS[1],"#29e");
-    fillColor(OBJECTS[3],"#29e");
+    setCoordinates(46, 630, TEXTINPUT[1]);
+    setCoordinates(46, 630, TEXTINPUT[3]);
+    fillColor(OBJECTS[1], "#29e");
+    fillColor(OBJECTS[3], "#29e");
     clearObservation();
     kVisible();
-    for(let index=1;index<INPUTDOTS.length;index+=2){
-        setter(TEXTINPUT[index].textContent,INPUTDOTS[index]);
+    for (let index = 1; index < INPUTDOTS.length; index += 2) {
+        setter(TEXTINPUT[index].textContent, INPUTDOTS[index]);
     }
-    OBSERV.innerHTML = "K is set to 1";
+    observ.innerHTML = "K is set to 1";
 
 }
 function clockToZero() {
     TEXTCLOCK[0].textContent = 0;
     svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(46,405,TEXTCLOCK[0]);
-    fillColor(OBJECTS[4],"#eeeb22");
-    OBSERV.innerHTML = "Negative edge triggered change in output expected now";
+    setCoordinates(46, 405, TEXTCLOCK[0]);
+    fillColor(OBJECTS[4], "#eeeb22");
+    observ.innerHTML = "Negative edge triggered change in output expected now";
 }
 function clockToOne() {
-    
+
     TEXTCLOCK[0].textContent = 1;
     svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(46,405,TEXTCLOCK[0]);
-    fillColor(OBJECTS[4],"#29e");
-    OBSERV.innerHTML = "No change in output";
+    setCoordinates(46, 405, TEXTCLOCK[0]);
+    fillColor(OBJECTS[4], "#29e");
+    observ.innerHTML = "No change in output";
 }
 
 
 function unsetClock() {
-    
+
     if (TEXTCLOCK[0].textContent !== "0" && timeline.progress() === 0) {
         clockDisappear();
         TEXTCLOCK[0].textContent = 0;
         svg.appendChild(TEXTCLOCK[0]);
-        setCoordinates(46,405,TEXTCLOCK[0]);
-        fillColor(OBJECTS[4],"#eeeb22");
+        setCoordinates(46, 405, TEXTCLOCK[0]);
+        fillColor(OBJECTS[4], "#eeeb22");
         clearObservation();
         clockVisible();
 
-        for(const dot of CLOCKDOTS){
-            setter(TEXTCLOCK[0].textContent,dot);
+        for (const dot of CLOCKDOTS) {
+            setter(TEXTCLOCK[0].textContent, dot);
         }
 
     }
@@ -351,40 +360,40 @@ function unsetClock() {
 
 }
 function setClock() {
-    
+
     clockDisappear();
     TEXTCLOCK[0].textContent = 1;
     svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(46,405,TEXTCLOCK[0]);
-    fillColor(OBJECTS[4],"#29e");
+    setCoordinates(46, 405, TEXTCLOCK[0]);
+    fillColor(OBJECTS[4], "#29e");
     clearObservation();
     clockVisible();
-    for(const dot of CLOCKDOTS){
-        setter(TEXTCLOCK[0].textContent,dot);
+    for (const dot of CLOCKDOTS) {
+        setter(TEXTCLOCK[0].textContent, dot);
     }
-    OBSERV.innerHTML = "Clock has Started";
+    observ.innerHTML = "Clock has Started";
 
 }
 function reboot() {
-    for(const text of TEXTINPUT){
+    for (const text of TEXTINPUT) {
         text.textContent = 2;
     }
-    for(const text of TEXTCLOCK){
+    for (const text of TEXTCLOCK) {
         text.textContent = 2;
     }
 }
 
 function outputSetter() {
-    
-    for(let index=0;index<TEXTOUTPUT.length;index++){
-        setter(TEXTOUTPUT[index].textContent, OBJECTS[index+5]);
+
+    for (let index = 0; index < TEXTOUTPUT.length; index++) {
+        setter(TEXTOUTPUT[index].textContent, OBJECTS[index + 5]);
     }
 
 }
 
 
 function display() {
-    OBSERV.innerHTML = "Simulation has finished. Press Restart to start again"
+    observ.innerHTML = "Simulation has finished. Press Restart to start again"
 }
 function setter(value, component) {
     //toggles the text content a of input/output component b
@@ -397,105 +406,87 @@ function setter(value, component) {
     }
 }
 
-
-function changeSpeed(newSpeed) {
-    
-    if (TEXTINPUT[0].textContent !== "2" && TEXTINPUT[2].textContent !== "2" && TEXTINPUT[1].textContent !== "2" && TEXTINPUT[3].textContent !== "2" && timeline.progress() !== 1) {
-        timeline.resume();
-        timeline.timeScale(newSpeed);
-        OBSERV.innerHTML = newSpeed + "x speed";
-        decide = true;
-        STATUS.innerHTML = "Pause";
-    }
-}
 function setSpeed(speed) {
-    if (circuitStarted !== 0) {
-
-
-        if (speed === "1") {
-            startCircuit();            
-        }
-        else if (speed === "2") {
-            changeSpeed(2);
-        }
-        else if (speed === "4") {
-            changeSpeed(4);
-        }
+    if (circuitStarted) {
+        timeline.timeScale(parseInt(speed));
+        observ.innerHTML = `${speed}x speed`;
     }
-
-
 }
 function restartCircuit() {
-    if (circuitStarted === 0) {
-        circuitStarted = 1;
-    }
+    circuitStarted = false;
     timeline.seek(0);
     timeline.pause();
     allDisappear();
     reboot();
-    
+
     clearObservation();
     decide = false;
-    STATUS.innerHTML = "Start";
-    OBSERV.innerHTML = "Successfully restored";
-    SPEED.selectedIndex = 0;
+    status.innerHTML = "Start";
+    observ.innerHTML = "Successfully restored";
+    speed.selectedIndex = 0;
 }
 
 function simulationStatus() {
     if (!decide) {
         startCircuit();
-
     }
     else if (decide) {
         stopCircuit();
-
     }
 }
 function stopCircuit() {
     if (timeline.time() !== 0 && timeline.progress() !== 1) {
         timeline.pause();
-        OBSERV.innerHTML = "Simulation has been stopped.";
+        observ.innerHTML = "Simulation has been stopped.";
         decide = false;
-        STATUS.innerHTML = "Start";
-        SPEED.selectedIndex = 0;
+        status.innerHTML = "Start";
+        speed.selectedIndex = 0;
     }
     else if (timeline.progress() === 1) {
-        OBSERV.innerHTML = "Please Restart the simulation";
+        observ.innerHTML = "Please Restart the simulation";
     }
 }
 
 function startCircuit() {
-    if (TEXTINPUT[0].textContent !== "1" || TEXTINPUT[2].textContent !== "1") {
-        OBSERV.innerHTML = "J must be set to 1.";
-    }
-    else if (TEXTINPUT[1].textContent !== "1" || TEXTINPUT[3].textContent !== "1") {
-        OBSERV.innerHTML = "K must be set to 1.";
-    }
-    else if (TEXTCLOCK[0].textContent === "0" && TEXTINPUT[0].textContent !== "2" && TEXTINPUT[2].textContent !== "2" && TEXTINPUT[1].textContent !== "2" && TEXTINPUT[3].textContent !== "2" && timeline.progress() !== 1) {
-        if (circuitStarted === 0) {
-            circuitStarted = 1;
-        }
+    if (circuitStarted) {
         timeline.play();
         timeline.timeScale(1);
-        OBSERV.innerHTML = "Simulation has started.";
+        observ.innerHTML = "Simulation has started.";
         decide = true;
-        STATUS.innerHTML = "Pause";
-        SPEED.selectedIndex = 0;
+        status.innerHTML = "Pause";
+        speed.selectedIndex = 0;
     }
-    else if (TEXTINPUT[0].textContent === "2" || TEXTINPUT[1].textContent === "2" || TEXTINPUT[2].textContent === "2" || TEXTINPUT[3].textContent === "2" || TEXTCLOCK[0].textcontent === "2") {
-        OBSERV.innerHTML = "Please select the values";
-    }
-    else if (TEXTCLOCK[0].textContent !== "0" && timeline.progress() === 0) {
-        OBSERV.innerHTML = "Please setup the clock.";
-    }
-    else if(timeline.progress() === 1) {
-        OBSERV.innerHTML = "Please Restart the simulation";
+    else {
+        if (TEXTINPUT[0].textContent !== "1" || TEXTINPUT[2].textContent !== "1") {
+            observ.innerHTML = "J must be set to 1.";
+        }
+        else if (TEXTINPUT[1].textContent !== "1" || TEXTINPUT[3].textContent !== "1") {
+            observ.innerHTML = "K must be set to 1.";
+        }
+        else if (TEXTCLOCK[0].textContent === "0" && TEXTINPUT[0].textContent !== "2" && TEXTINPUT[2].textContent !== "2" && TEXTINPUT[1].textContent !== "2" && TEXTINPUT[3].textContent !== "2" && timeline.progress() !== 1) {
+            circuitStarted = true;
+            timeline.play();
+            timeline.timeScale(1);
+            observ.innerHTML = "Simulation has started.";
+            decide = true;
+            status.innerHTML = "Pause";
+            speed.selectedIndex = 0;
+        }
+        else if (TEXTINPUT[0].textContent === "2" || TEXTINPUT[1].textContent === "2" || TEXTINPUT[2].textContent === "2" || TEXTINPUT[3].textContent === "2" || TEXTCLOCK[0].textcontent === "2") {
+            observ.innerHTML = "Please select the values";
+        }
+        else if (TEXTCLOCK[0].textContent !== "0" && timeline.progress() === 0) {
+            observ.innerHTML = "Please setup the clock.";
+        }
+        else if (timeline.progress() === 1) {
+            observ.innerHTML = "Please Restart the simulation";
+        }
     }
 }
 //execution starts here
+let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
 gsap.registerPlugin(MotionPathPlugin);
 demoWidth();
-instructionBoxInit();
 textIOInit();
 textClockInit();
 outputCoordinates();

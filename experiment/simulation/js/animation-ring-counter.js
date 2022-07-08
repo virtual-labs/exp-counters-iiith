@@ -1,11 +1,11 @@
-import { setCoordinates,fillInputDots,fillColor,objectDisappear,objectAppear,setColor,unsetColor} from "./animation-utility.js";
+import { setCoordinates, fillInputDots, fillColor, objectDisappear, objectAppear, setColor, unsetColor } from "./animation-utility.js";
 'use strict';
 
 window.unsetOri = unsetOri;
 window.unsetClock = unsetClock;
 window.simulationStatus = simulationStatus;
 window.restartCircuit = restartCircuit;
-window.setSpeed=setSpeed;
+window.setSpeed = setSpeed;
 
 // Dimensions of working areaS
 const circuitBoard = document.getElementById("circuit-board");
@@ -16,27 +16,43 @@ const circuitBoardTop = circuitBoard.offsetTop;
 
 const windowHeight = window.innerHeight;
 const width = window.innerWidth;
-const instructionBox = document.getElementsByClassName("instructions-box")[0];
 
 const svg = document.querySelector(".svg");
-const inputpath1 = document.querySelector("#inputpath1");
 const svgns = "http://www.w3.org/2000/svg";
 
-const EMPTY="";
+const EMPTY = "";
 // stroing the necessary div elements in const
-const STATUS = document.getElementById("play-or-pause");
-const OBSERV = document.getElementById("observations");
-const SPEED = document.getElementById("speed");
+const status = document.getElementById("play-or-pause");
+const observ = document.getElementById("observations");
+const speed = document.getElementById("speed");
 
 // global varaibles declared here
-const OBJECTS = [document.getElementById("ori"),document.getElementById("clock"),document.getElementById("qa"),document.getElementById("qb"),document.getElementById("qc")];
+const OBJECTS = [
+    document.getElementById("ori"), 
+    document.getElementById("clock"), 
+    document.getElementById("qa"), 
+    document.getElementById("qb"), 
+    document.getElementById("qc")
+];
 const TEXTINPUT = [document.createElementNS(svgns, "text")];
 const TEXTCLOCK = [document.createElementNS(svgns, "text")];
-const TEXTOUTPUT = [document.createElementNS(svgns, "text"),document.createElementNS(svgns, "text"),document.createElementNS(svgns, "text")];
-const ORIDOT = [document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle")];
-const CLOCKDOT = [document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle"),document.createElementNS(svgns, "circle")];
+const TEXTOUTPUT = [
+    document.createElementNS(svgns, "text"), 
+    document.createElementNS(svgns, "text"), 
+    document.createElementNS(svgns, "text")
+];
+const ORIDOT = [
+    document.createElementNS(svgns, "circle"),
+    document.createElementNS(svgns, "circle"), 
+    document.createElementNS(svgns, "circle")
+];
+const CLOCKDOT = [
+    document.createElementNS(svgns, "circle"), 
+    document.createElementNS(svgns, "circle"), 
+    document.createElementNS(svgns, "circle")
+];
 
-let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
+
 
 // decide help to decide the speed
 let decide = false;
@@ -54,24 +70,16 @@ function demoWidth() {
     sidePanels[0].style.height = circuitBoard.style.height;
 }
 
-// function to initialise the instruction box
-function instructionBoxInit() {
-    // Instruction box
-    instructionBox.addEventListener("click", () => {
-        instructionBox.classList.toggle("expand");
-    });
-}
-
 // function to initialise the input text i.e. either 0/1 that gets displayed after user click on them
 function textIOInit() {
-    for( const text of TEXTINPUT){
+    for (const text of TEXTINPUT) {
         text.textContent = 2;
     }
 }
 
 // function to initialise clock text
 function textClockInit() {
-    for( const text of TEXTCLOCK){
+    for (const text of TEXTCLOCK) {
         text.textContent = 2;
     }
 }
@@ -80,8 +88,8 @@ function textClockInit() {
 function outputCoordinates() {
     let xcor = 297;
     let ycor = 64;
-    for(const text of TEXTOUTPUT){
-        setCoordinates(xcor,ycor,text);
+    for (const text of TEXTOUTPUT) {
+        setCoordinates(xcor, ycor, text);
         xcor += 200;
         svg.append(text);
     }
@@ -90,13 +98,13 @@ function outputCoordinates() {
 // function to mark the input dots
 function inputDots() {
 
-    for(const dot of ORIDOT){
-        fillInputDots(dot,20,550,15,"#FF0000");
+    for (const dot of ORIDOT) {
+        fillInputDots(dot, 20, 550, 15, "#FF0000");
         svg.append(dot);
     }
 
-    for(const dot of CLOCKDOT){
-        fillInputDots(dot,20,550,15,"#FF0000");
+    for (const dot of CLOCKDOT) {
+        fillInputDots(dot, 20, 550, 15, "#FF0000");
         svg.append(dot);
     }
 
@@ -104,37 +112,37 @@ function inputDots() {
 
 // function to disappear ori dots (1,2,3)
 function oriDotDisappear() {
-    for(const dot of ORIDOT){
+    for (const dot of ORIDOT) {
         objectDisappear(dot);
     }
 }
 // function to disappear clock dots (1,2,3)
 function clockDotDisappear() {
-    for(const dot of CLOCKDOT){
+    for (const dot of CLOCKDOT) {
         objectDisappear(dot);
     }
 }
 // function to appear ori dots (1,2,3)
 function oriDotVisible() {
-    for(const dot of ORIDOT){
+    for (const dot of ORIDOT) {
         objectAppear(dot);
     }
 }
 // function to appear clock dots (1,2,3)
 function clockDotVisible() {
-    for(const dot of CLOCKDOT){
+    for (const dot of CLOCKDOT) {
         objectAppear(dot);
     }
 }
 // function to disappear the output text
 function outputDisappear() {
-    for(const text of TEXTOUTPUT){
+    for (const text of TEXTOUTPUT) {
         objectDisappear(text);
     }
 }
 // function to appear the input text
 function outputVisible() {
-    for(const text of TEXTOUTPUT){
+    for (const text of TEXTOUTPUT) {
         objectAppear(text);
     }
 }
@@ -155,7 +163,7 @@ function clockVisible() {
     objectAppear(TEXTCLOCK[0]);
 }
 function clearObservation() {
-    OBSERV.innerHTML = EMPTY;
+    observ.innerHTML = EMPTY;
 }
 function allDisappear() {
     oriTextDisappear();
@@ -163,8 +171,8 @@ function allDisappear() {
     clockDisappear();
     clockDotDisappear();
     outputDisappear();
-    for(const object of OBJECTS){
-        fillColor(object,"#008000");
+    for (const object of OBJECTS) {
+        fillColor(object, "#008000");
     }
 }
 // to set the output dots
@@ -188,15 +196,15 @@ function unsetOri() {
         oriTextDisappear();
         TEXTINPUT[0].textContent = 0;
         svg.appendChild(TEXTINPUT[0]);
-        setCoordinates(17,554,TEXTINPUT[0]);
-        fillColor(OBJECTS[0],"#eeeb22");
+        setCoordinates(17, 554, TEXTINPUT[0]);
+        fillColor(OBJECTS[0], "#eeeb22");
         clearObservation();
         oriTextVisible();
 
-        for(const dot of ORIDOT){
-            setter(TEXTINPUT[0].textContent,dot);
+        for (const dot of ORIDOT) {
+            setter(TEXTINPUT[0].textContent, dot);
         }
-        OBSERV.innerHTML = "ori is set to 0";
+        observ.innerHTML = "ori is set to 0";
     }
     else if (TEXTINPUT[0].textContent !== "1" && timeline.progress() === 0) {
         setOri();
@@ -206,27 +214,27 @@ function setOri() {
     oriTextDisappear();
     TEXTINPUT[0].textContent = 1;
     svg.appendChild(TEXTINPUT[0]);
-    setCoordinates(17,554,TEXTINPUT[0]);
-    fillColor(OBJECTS[0],"#29e");
+    setCoordinates(17, 554, TEXTINPUT[0]);
+    fillColor(OBJECTS[0], "#29e");
     clearObservation();
     oriTextVisible();
-    for(const dot of ORIDOT){
-        setter(TEXTINPUT[0].textContent,dot);
+    for (const dot of ORIDOT) {
+        setter(TEXTINPUT[0].textContent, dot);
     }
-    OBSERV.innerHTML = "ori is set to 1";
+    observ.innerHTML = "ori is set to 1";
 }
 function unsetClock() {
     if (TEXTCLOCK[0].textContent !== "0" && timeline.progress() === 0) {
         clockDisappear();
         TEXTCLOCK[0].textContent = 0;
         svg.appendChild(TEXTCLOCK[0]);
-        setCoordinates(17,504,TEXTCLOCK[0]);
-        fillColor(OBJECTS[1],"#eeeb22");
+        setCoordinates(17, 504, TEXTCLOCK[0]);
+        fillColor(OBJECTS[1], "#eeeb22");
         clearObservation();
         clockVisible();
 
-        for(const dot of CLOCKDOT){
-            setter(TEXTCLOCK[0].textContent,dot);
+        for (const dot of CLOCKDOT) {
+            setter(TEXTCLOCK[0].textContent, dot);
         }
     }
     else if (TEXTCLOCK[0].textContent !== "1" && timeline.progress() === 0) {
@@ -237,14 +245,14 @@ function setClock() {
     clockDisappear();
     TEXTCLOCK[0].textContent = 1;
     svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(17,504,TEXTCLOCK[0]);
-    fillColor(OBJECTS[1],"#29e");
+    setCoordinates(17, 504, TEXTCLOCK[0]);
+    fillColor(OBJECTS[1], "#29e");
     clearObservation();
     clockVisible();
-    for(const dot of CLOCKDOT){
-        setter(TEXTCLOCK[0].textContent,dot);
+    for (const dot of CLOCKDOT) {
+        setter(TEXTCLOCK[0].textContent, dot);
     }
-    OBSERV.innerHTML = "Clock has Started";
+    observ.innerHTML = "Clock has Started";
 }
 
 function reboot() {
@@ -253,13 +261,13 @@ function reboot() {
 }
 
 function outputSetter() {
-    for(let index=0;index<TEXTOUTPUT.length;index++){
-        setter(TEXTOUTPUT[index].textContent, OBJECTS[index+2]);
+    for (let index = 0; index < TEXTOUTPUT.length; index++) {
+        setter(TEXTOUTPUT[index].textContent, OBJECTS[index + 2]);
         setter(TEXTOUTPUT[index].textContent, CLOCKDOT[index]);
     }
 }
 function display() {
-    OBSERV.innerHTML = "Simulation has finished. Press Restart to start again"
+    observ.innerHTML = "Simulation has finished. Press Restart to start again"
 }
 function setter(value, component) {
     if (value === "1") {
@@ -272,55 +280,36 @@ function setter(value, component) {
 function clockToZero() {
     TEXTCLOCK[0].textContent = 0;
     svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(17,504,TEXTCLOCK[0]);
-    fillColor(OBJECTS[1],"#eeeb22");
-    OBSERV.innerHTML = "Negative edge triggered change in output expected now";
+    setCoordinates(17, 504, TEXTCLOCK[0]);
+    fillColor(OBJECTS[1], "#eeeb22");
+    observ.innerHTML = "Negative edge triggered change in output expected now";
 }
 function clockToOne() {
     TEXTCLOCK[0].textContent = 1;
     svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(17,504,TEXTCLOCK[0]);
-    fillColor(OBJECTS[1],"#29e");
-    OBSERV.innerHTML = "No change in output";
+    setCoordinates(17, 504, TEXTCLOCK[0]);
+    fillColor(OBJECTS[1], "#29e");
+    observ.innerHTML = "No change in output";
 }
 
-function changeSpeed(newSpeed){
-    if (TEXTCLOCK[0].textContent !== "2" && TEXTINPUT[0].textContent !== "2" && timeline.progress() !== 1) {
-        timeline.resume();
-        timeline.timeScale(newSpeed);
-        OBSERV.innerHTML = "2x speed";
-        decide = true;
-        STATUS.innerHTML = "Pause";
-    }
-}
 function setSpeed(speed) {
     if (circuitStarted) {
-        if (speed === "1") {
-            changeSpeed(1);
-        }
-        else if (speed === "2") {
-            changeSpeed(2);
-        }
-        else if (speed === "4") {
-            changeSpeed(4);
-        }
+        timeline.timeScale(parseInt(speed));
+        observ.innerHTML = `${speed}x speed`;
     }
-
 }
 
 function restartCircuit() {
-    if (circuitStarted) {
-        circuitStarted = false;
-    }
+    circuitStarted = false;
     timeline.seek(0);
     timeline.pause();
     allDisappear();
     reboot();
     clearObservation();
     decide = false;
-    STATUS.innerHTML = "Start";
-    OBSERV.innerHTML = "Successfully restored";
-    SPEED.selectedIndex = 0;
+    status.innerHTML = "Start";
+    observ.innerHTML = "Successfully restored";
+    speed.selectedIndex = 0;
 }
 
 function simulationStatus() {
@@ -334,47 +323,48 @@ function simulationStatus() {
 function stopCircuit() {
     if (timeline.time() !== 0 && timeline.progress() !== 1) {
         timeline.pause();
-        OBSERV.innerHTML = "Simulation has been stopped.";
+        observ.innerHTML = "Simulation has been stopped.";
         decide = false;
-        STATUS.innerHTML = "Start";
-        SPEED.selectedIndex = 0;
+        status.innerHTML = "Start";
+        speed.selectedIndex = 0;
     }
     else if (timeline.progress() === 1) {
-        OBSERV.innerHTML = "Please Restart the simulation";
+        observ.innerHTML = "Please Restart the simulation";
     }
 }
 function startCircuit() {
-    if (TEXTINPUT[0].textContent !== "0" && TEXTCLOCK[0].textContent !== "0") {
-        OBSERV.innerHTML = "ori and clock must be set to 0.";
-    }
-    else if (TEXTINPUT[0].textContent === "0" && TEXTCLOCK[0].textContent === "0" && TEXTINPUT[0].textContent !== "2" && timeline.progress() !== 1) {
-        if (!circuitStarted) {
-            circuitStarted = true;
-        }
+    if (circuitStarted) {
         timeline.play();
         timeline.timeScale(1);
-        OBSERV.innerHTML = "Simulation has started.";
+        observ.innerHTML = "Simulation has started";
         decide = true;
-        STATUS.innerHTML = "Pause";
-        SPEED.selectedIndex = 0;
+        status.innerHTML = "Pause";
+        speed.selectedIndex = 0;
     }
-    else if (TEXTINPUT[0].textContent === "2" || TEXTCLOCK[0].textcontent === "2") {
-        OBSERV.innerHTML = "Please select the values";
-    }
-    else if (TEXTCLOCK[0].textContent !== "0" && timeline.progress() === 0) {
-        OBSERV.innerHTML = "Please set the clock to 0.";
-    }
-
-    else if (timeline.progress() === 1) {
-        OBSERV.innerHTML = "Please Restart the simulation";
+    else {
+        if (TEXTINPUT[0].textContent === "0" && TEXTCLOCK[0].textContent === "0" && timeline.progress() !== 1) {
+            circuitStarted = true;
+            timeline.play();
+            timeline.timeScale(1);
+            observ.innerHTML = "Simulation has started.";
+            decide = true;
+            status.innerHTML = "Pause";
+            speed.selectedIndex = 0;
+        }
+        else {
+            observ.innerHTML = "Clock and ORI must be set to 0 before starting the simulation";
+        }
+        if (timeline.progress() === 1) {
+            observ.innerHTML = "Please Restart the simulation";
+        }
     }
 }
 
 // all the execution begin here
+let timeline = gsap.timeline({ repeat: 0, repeatDelay: 0 });
 gsap.registerPlugin(MotionPathPlugin);
 demoWidth();
 // calling all the functions that are going to initialise 
-instructionBoxInit();
 textIOInit();
 textClockInit();
 outputCoordinates();

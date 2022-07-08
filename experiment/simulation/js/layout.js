@@ -6,7 +6,7 @@ import { deleteFF } from "./flipflop.js";
 
 // Wires
 export const wireColours = ["#ff0000", "#00ff00", "#0000ff", "#bf6be3", "#ff00ff", "#00ffff", "#ff8000", "#00ff80", "#80ff00", "#ff0080", "#8080ff", "#c0c0c0"];
-
+const EMPTY="";
 // Contextmenu
 const menu = document.querySelector(".menu");
 const menuOption = document.querySelector(".menu-option");
@@ -92,7 +92,7 @@ function updateInstructions() {
 // Toolbar
 
 function updateToolbar() {
-  let elem = "";
+  let elem = EMPTY;
   if (window.currentTab === "task1") {
     elem = '<div class="component-button jkflipflop" onclick="addJKFlipFlop(event)"></div>'
   }
@@ -108,10 +108,9 @@ function updateToolbar() {
 // Clear observations
 function clearObservations() {
 
-  document.getElementById("table-body").innerHTML = "";
-  let head = ''
-  document.getElementById("table-head").innerHTML = head;
-  document.getElementById('result').innerHTML = "";
+  document.getElementById("table-body").innerHTML = EMPTY;
+  document.getElementById("table-head").innerHTML = EMPTY;
+  document.getElementById('result').innerHTML = EMPTY;
 
 }
 
@@ -146,9 +145,9 @@ const circuitBoardTop = circuitBoard.offsetTop;
 const windowHeight = window.innerHeight;
 const width = window.innerWidth;
 if (width < 1024) {
-  circuitBoard.style.height = 600 + "px";
+  circuitBoard.style.height ="600px";
 } else {
-  circuitBoard.style.height = windowHeight - circuitBoardTop - 20 + "px";
+  circuitBoard.style.height = `${windowHeight - circuitBoardTop - 20}px`;
 }
 
 function resize() {

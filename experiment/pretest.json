@@ -53,7 +53,7 @@
             },
             "correctAnswer": "d",
             "explanations": {
-                "a":"Use of Q` instead of Q makes it a asynchronous down counter"
+                "d":"Use of Q` instead of Q makes it a asynchronous down counter"
             },
             "difficulty": "advanced"
         },
