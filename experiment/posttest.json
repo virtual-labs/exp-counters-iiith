@@ -22,7 +22,7 @@
                 "d": "Q' of other JK flip flop"
             },
             "correctAnswer": "c",
-            "explanations": {"c":"In general in an n-bit asynchronous basic binary counter, only the first flip flop'clk input is connected to Clock, clocks of all other flip flops are connected to Q of the previous flip flop"},
+            "explanations": {"c":"In general in an n-bit asynchronous basic binary counter, only the first flip flop's clk input is connected to Clock, clocks of all other flip flops are connected to Q of the previous flip flop"},
             "difficulty": "intermediate"
         },
         {

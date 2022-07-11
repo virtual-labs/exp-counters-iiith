@@ -27,26 +27,26 @@ const observ = document.getElementById("observations");
 const speed = document.getElementById("speed");
 
 // global varaibles declared here
-const OBJECTS = [
+const objects = [
     document.getElementById("ori"), 
     document.getElementById("clock"), 
     document.getElementById("qa"), 
     document.getElementById("qb"), 
     document.getElementById("qc")
 ];
-const TEXTINPUT = [document.createElementNS(svgns, "text")];
-const TEXTCLOCK = [document.createElementNS(svgns, "text")];
-const TEXTOUTPUT = [
+const textInput = [document.createElementNS(svgns, "text")];
+const textClock = [document.createElementNS(svgns, "text")];
+const textOutput = [
     document.createElementNS(svgns, "text"), 
     document.createElementNS(svgns, "text"), 
     document.createElementNS(svgns, "text")
 ];
-const ORIDOT = [
+const oriDots = [
     document.createElementNS(svgns, "circle"),
     document.createElementNS(svgns, "circle"), 
     document.createElementNS(svgns, "circle")
 ];
-const CLOCKDOT = [
+const clockDots = [
     document.createElementNS(svgns, "circle"), 
     document.createElementNS(svgns, "circle"), 
     document.createElementNS(svgns, "circle")
@@ -72,14 +72,14 @@ function demoWidth() {
 
 // function to initialise the input text i.e. either 0/1 that gets displayed after user click on them
 function textIOInit() {
-    for (const text of TEXTINPUT) {
+    for (const text of textInput) {
         text.textContent = 2;
     }
 }
 
 // function to initialise clock text
 function textClockInit() {
-    for (const text of TEXTCLOCK) {
+    for (const text of textClock) {
         text.textContent = 2;
     }
 }
@@ -88,7 +88,7 @@ function textClockInit() {
 function outputCoordinates() {
     let xcor = 297;
     let ycor = 64;
-    for (const text of TEXTOUTPUT) {
+    for (const text of textOutput) {
         setCoordinates(xcor, ycor, text);
         xcor += 200;
         svg.append(text);
@@ -98,12 +98,12 @@ function outputCoordinates() {
 // function to mark the input dots
 function inputDots() {
 
-    for (const dot of ORIDOT) {
+    for (const dot of oriDots) {
         fillInputDots(dot, 20, 550, 15, "#FF0000");
         svg.append(dot);
     }
 
-    for (const dot of CLOCKDOT) {
+    for (const dot of clockDots) {
         fillInputDots(dot, 20, 550, 15, "#FF0000");
         svg.append(dot);
     }
@@ -112,55 +112,55 @@ function inputDots() {
 
 // function to disappear ori dots (1,2,3)
 function oriDotDisappear() {
-    for (const dot of ORIDOT) {
+    for (const dot of oriDots) {
         objectDisappear(dot);
     }
 }
 // function to disappear clock dots (1,2,3)
 function clockDotDisappear() {
-    for (const dot of CLOCKDOT) {
+    for (const dot of clockDots) {
         objectDisappear(dot);
     }
 }
 // function to appear ori dots (1,2,3)
 function oriDotVisible() {
-    for (const dot of ORIDOT) {
+    for (const dot of oriDots) {
         objectAppear(dot);
     }
 }
 // function to appear clock dots (1,2,3)
 function clockDotVisible() {
-    for (const dot of CLOCKDOT) {
+    for (const dot of clockDots) {
         objectAppear(dot);
     }
 }
 // function to disappear the output text
 function outputDisappear() {
-    for (const text of TEXTOUTPUT) {
+    for (const text of textOutput) {
         objectDisappear(text);
     }
 }
 // function to appear the input text
 function outputVisible() {
-    for (const text of TEXTOUTPUT) {
+    for (const text of textOutput) {
         objectAppear(text);
     }
 }
 // function to disappear ori text
 function oriTextDisappear() {
-    objectDisappear(TEXTINPUT[0]);
+    objectDisappear(textInput[0]);
 }
 // function to disappear clock text
 function clockDisappear() {
-    objectDisappear(TEXTCLOCK[0]);
+    objectDisappear(textClock[0]);
 }
 // function to appear ori text
 function oriTextVisible() {
-    objectAppear(TEXTINPUT[0]);
+    objectAppear(textInput[0]);
 }
 // function to appear clock text
 function clockVisible() {
-    objectAppear(TEXTCLOCK[0]);
+    objectAppear(textClock[0]);
 }
 function clearObservation() {
     observ.innerHTML = EMPTY;
@@ -171,99 +171,99 @@ function allDisappear() {
     clockDisappear();
     clockDotDisappear();
     outputDisappear();
-    for (const object of OBJECTS) {
+    for (const object of objects) {
         fillColor(object, "#008000");
     }
 }
 // to set the output dots
 // this will only be called once
 function outputHandlerSetter() {
-    TEXTOUTPUT[0].textContent = 1;
-    TEXTOUTPUT[1].textContent = 0;
-    TEXTOUTPUT[2].textContent = 0;
+    textOutput[0].textContent = 1;
+    textOutput[1].textContent = 0;
+    textOutput[2].textContent = 0;
 
 }
 // shifting the outputs
 function outputHandler() {
     let temp = 0;
-    temp = TEXTOUTPUT[2].textContent;
-    TEXTOUTPUT[2].textContent = TEXTOUTPUT[1].textContent;
-    TEXTOUTPUT[1].textContent = TEXTOUTPUT[0].textContent;
-    TEXTOUTPUT[0].textContent = temp;
+    temp = textOutput[2].textContent;
+    textOutput[2].textContent = textOutput[1].textContent;
+    textOutput[1].textContent = textOutput[0].textContent;
+    textOutput[0].textContent = temp;
 }
 function unsetOri() {
-    if (TEXTINPUT[0].textContent !== "0" && timeline.progress() === 0) {
+    if (textInput[0].textContent !== "0" && timeline.progress() === 0) {
         oriTextDisappear();
-        TEXTINPUT[0].textContent = 0;
-        svg.appendChild(TEXTINPUT[0]);
-        setCoordinates(17, 554, TEXTINPUT[0]);
-        fillColor(OBJECTS[0], "#eeeb22");
+        textInput[0].textContent = 0;
+        svg.appendChild(textInput[0]);
+        setCoordinates(17, 554, textInput[0]);
+        fillColor(objects[0], "#eeeb22");
         clearObservation();
         oriTextVisible();
 
-        for (const dot of ORIDOT) {
-            setter(TEXTINPUT[0].textContent, dot);
+        for (const dot of oriDots) {
+            setter(textInput[0].textContent, dot);
         }
         observ.innerHTML = "ori is set to 0";
     }
-    else if (TEXTINPUT[0].textContent !== "1" && timeline.progress() === 0) {
+    else if (textInput[0].textContent !== "1" && timeline.progress() === 0) {
         setOri();
     }
 }
 function setOri() {
     oriTextDisappear();
-    TEXTINPUT[0].textContent = 1;
-    svg.appendChild(TEXTINPUT[0]);
-    setCoordinates(17, 554, TEXTINPUT[0]);
-    fillColor(OBJECTS[0], "#29e");
+    textInput[0].textContent = 1;
+    svg.appendChild(textInput[0]);
+    setCoordinates(17, 554, textInput[0]);
+    fillColor(objects[0], "#29e");
     clearObservation();
     oriTextVisible();
-    for (const dot of ORIDOT) {
-        setter(TEXTINPUT[0].textContent, dot);
+    for (const dot of oriDots) {
+        setter(textInput[0].textContent, dot);
     }
     observ.innerHTML = "ori is set to 1";
 }
 function unsetClock() {
-    if (TEXTCLOCK[0].textContent !== "0" && timeline.progress() === 0) {
+    if (textClock[0].textContent !== "0" && timeline.progress() === 0) {
         clockDisappear();
-        TEXTCLOCK[0].textContent = 0;
-        svg.appendChild(TEXTCLOCK[0]);
-        setCoordinates(17, 504, TEXTCLOCK[0]);
-        fillColor(OBJECTS[1], "#eeeb22");
+        textClock[0].textContent = 0;
+        svg.appendChild(textClock[0]);
+        setCoordinates(17, 504, textClock[0]);
+        fillColor(objects[1], "#eeeb22");
         clearObservation();
         clockVisible();
 
-        for (const dot of CLOCKDOT) {
-            setter(TEXTCLOCK[0].textContent, dot);
+        for (const dot of clockDots) {
+            setter(textClock[0].textContent, dot);
         }
     }
-    else if (TEXTCLOCK[0].textContent !== "1" && timeline.progress() === 0) {
+    else if (textClock[0].textContent !== "1" && timeline.progress() === 0) {
         setClock();
     }
 }
 function setClock() {
     clockDisappear();
-    TEXTCLOCK[0].textContent = 1;
-    svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(17, 504, TEXTCLOCK[0]);
-    fillColor(OBJECTS[1], "#29e");
+    textClock[0].textContent = 1;
+    svg.appendChild(textClock[0]);
+    setCoordinates(17, 504, textClock[0]);
+    fillColor(objects[1], "#29e");
     clearObservation();
     clockVisible();
-    for (const dot of CLOCKDOT) {
-        setter(TEXTCLOCK[0].textContent, dot);
+    for (const dot of clockDots) {
+        setter(textClock[0].textContent, dot);
     }
     observ.innerHTML = "Clock has Started";
 }
 
 function reboot() {
-    TEXTINPUT[0].textContent = 2;
-    TEXTCLOCK[0].textContent = 2;
+    textInput[0].textContent = 2;
+    textClock[0].textContent = 2;
 }
 
 function outputSetter() {
-    for (let index = 0; index < TEXTOUTPUT.length; index++) {
-        setter(TEXTOUTPUT[index].textContent, OBJECTS[index + 2]);
-        setter(TEXTOUTPUT[index].textContent, CLOCKDOT[index]);
+    for (let index = 0; index < textOutput.length; index++) {
+        setter(textOutput[index].textContent, objects[index + 2]);
+        setter(textOutput[index].textContent, clockDots[index]);
     }
 }
 function display() {
@@ -278,17 +278,17 @@ function setter(value, component) {
     }
 }
 function clockToZero() {
-    TEXTCLOCK[0].textContent = 0;
-    svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(17, 504, TEXTCLOCK[0]);
-    fillColor(OBJECTS[1], "#eeeb22");
+    textClock[0].textContent = 0;
+    svg.appendChild(textClock[0]);
+    setCoordinates(17, 504, textClock[0]);
+    fillColor(objects[1], "#eeeb22");
     observ.innerHTML = "Negative edge triggered change in output expected now";
 }
 function clockToOne() {
-    TEXTCLOCK[0].textContent = 1;
-    svg.appendChild(TEXTCLOCK[0]);
-    setCoordinates(17, 504, TEXTCLOCK[0]);
-    fillColor(OBJECTS[1], "#29e");
+    textClock[0].textContent = 1;
+    svg.appendChild(textClock[0]);
+    setCoordinates(17, 504, textClock[0]);
+    fillColor(objects[1], "#29e");
     observ.innerHTML = "No change in output";
 }
 
@@ -342,7 +342,7 @@ function startCircuit() {
         speed.selectedIndex = 0;
     }
     else {
-        if (TEXTINPUT[0].textContent === "0" && TEXTCLOCK[0].textContent === "0" && timeline.progress() !== 1) {
+        if (textInput[0].textContent === "0" && textClock[0].textContent === "0" && timeline.progress() !== 1) {
             circuitStarted = true;
             timeline.play();
             timeline.timeScale(1);
@@ -398,7 +398,7 @@ timeline.eventCallback("onComplete", display);
 
 
 // animations with appropriate delays
-timeline.to(ORIDOT[0], {
+timeline.to(oriDots[0], {
     motionPath: {
         path: "#path6",
         align: "#path6",
@@ -412,7 +412,7 @@ timeline.to(ORIDOT[0], {
     ease: "none",
     paused: false,
 }, 0);
-timeline.to(ORIDOT[1], {
+timeline.to(oriDots[1], {
     motionPath: {
         path: "#path7",
         align: "#path7",
@@ -428,7 +428,7 @@ timeline.to(ORIDOT[1], {
 }, 0);
 
 
-timeline.to(ORIDOT[2], {
+timeline.to(oriDots[2], {
     motionPath: {
         path: "#path8",
         align: "#path8",
@@ -442,7 +442,7 @@ timeline.to(ORIDOT[2], {
     ease: "none",
     paused: false,
 }, 0);
-timeline.to(CLOCKDOT[0], {
+timeline.to(clockDots[0], {
     motionPath: {
         path: "#path9",
         align: "#path9",
@@ -457,7 +457,7 @@ timeline.to(CLOCKDOT[0], {
     ease: "none",
     paused: false,
 }, 0);
-timeline.to(CLOCKDOT[1], {
+timeline.to(clockDots[1], {
     motionPath: {
         path: "#path10",
         align: "#path10",
@@ -472,7 +472,7 @@ timeline.to(CLOCKDOT[1], {
     ease: "none",
     paused: false,
 }, 0);
-timeline.to(CLOCKDOT[2], {
+timeline.to(clockDots[2], {
     motionPath: {
         path: "#path11",
         align: "#path11",
@@ -487,7 +487,7 @@ timeline.to(CLOCKDOT[2], {
     ease: "none",
     paused: false,
 }, 0);
-timeline.to(CLOCKDOT[0], {
+timeline.to(clockDots[0], {
     motionPath: {
         path: "#path9",
         align: "#path9",
@@ -502,7 +502,7 @@ timeline.to(CLOCKDOT[0], {
     ease: "none",
     paused: false,
 }, 0);
-timeline.to(CLOCKDOT[1], {
+timeline.to(clockDots[1], {
     motionPath: {
         path: "#path10",
         align: "#path10",
@@ -517,7 +517,7 @@ timeline.to(CLOCKDOT[1], {
     ease: "none",
     paused: false,
 }, 0);
-timeline.to(CLOCKDOT[2], {
+timeline.to(clockDots[2], {
     motionPath: {
         path: "#path11",
         align: "#path11",

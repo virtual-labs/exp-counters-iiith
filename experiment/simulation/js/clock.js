@@ -50,24 +50,7 @@ export class Clock {
          el.style.left = x + "px";
          el.style.top = y + "px";
  
-         if (this.type !== "Input" && this.type !== "Output" && this.type !== "Clock") {
- 
-             el.addEventListener(
-                 "contextmenu",
-                 function (ev) {
-                     ev.preventDefault();
-                     const origin = {
-                         left: ev.pageX - document.getScroll()[0],
-                         top: ev.pageY - document.getScroll()[1],
-                     };
-                     setPosition(origin);
-                     window.selectedComponent = this.id;
-                     window.componentType = "gate";
-                     return false;
-                 },
-                 false
-             );
-         }
+        
          gates[this.id] = this;
          registerGate(this.id, this);
 
