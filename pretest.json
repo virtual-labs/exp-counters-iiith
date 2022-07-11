@@ -1,0 +1,75 @@
+{
+    "version": 2.0,
+    "questions": [
+        {
+            "question": "1. An asynchronous basic counter that consist of 10 flip-flops can act as a  ",
+            "answers": {
+                "a": "10: 1 counter",
+                "b": "512: 1 counter",
+                "c": "1024: 1 counter",
+                "d": "20: 1 counter"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "c":"For n flip-flops the basic counter acts as 2^n: 1 counter"
+            },
+            "difficulty": "beginner"
+        },
+        {
+            "question": "2. A synchronous ring counter that consist of 10 flip-flops acts as a ",
+            "answers": {
+                "a": "10: 1 counter",
+                "b": "512: 1 counter",
+                "c": "1024: 1 counter",
+                "d": "20: 1 counter"
+            },
+            "correctAnswer": "a",
+            "explanations": {
+                "a":"For n flip-flops the basic counter acts as n: 1 counter"
+            },
+            "difficulty": "beginner"
+        },
+        {
+            "question": "3. Mankar was designing a modulus 15 bit up-counter, but he was unable to do so. Help him debug his circuit",
+            "answers": {
+                "a": "He used +ve edge triggered flip-flops",
+                "b": "He used 5 JK flip flops",
+                "c": "both a and b are true",
+                "d": "neither a nor b"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "c":"+ve edge trigger makes down-counter and 5 flip-flops would make 31 bit counter"
+            },
+            "difficulty": "intermediate"
+        },
+        {
+            "question": "4. Raghav was making a modulus 4 bit asynchronous counter instead of connecting clk of flip flop 2 with Q of flip flop 1 he connects it with Q` what will be observe ",
+            "answers": {
+                "a": "It acts as modulus 16 bit asynchronous up counter",
+                "b": "It acts as modulus 4 bit asynchronous up counter",
+                "c": "It acts as modulus 16 bit asynchronous down counter",
+                "d": "It acts as modulus 4 bit asynchronous down counter"
+            },
+            "correctAnswer": "d",
+            "explanations": {
+                "d":"Use of Q` instead of Q makes it a asynchronous down counter"
+            },
+            "difficulty": "advanced"
+        },
+        {
+            "question": "5. A 5 bit ripple-counter is created, for this task T flip flops are used. What should be the value of the inputs that the T flip flop should receive ",
+            "answers": {
+                "a": "1,0,1,0,1",
+                "b": "0,1,1,1,1",
+                "c": "1,1,1,1,1",
+                "d": "1,0,0,0,0"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "c": "All of them need to be initialised to 1"
+            },
+            "difficulty": "advanced"
+        }
+    ]
+}
