@@ -141,13 +141,3 @@ export function addClock(frequency, dutyCycle, workingArea, x, y, name, id) {
 
     return clock;
 }
-
-// const clockAdd = document.getElementById("clockAdd");
-// clockAdd.addEventListener('click', function () {
-//     const frequency = document.getElementById("frequency-input").value;
-//     const dutyCycle = document.getElementById("dutycycle-input").value;
-//     addClock(frequency,dutyCycle,"working-area",0,0,null,null)
-//     toggleModal();
-// });
-
-
