@@ -1,6 +1,5 @@
 import { gates } from "./gate.js";
 import { registerGate } from "./main.js";
-import { setPosition } from "./layout.js";
 
 'use strict';
 

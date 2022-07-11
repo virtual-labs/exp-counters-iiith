@@ -1,5 +1,5 @@
-import { simulate, deleteElement } from "./gate.js";
-import { connectGate, connectRSFF, connectJKFF, unbindEvent, initRSFlipFlop, initDFlipFlop, initJKFlipFlop, refreshWorkingArea, initTFlipFlop, connectDFlipFlopGate } from "./main.js";
+import { deleteElement } from "./gate.js";
+import { connectJKFF, unbindEvent, initDFlipFlop , refreshWorkingArea, initTFlipFlop, connectDFlipFlopGate } from "./main.js";
 import { deleteFF } from "./flipflop.js";
 
 'use strict';
@@ -23,7 +23,7 @@ export const setPosition = ({ top, left }) => {
   toggleMenu("show");
 };
 
-window.addEventListener("click", e => {
+window.addEventListener("click", () => {
   if (menuVisible) toggleMenu("hide");
   window.selectedComponent = null;
   window.componentType = null;

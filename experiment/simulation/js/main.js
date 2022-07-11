@@ -1310,7 +1310,7 @@ export function initRSFlipFlop() {
         const component = gate.generateComponent();
         const parent = document.getElementById("working-area");
         parent.insertAdjacentHTML('beforeend', component);
-        gate.registerComponent("working-area", positions[i].x, positions[i].y);;
+        gate.registerComponent("working-area", positions[i].x, positions[i].y);
     }
     clockjs.addClock(0.5, 50, "working-area", 40, 400, "Clk", "Clock-0");
 }
@@ -1332,7 +1332,7 @@ export function initJKFlipFlop() {
         const component = gate.generateComponent();
         const parent = document.getElementById("working-area");
         parent.insertAdjacentHTML('beforeend', component);
-        gate.registerComponent("working-area", positions[i].x, positions[i].y);;
+        gate.registerComponent("working-area", positions[i].x, positions[i].y);
     }
     clockjs.addClock(0.5, 50, "working-area", 40, 400, "Clk", "Clock-0");
 }
