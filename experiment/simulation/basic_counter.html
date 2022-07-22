@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.7-b/css/style.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
 
@@ -16,21 +16,21 @@
     </title>
 </head>
 
-<body onload="clearObservation()">
+<body>
     <div class="container" style="margin-top: 1%;">
-		<div class="columns is-centered">
+        <div class="columns is-centered">
             <div class="column is-one-quarter v-instruction-title">
                 Tasks
             </div>
             <div class="column">
                 <div class="v-tabs">
                     <ul>
-                        <li id="Task1" class="is-active">
+                        <li id="task1" class="is-active">
                             <a>
                                 Basic Counter
                             </a>
                         </li>
-                        <li id="Task2" onclick="window.location.href = 'ring_counter.html';">
+                        <li id="task2" onclick="window.location.href = 'ring_counter.html';">
                             <a>
                                 Ring Counter
                             </a>
@@ -39,126 +39,86 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="columns is-centered">
             <div class="column">
-                <div class="v-instruction-container instructions-box">
-                    <div class="v-instruction-title" id="TaskTitle">Basic Counter</div>
-                    <div class="v-instruction-text" id="TaskDescription">
-                        Simulation of a Basic Counter using JK flip-flops.
-                        
-                    </div>
-                    <div>
-                        
-                        <p>Start- Starts the simulation after the inputs are properly selected. 
-                        <p> Default speed is 1x.</p> 
-                        <p>Select the speed through dropdown menu</p>
-                        <p>Reset - Resets the simulation</p>
-                        <p>Click on the green input bits to set their values.</p>                                              
-                        <p>This is a Basic Counter. </p>
-                        <p> There is a clock which can be started by the user but it's cycle cannot be controlled.</p>
-                        <p>There are two outputs(QA,QB) </p>
+                <div class="v-collapsible-instruction-container v-instruction-container">
+                    <div class="v-collapsible is-size-5">Instructions</div>
+                    <div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+                        <ul style="list-style: disc;">
+                            <li><b>Start</b>- Starts the simulation after the inputs are properly selected. Default
+                                speed is 1x.</li>
+                            <li>Select the speed through dropdown menu</li>
+                            <li><b>Reset</b> - Resets the simulation</li>
+                            <li>Click on the green input bits to set their values.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="columns is-centered">
         <div class="column" style="margin:auto;text-align:center">
-            <div class="v-select">
-                <select  autocomplete="off" name="speed" onchange="setSpeed(this.value)" id="speed">
-                  <option value="1" >1x</option>
-                  <option value="2">2x</option>
-                  <option value="4">4x</option>
-                </select>
-            </div>
-            <button class="v-button" id="playOrPause" onclick="simulationStatus()">Start</button>
+            <select class="speed-box" autocomplete="off" name="speed" onchange="setSpeed(this.value)" id="speed">
+                <option value="1" >1x</option>
+                <option value="2">2x</option>
+                <option value="4">4x</option>
+            </select>
+            <button class="v-button" id="play-or-pause" onclick="simulationStatus()">Start</button>
             <button class="v-button" id="restart" onclick="restartCircuit()">Reset</button>
         </div>
     </div>
-    <div class="columns is-centered is-flex is-flex-direction-row is-flex-wrap-wrap is-align-content-start">
+
+    <div class="columns is-centered is-flex-direction-row is-flex-wrap-wrap is-align-content-start">
         <div class="column is-9-desktop is-12-tablet is-12-mobile">
             <div id="circuit-board">
-                <div id="working-area">
-
-                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="120%"
-                        viewBox="0 0 925 1000 ">
-                        <path id="path1" fill="none" stroke="currentColor" stroke-width="3"
-                            d="M 50 150 L 200 150 L 300 150 L 400 150 L 400 150" />      <!-- J to Qb-->
-                        <path id="path2" fill="none" stroke="currentColor" stroke-width="3"
-                            d="M 50 150 L 250 150 L 250 475 L 400 475 L 400 475 " /> <!-- J to Qa-->
-                        
-                        <path id="path3" fill="none" stroke="currentColor" stroke-width="3"
-                            d="M 50 400 L 200 400 L 200 550 L 400 550 " /> <!-- clock to clk-->
-                        <path id="path4" fill="none" stroke="currentColor" stroke-width="3"
-                            d="M 50 625 L 150 625 L 250 625 L 350 625 L  450 625 " /> <!-- K to lower K-->
-                        <path id="path5" fill="none" stroke="currentColor" stroke-width="3"
-                            d="M 50 625 L 100 625 L  100 300 L 400 300  " /> <!-- K to upper K-->
-                        <path id="path6" fill="none" stroke="currentColor" stroke-width="3"
-                            d="M 600 475 L  600 400 L 300 400 L 300 225 L 350 225  " /><!-- Qa to upper clk-->
-                        <path id="path7" fill="none" stroke="currentColor" stroke-width="3"
-                            d="M 450 150 L 600 150  " />
-                        <path id="path8" fill="none" stroke="currentColor" stroke-width="3"
-                            d="M 450 475 L 600 475  " />
-                        <rect id="jkflipflop1" x="350" y="100" width="150" height="250"
-                            style="fill:#29e;stroke:rgb(68, 68, 119);stroke-width:5;fill-opacity:1;stroke-opacity:1" />
-
-                        <rect id="jkflipflop2" x="350" y="420" width="150" height="250"
-                            style="fill:#29e;stroke:rgb(68, 68, 119);stroke-width:5;fill-opacity:1;stroke-opacity:1" />
-                         <circle id="j" cx="50" cy="150" r="15" onclick="unsetI1()"
-                            style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
-                        <circle id="k" cx="50" cy="625" r="15" onclick="unsetI2()"
-                            style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
-                        <circle id="qb" cx="600" cy="150" r="15"
-                            style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
-                        <circle id="qa" cx="600" cy="475" r="15"
-                            style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
-                        
-                        <circle id="clock" cx="50" cy="400" r="15" onclick="unsetClock()"
-                            style="fill:green;stroke:rgb(68, 68, 119);stroke-width:3;fill-opacity:1;stroke-opacity:1" />
-                        
-                        <text font-size="1em" x="360" y="154" fill="black">J</text>
-                        <text font-size="1em" x="360" y="304" fill="black">K</text>
-                        
-                        <text font-size="1em" x="360" y="479" fill="black">J</text>
-                        <text font-size="1em" x="360" y="629" fill="black">K</text>
-
-                        <text font-size="1em" x="480" y="154" fill="black">Q</text>
-                        <text font-size="1em" x="480" y="304" fill="black">Q'</text>
-
-                         <text font-size="1em" x="480" y="479" fill="black">Q</text>
-                        <text font-size="1em" x="480" y="629" fill="black">Q'</text> 
-
-                        <text font-size="1em" x="360" y="229" fill="black">&#8827clk</text>
-                        <text font-size="1em" x="360" y="554" fill="black">&#8827clk</text>
-                        
-                        <text font-size="0.9em" x="45" y="125" fill="black">J</text>
-                        <text font-size="0.8em" x="45" y="375" fill="black"> CLOCK</text>
-                        <text font-size="0.9em" x="45" y="600" fill="black">K</text>
-                        
-                        <text font-size="0.9em" x="591" y="180" fill="black">QB</text>
-                        <text font-size="0.9em" x="591" y="505" fill="black">QA</text>
-                        
-
-
-
-
-                    </svg>
-
-                </div>
+                <svg class="svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="120%" viewBox="0 0 925 1000 ">
+                    <path id="path1" class="wire-demo" d="M 50 150 L 200 150 L 300 150 L 400 150 L 400 150" />
+                    <!-- J to Qb-->
+                    <path id="path2" class="wire-demo" d="M 50 150 L 250 150 L 250 475 L 400 475 L 400 475 " />
+                    <!-- J to Qa-->
+                    <path id="path3" class="wire-demo" d="M 50 400 L 200 400 L 200 550 L 400 550 " />
+                    <!-- clock to clk-->
+                    <path id="path4" class="wire-demo" d="M 50 625 L 150 625 L 250 625 L 350 625 L  450 625 " />
+                    <!-- K to lower K-->
+                    <path id="path5" class="wire-demo" d="M 50 625 L 100 625 L  100 300 L 400 300  " />
+                    <!-- K to upper K-->
+                    <path id="path6" class="wire-demo" d="M 600 475 L  600 400 L 300 400 L 300 225 L 350 225  " />
+                    <!-- Qa to upper clk-->
+                    <path id="path7" class="wire-demo" d="M 450 150 L 600 150  " />
+                    <path id="path8" class="wire-demo" d="M 450 475 L 600 475  " />
+                    <rect id="jkflipflop1" x="350" y="100" width="150" height="250" class="gate-demo" />
+                    <rect id="jkflipflop2" x="350" y="420" width="150" height="250" class="gate-demo" />
+                    <circle id="j" cx="50" cy="150" r="15" onclick="unsetI1()" class="color-green" />
+                    <circle id="k" cx="50" cy="625" r="15" onclick="unsetI2()" class="color-green" />
+                    <circle id="qb" cx="600" cy="150" r="15" class="color-green" />
+                    <circle id="qa" cx="600" cy="475" r="15" class="color-green" />
+                    <circle id="clock" cx="50" cy="400" r="15" onclick="unsetClock()" class="color-green" />
+                    <text x="360" y="154" class="text-demo">J</text>
+                    <text x="360" y="304" class="text-demo">K</text>
+                    <text x="360" y="479" class="text-demo">J</text>
+                    <text x="360" y="629" class="text-demo">K</text>
+                    <text x="470" y="154" class="text-demo">Q</text>
+                    <text x="470" y="304" class="text-demo">Q'</text>
+                    <text x="470" y="479" class="text-demo">Q</text>
+                    <text x="470" y="629" class="text-demo">Q'</text>
+                    <text x="360" y="229" class="text-demo">&#8827clk</text>
+                    <text x="360" y="554" class="text-demo">&#8827clk</text>
+                    <text x="45" y="125" class="text-demo">J</text>
+                    <text x="20" y="375" class="text-demo"> CLOCK</text>
+                    <text x="45" y="600" class="text-demo">K</text>
+                    <text x="591" y="190" class="text-demo">QB</text>
+                    <text x="591" y="515" class="text-demo">QA</text>
+                </svg>
             </div>
         </div>
         <div class="column is-3-desktop is-4-tablet is-12-mobile">
             <div class="v-datalist-container components-list">
                 <div class="v-datalist-title">Observations</div>
                 <div class="v-datalist-row">
-                    <div id="Observations">
-
-                    </div>
-                    <div id="result"></div>
+                    <div id="observations"></div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -168,9 +128,8 @@
             <li class="menu-option">Cancel</li>
         </ul>
     </div>
-    <script src="js/animation-basic-counter.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/js/script.js"></script>
+    <script type="module" src="js/animation-basic-counter.js"></script>
 </body>
-
 
 </html>

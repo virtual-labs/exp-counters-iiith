@@ -56,7 +56,7 @@ export function testBasicCounter(inputJ, inputK, inputClk, outputQB, outputQA)  
                 firstOutput = i;
                 break;
             }
-        };
+        }
         if (firstOutput == -1) {
             circuitIsCorrect = false;
         }
@@ -117,7 +117,7 @@ export function testRingCounter(inputOri, inputClk, outputA, outputB, outputC)  
                 firstOutput = i;
                 break;
             }
-        };
+        }
         if (firstOutput == -1) {
             circuitIsCorrect = false;
         }

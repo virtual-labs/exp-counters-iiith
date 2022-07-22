@@ -149,7 +149,7 @@ export function getResultRS(ff) {
         return;
     }
 
-    if (getOutputRS(ff.r[0], ff.r[1]) != null && getOutputRS(ff.s[0], ff.s[1]) != null && getOutputRS(ff.clk[0], ff.clk[1]) != null) {
+    if (getOutputRS(ff.r[0], ff.r[1]) !== null && getOutputRS(ff.s[0], ff.s[1]) !== null && getOutputRS(ff.clk[0], ff.clk[1]) !== null) {
         ff.generateOutput();
     }
     return;
@@ -159,7 +159,7 @@ export function getResultRS(ff) {
 // done checking
 export function checkConnectionsRS() {
     let correctConnection = true;
-    for (let ffID in flipFlops) {
+    for (const ffID in flipFlops) {
         const gate = flipFlops[ffID];
         // For Full Adder objects
         // Check if all the outputs are connected
@@ -185,7 +185,7 @@ export function checkConnectionsRS() {
             break;
         }
     }
-    for (let gateId in gates) {
+    for (const gateId in gates) {
         const gate = gates[gateId];
         if (gate.isInput) {
             if (!gate.isConnected) {
@@ -200,7 +200,7 @@ export function checkConnectionsRS() {
             }
         }
         else {
-            if (gate.inputPoints.length != gate.inputs.length) {
+            if (gate.inputPoints.length !== gate.inputs.length) {
                 correctConnection = false;
             }
             else if (!gate.isConnected && !gate.isOutput) {
@@ -208,26 +208,18 @@ export function checkConnectionsRS() {
             }
         }
     }
-
-    if (correctConnection) {
-        return true;
-    }
-    else {
-        // printErrors("Connections are not correct\n");
-        // alert("Connections are not correct");
-        return false;
-    }
+    return correctConnection;
 }
 
 export function simulateFFRS() {
-    for (let ffID in flipFlops) {
+    for (const ffID in flipFlops) {
         const gate = flipFlops[ffID];
         getResultRS(gate);
     }
 }
 
 export function testSimulateFFRS(flipFlops) {
-    for (let ffID in flipFlops) {
+    for (const ffID in flipFlops) {
         const gate = flipFlops[ffID];
         getResultRS(gate);
     }
@@ -371,7 +363,7 @@ export function getResultJK(ff) {
     }
 
 
-    if (getOutputJK(ff.k[0], ff.k[1]) != null && getOutputJK(ff.j[0], ff.j[1]) != null && getOutputJK(ff.clk[0], ff.clk[1]) != null) {
+    if (getOutputJK(ff.k[0], ff.k[1]) !== null && getOutputJK(ff.j[0], ff.j[1]) !== null && getOutputJK(ff.clk[0], ff.clk[1]) !== null) {
         ff.generateOutput();
     }
 
@@ -381,7 +373,7 @@ export function getResultJK(ff) {
 // done checking
 export function checkConnectionsJK() {
     let correctConnection = true;
-    for (let ffID in flipFlops) {
+    for (const ffID in flipFlops) {
         const gate = flipFlops[ffID];
         // For Full Adder objects
         // Check if all the outputs are connected
@@ -409,7 +401,7 @@ export function checkConnectionsJK() {
         }
     }
     let count = 0;
-    for (let gateId in gates) {
+    for (const gateId in gates) {
         const gate = gates[gateId];
         if(gate.type === "Input" && gate.output === true)
         {
@@ -428,7 +420,7 @@ export function checkConnectionsJK() {
             }
         }
         else {
-            if (gate.inputPoints.length != gate.inputs.length) {
+            if (gate.inputPoints.length !== gate.inputs.length) {
                 correctConnection = false;
             }
             else if (!gate.isConnected && !gate.isOutput) {
@@ -453,14 +445,14 @@ export function checkConnectionsJK() {
 }
 
 export function simulateFFJK() {
-    for (let ffID in flipFlops) {
+    for (const ffID in flipFlops) {
         const gate = flipFlops[ffID];
         getResultJK(gate);
     }
 }
 
 export function testSimulateFFJK(flipFlops) {
-    for (let ffID in flipFlops) {
+    for (const ffID in flipFlops) {
         const gate = flipFlops[ffID];
         getResultJK(gate);
     }
@@ -607,7 +599,7 @@ export function getResultDD(ff) {
             return;
         }
     }
-    if (getOutputD(ff.d[0], ff.d[1]) != null && getOutputD(ff.clk[0], ff.clk[1]) != null) {
+    if (getOutputD(ff.d[0], ff.d[1]) !== null && getOutputD(ff.clk[0], ff.clk[1]) !== null) {
             ff.generateOutput();
     }
     return;
@@ -623,7 +615,7 @@ export function checkConnectionsDD() {
         // Check if all the outputs are connected
         const id = document.getElementById(gate.id);
 
-        if(gate.pr.length != 0 && gate.clr.length != 0){
+        if(gate.pr.length !== 0 && gate.clr.length !== 0){
             correctConnection = false;
             printErrors("Can't activate both preset and clear\n",id);
             break;
@@ -646,16 +638,11 @@ export function checkConnectionsDD() {
             break;
         }
     }
-    let count=0;
     let oriVal=false;
     for (let gateId in gates) {
         const gate = gates[gateId];
         if(gate.type==="Input"){
             oriVal=gate.output;
-        }
-        if(gate.type === "Output" && gate.output==null)
-        {
-            count++;
         }
         if (gate.isInput) {
             if (!gate.isConnected) {
@@ -670,7 +657,7 @@ export function checkConnectionsDD() {
             }
         }
         else {
-            if (gate.inputPoints.length != gate.inputs.length) {
+            if (gate.inputPoints.length !== gate.inputs.length) {
                 correctConnection = false;
             }
             else if (!gate.isConnected && !gate.isOutput) {
@@ -726,8 +713,8 @@ export function deleteFF(id) {
             if (flipFlops[key].j[0] === ff) {
                 flipFlops[key].j = null;
             }
-            if (flipFlops[key].j[0] === ff) {
-                flipFlops[key].j = null;
+            if (flipFlops[key].k[0] === ff) {
+                flipFlops[key].k = null;
             }
             if (flipFlops[key].clk[0] === ff) {
                 flipFlops[key].clk = null;

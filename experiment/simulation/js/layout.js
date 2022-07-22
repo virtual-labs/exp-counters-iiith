@@ -1,12 +1,12 @@
-import { simulate, deleteElement } from "./gate.js";
-import { connectGate, connectRSFF, connectJKFF, unbindEvent, initRSFlipFlop, initDFlipFlop, initJKFlipFlop, refreshWorkingArea, initTFlipFlop, connectDFlipFlopGate } from "./main.js";
+import { deleteElement } from "./gate.js";
+import { connectJKFF, unbindEvent, initDFlipFlop , refreshWorkingArea, initTFlipFlop, connectDFlipFlopGate } from "./main.js";
 import { deleteFF } from "./flipflop.js";
 
 'use strict';
 
 // Wires
 export const wireColours = ["#ff0000", "#00ff00", "#0000ff", "#bf6be3", "#ff00ff", "#00ffff", "#ff8000", "#00ff80", "#80ff00", "#ff0080", "#8080ff", "#c0c0c0"];
-
+const EMPTY="";
 // Contextmenu
 const menu = document.querySelector(".menu");
 const menuOption = document.querySelector(".menu-option");
@@ -23,7 +23,7 @@ export const setPosition = ({ top, left }) => {
   toggleMenu("show");
 };
 
-window.addEventListener("click", e => {
+window.addEventListener("click", () => {
   if (menuVisible) toggleMenu("hide");
   window.selectedComponent = null;
   window.componentType = null;
@@ -50,7 +50,7 @@ function changeTabs(e) {
     return;
   }
 
-  if (window.currentTab != null) {
+  if (window.currentTab !== null) {
     document.getElementById(window.currentTab).classList.remove("is-active");
   }
   window.currentTab = task;
@@ -82,19 +82,17 @@ window.changeTabs = changeTabs;
 
 function updateInstructions() {
   if (window.currentTab === "task1") {
-    document.getElementById("TaskTitle").innerHTML = "Basic Counter";
-    document.getElementById("TaskDescription").innerHTML = 'Implement a Basic Counter using JK Flip-Flops where QB is MSB and QA is LSB.'
+    document.getElementById("task-description").innerHTML = 'Instructions<br>Implement a Basic Counter using JK Flip-Flops where QB is MSB and QA is LSB.'
   }
   else if (window.currentTab === "task2") {
-    document.getElementById("TaskTitle").innerHTML = "Ring Counter";
-    document.getElementById("TaskDescription").innerHTML = 'Implement a Ring Counter using D Flip-Flops where set bit must move from QA->QB->QC';
+    document.getElementById("task-description").innerHTML = 'Instructions<br>Implement a Ring Counter using D Flip-Flops where set bit must move from QA->QB->QC';
   }
 }
 
 // Toolbar
 
 function updateToolbar() {
-  let elem = "";
+  let elem = EMPTY;
   if (window.currentTab === "task1") {
     elem = '<div class="component-button jkflipflop" onclick="addJKFlipFlop(event)"></div>'
   }
@@ -110,10 +108,9 @@ function updateToolbar() {
 // Clear observations
 function clearObservations() {
 
-  document.getElementById("table-body").innerHTML = "";
-  let head = ''
-  document.getElementById("table-head").innerHTML = head;
-  document.getElementById('result').innerHTML = "";
+  document.getElementById("table-body").innerHTML = EMPTY;
+  document.getElementById("table-head").innerHTML = EMPTY;
+  document.getElementById('result').innerHTML = EMPTY;
 
 }
 
@@ -138,14 +135,6 @@ function toggleSimulation() {
 
 simButton.addEventListener("click", toggleSimulation);
 
-
-
-// Instruction box
-const instructionBox = document.getElementsByClassName("instructions-box")[0];
-instructionBox.addEventListener("click", (e) => {
-  instructionBox.classList.toggle("expand");
-});
-
 // Making webpage responsive
 
 // Dimensions of working area
@@ -156,9 +145,9 @@ const circuitBoardTop = circuitBoard.offsetTop;
 const windowHeight = window.innerHeight;
 const width = window.innerWidth;
 if (width < 1024) {
-  circuitBoard.style.height = 600 + "px";
+  circuitBoard.style.height ="600px";
 } else {
-  circuitBoard.style.height = windowHeight - circuitBoardTop - 20 + "px";
+  circuitBoard.style.height = `${windowHeight - circuitBoardTop - 20}px`;
 }
 
 function resize() {

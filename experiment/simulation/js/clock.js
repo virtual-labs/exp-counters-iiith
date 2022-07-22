@@ -1,6 +1,5 @@
 import { gates } from "./gate.js";
 import { registerGate } from "./main.js";
-import { setPosition } from "./layout.js";
 
 'use strict';
 
@@ -50,24 +49,7 @@ export class Clock {
          el.style.left = x + "px";
          el.style.top = y + "px";
  
-         if (this.type != "Input" && this.type != "Output" && this.type != "Clock") {
- 
-             el.addEventListener(
-                 "contextmenu",
-                 function (ev) {
-                     ev.preventDefault();
-                     const origin = {
-                         left: ev.pageX - document.getScroll()[0],
-                         top: ev.pageY - document.getScroll()[1],
-                     };
-                     setPosition(origin);
-                     window.selectedComponent = this.id;
-                     window.componentType = "gate";
-                     return false;
-                 },
-                 false
-             );
-         }
+        
          gates[this.id] = this;
          registerGate(this.id, this);
 
@@ -145,10 +127,10 @@ export class Clock {
 
 export function addClock(frequency, dutyCycle, workingArea, x, y, name, id) {
     let clock = new Clock(frequency, dutyCycle);
-    if(id != null) {
+    if(id !== null) {
     clock.setId(id);
     }
-    if(name != null) {
+    if(name !== null) {
     clock.setName(name);
     }
     clock.updateComponent();
@@ -158,13 +140,3 @@ export function addClock(frequency, dutyCycle, workingArea, x, y, name, id) {
 
     return clock;
 }
-
-// const clockAdd = document.getElementById("clockAdd");
-// clockAdd.addEventListener('click', function () {
-//     const frequency = document.getElementById("frequency-input").value;
-//     const dutyCycle = document.getElementById("dutycycle-input").value;
-//     addClock(frequency,dutyCycle,"working-area",0,0,null,null)
-//     toggleModal();
-// });
-
-

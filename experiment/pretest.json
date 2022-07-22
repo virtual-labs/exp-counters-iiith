@@ -2,7 +2,7 @@
     "version": 2.0,
     "questions": [
         {
-            "question": "1. In an asynchronous basic counter that consist of 10 flip-flops can act as a  ",
+            "question": "1. An asynchronous basic counter that consist of 10 flip-flops can act as a  ",
             "answers": {
                 "a": "10: 1 counter",
                 "b": "512: 1 counter",
@@ -44,7 +44,7 @@
             "difficulty": "intermediate"
         },
         {
-            "question": "Raghav was making a modulus 4 bit asynchronous counter instead of connecting clk of flip flop 2 with Q of flip flop 1 he connects it with Q` what will be observe ",
+            "question": "4. Raghav was making a modulus 4 bit asynchronous counter instead of connecting clk of flip flop 2 with Q of flip flop 1 he connects it with Q` what will be observe ",
             "answers": {
                 "a": "It acts as modulus 16 bit asynchronous up counter",
                 "b": "It acts as modulus 4 bit asynchronous up counter",
@@ -53,12 +53,12 @@
             },
             "correctAnswer": "d",
             "explanations": {
-                "a":"Use of Q` instead of Q makes it a asynchronous down counter"
+                "d":"Use of Q` instead of Q makes it a asynchronous down counter"
             },
             "difficulty": "advanced"
         },
         {
-            "question": "A 5 bit ripple-counter is created, for this task T flip flops are used. What should be the value of the inputs that the T flip flop should receive ",
+            "question": "5. A 5 bit ripple-counter is created, for this task T flip flops are used. What should be the value of the inputs that the T flip flop should receive ",
             "answers": {
                 "a": "1,0,1,0,1",
                 "b": "0,1,1,1,1",

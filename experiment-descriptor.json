@@ -28,6 +28,13 @@
       "content-type": "text"
     },
     {
+      "unit-type": "task",
+      "label": "Pretest",
+      "content-type": "assesment",
+      "source": "pretest.json",
+      "target": "pretest.html"
+    },
+    {
       "target": "basic_counter.html",
       "source": "simulation/basic_counter.html",
       "label": "Demo",
@@ -40,6 +47,13 @@
       "label": "Practice",
       "unit-type": "task",
       "content-type": "simulation"
+    },
+    {
+      "unit-type": "task",
+      "label": "Posttest",
+      "content-type": "assesment",
+      "source": "posttest.json",
+      "target": "posttest.html"
     },
     {
       "target": "assignment.html",
