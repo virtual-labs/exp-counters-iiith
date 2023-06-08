@@ -2,7 +2,7 @@
     "version": 2.0,
     "questions": [
         {
-            "question": "1. In a basic counter, what should the values of input of input J and K be set to:",
+            "question": "1. In a basic counter, what should the values of input J and K be set to:",
             "answers": {
                 "a": "1, 1",
                 "b": "0, 0",
