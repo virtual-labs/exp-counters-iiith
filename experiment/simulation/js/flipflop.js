@@ -614,9 +614,8 @@ export function checkConnectionsDD() {
         // For Full Adder objects
         // Check if all the outputs are connected
         const id = document.getElementById(gate.id);
-        console.log(gate.constructor.name);
 
-        if((gate.pr!==NULL || gate.pr.length !== 0) && (gate.clr!=NULL || gate.clr.length !== 0)){
+        if((gate.pr!== null && gate.pr.length !== 0) && (gate.clr!== null && gate.clr.length !== 0)){
             correctConnection = false;
             printErrors("Can't activate both preset and clear\n",id);
             break;
@@ -711,7 +710,7 @@ export function deleteFF(ffid) {
     jsPlumbInstance._removeElement(document.getElementById(ff.id));
     for (let key in flipFlops) {
         if (ff.constructor.name === "JKFlipFlop") {
-            if (flipFlops[key].j!=NULL && flipFlops[key].j[0] === ff) {
+            if (flipFlops[key].j!=null && flipFlops[key].j[0] === ff) {
                 flipFlops[key].j = null;
             }
             if (flipFlops[key].k[0] === ff) {
@@ -733,17 +732,17 @@ export function deleteFF(ffid) {
             }
         }
         else if (ff.constructor.name === "DFlipFlop") {
-            if (flipFlops[key].d!==NULL && flipFlops[key].d[0] === ff) {
+            if (flipFlops[key].d!==null && flipFlops[key].d[0] === ff) {
                 flipFlops[key].d = null;
             }
-            if (flipFlops[key].clk!==NULL && flipFlops[key].clk[0] === ff) {
+            if (flipFlops[key].clk!== null && flipFlops[key].clk[0] === ff) {
                 flipFlops[key].clk = null;
             }
-            if(flipFlops[key].pr!==NULL && flipFlops[key].pr[0] === ff)
+            if(flipFlops[key].pr!==null && flipFlops[key].pr[0] === ff)
             {
                 flipFlops[key].pr = null;
             }
-            if(flipFlops[key].clr!==NULL && flipFlops[key].clr[0] === ff)
+            if(flipFlops[key].clr!==null && flipFlops[key].clr[0] === ff)
             {
                 flipFlops[key].clr = null;
             }
@@ -763,7 +762,5 @@ export function deleteFF(ffid) {
         }
     }
 
-    console.log(Object.keys(flipFlops).length);
     delete flipFlops[ffid];
-    console.log(Object.keys(flipFlops).length);
 }
