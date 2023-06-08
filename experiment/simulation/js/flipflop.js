@@ -614,14 +614,15 @@ export function checkConnectionsDD() {
         // For Full Adder objects
         // Check if all the outputs are connected
         const id = document.getElementById(gate.id);
+        console.log(gate.constructor.name);
 
-        if(gate.pr.length !== 0 && gate.clr.length !== 0){
+        if((gate.pr!==NULL || gate.pr.length !== 0) && (gate.clr!=NULL || gate.clr.length !== 0)){
             correctConnection = false;
             printErrors("Can't activate both preset and clear\n",id);
             break;
         }
 
-        if (gate.qIsConnected == false) {
+        if (gate.qIsConnected === false) {
             correctConnection = false;
             printErrors("Q of flip flops must be connected\n",id);
             break;
@@ -704,13 +705,13 @@ export function testSimulateDD(flipFlops) {
     }
 }
 
-export function deleteFF(id) {
-    const ff = flipFlops[id];
+export function deleteFF(ffid) {
+    const ff = flipFlops[ffid];
     jsPlumbInstance.removeAllEndpoints(document.getElementById(ff.id));
     jsPlumbInstance._removeElement(document.getElementById(ff.id));
     for (let key in flipFlops) {
         if (ff.constructor.name === "JKFlipFlop") {
-            if (flipFlops[key].j[0] === ff) {
+            if (flipFlops[key].j!=NULL && flipFlops[key].j[0] === ff) {
                 flipFlops[key].j = null;
             }
             if (flipFlops[key].k[0] === ff) {
@@ -732,17 +733,17 @@ export function deleteFF(id) {
             }
         }
         else if (ff.constructor.name === "DFlipFlop") {
-            if (flipFlops[key].d[0] === ff) {
+            if (flipFlops[key].d!==NULL && flipFlops[key].d[0] === ff) {
                 flipFlops[key].d = null;
             }
-            if (flipFlops[key].clk[0] === ff) {
+            if (flipFlops[key].clk!==NULL && flipFlops[key].clk[0] === ff) {
                 flipFlops[key].clk = null;
             }
-            if(flipFlops[key].pr[0] === ff)
+            if(flipFlops[key].pr!==NULL && flipFlops[key].pr[0] === ff)
             {
                 flipFlops[key].pr = null;
             }
-            if(flipFlops[key].clr[0] === ff)
+            if(flipFlops[key].clr!==NULL && flipFlops[key].clr[0] === ff)
             {
                 flipFlops[key].clr = null;
             }
@@ -762,6 +763,7 @@ export function deleteFF(id) {
         }
     }
 
-
-    delete flipFlops[id];
+    console.log(Object.keys(flipFlops).length);
+    delete flipFlops[ffid];
+    console.log(Object.keys(flipFlops).length);
 }
