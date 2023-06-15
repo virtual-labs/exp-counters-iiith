@@ -23,11 +23,36 @@ export class RSFlipFlop {
         this.clk = [];
         this.q = null;
         this.qbar = null;
+        this.qOutputs = [];
+        this.qbarOutputs = [];
         this.inputPoints = [];
         this.outputPoints = [];
         this.qIsConnected = false;
         this.qbarIsConnected = false;
         this.component = `<div class="drag-drop rsflipflop" id=${this.id}></div>`;
+    }
+    addqOutput(gate) {
+        this.qOutputs.push(gate);
+    }
+    addqbarOutput(gate) {
+        this.qbarOutputs.push(gate);
+    }
+
+    removeqOutput(gate) {
+        // Find and remove all occurrences of gate
+      for (let i = this.qOutputs.length - 1; i >= 0; i--) {
+        if (this.qOutputs[i] === gate) {
+          this.qOutputs.splice(i, 1);
+            }
+        }
+    }
+    removeqbarOutput(gate) {
+        // Find and remove all occurrences of gate
+      for (let i = this.qbarOutputs.length - 1; i >= 0; i--) {
+        if (this.qbarOutputs[i] === gate) {
+          this.qbarOutputs.splice(i, 1);
+            }
+        }
     }
     registerComponent(workingArea, x = 0, y = 0) {
         const parent = document.getElementById(workingArea);
@@ -163,11 +188,11 @@ export function checkConnectionsRS() {
         const gate = flipFlops[ffID];
         // For Full Adder objects
         // Check if all the outputs are connected
-        if (!gate.qIsConnected) {
+        if (!gate.qIsConnected || gate.qOutputs.length===0) {
             correctConnection = false;
             break;
         }
-        if (!gate.qbarIsConnected) {
+        if (!gate.qbarIsConnected || gate.qbarOutputs.length===0) {
             correctConnection = false;
             break;
         }
@@ -187,8 +212,8 @@ export function checkConnectionsRS() {
     }
     for (const gateId in gates) {
         const gate = gates[gateId];
-        if (gate.isInput) {
-            if (!gate.isConnected) {
+        if (gate.isInput && gate.type!=="Clock") {
+            if (!gate.isConnected || gate.outputs.length===0) {
                 correctConnection = false;
                 break;
             }
@@ -203,7 +228,7 @@ export function checkConnectionsRS() {
             if (gate.inputPoints.length !== gate.inputs.length) {
                 correctConnection = false;
             }
-            else if (!gate.isConnected && !gate.isOutput) {
+            else if (!gate.isOutput && gate.type!== "Clock" && (!gate.isConnected || gate.outputs.length===0)) {
                 correctConnection = false;
             }
         }
@@ -238,10 +263,35 @@ export class JKFlipFlop {
         this.qbar = false;
         this.inputPoints = [];
         this.outputPoints = [];
+        this.qOutputs = [];
+        this.qbarOutputs = [];
         this.qIsConnected = false;
         this.qbarIsConnected = false;
         this.component = `<div class="drag-drop jkflipflop" id=${this.id}></div>`;
         this.prevclk = false;
+    }
+    addqOutput(gate) {
+        this.qOutputs.push(gate);
+    }
+    addqbarOutput(gate) {
+        this.qbarOutputs.push(gate);
+    }
+
+    removeqOutput(gate) {
+        // Find and remove all occurrences of gate
+      for (let i = this.qOutputs.length - 1; i >= 0; i--) {
+        if (this.qOutputs[i] === gate) {
+          this.qOutputs.splice(i, 1);
+            }
+        }
+    }
+    removeqbarOutput(gate) {
+        // Find and remove all occurrences of gate
+      for (let i = this.qbarOutputs.length - 1; i >= 0; i--) {
+        if (this.qbarOutputs[i] === gate) {
+          this.qbarOutputs.splice(i, 1);
+            }
+        }
     }
     registerComponent(workingArea, x = 0, y = 0) {
         const parent = document.getElementById(workingArea);
@@ -378,7 +428,7 @@ export function checkConnectionsJK() {
         // For Full Adder objects
         // Check if all the outputs are connected
         const id = document.getElementById(gate.id);
-        if (!gate.qIsConnected) {
+        if (!gate.qIsConnected || gate.qOutputs.length===0) {
             printErrors("Q of Flip-Flop must be connected\n",id);
             correctConnection = false;
             break;
@@ -407,8 +457,8 @@ export function checkConnectionsJK() {
         {
             count++;
         }
-        if (gate.isInput) {
-            if (!gate.isConnected) {
+        if (gate.isInput && gate.type!=="Clock") {
+            if (!gate.isConnected || gate.outputs.length===0) {
                 correctConnection = false;
                 break;
             }
@@ -423,7 +473,7 @@ export function checkConnectionsJK() {
             if (gate.inputPoints.length !== gate.inputs.length) {
                 correctConnection = false;
             }
-            else if (!gate.isConnected && !gate.isOutput) {
+            else if (!gate.isOutput && gate.type!== "Clock" && (!gate.isConnected || gate.outputs.length===0)) {
                 correctConnection = false;
             }
         }
@@ -471,10 +521,35 @@ class DFlipFlop {
         this.qbar = null;
         this.inputPoints = [];
         this.outputPoints = [];
+        this.qOutputs = [];
+        this.qbarOutputs = [];
         this.qIsConnected = false;
         this.qbarIsConnected = false;
         this.prevclk = false;
         this.component = '<div class="drag-drop dflipflop" id=' + this.id + '></div>';
+    }
+    addqOutput(gate) {
+        this.qOutputs.push(gate);
+    }
+    addqbarOutput(gate) {
+        this.qbarOutputs.push(gate);
+    }
+
+    removeqOutput(gate) {
+        // Find and remove all occurrences of gate
+      for (let i = this.qOutputs.length - 1; i >= 0; i--) {
+        if (this.qOutputs[i] === gate) {
+          this.qOutputs.splice(i, 1);
+            }
+        }
+    }
+    removeqbarOutput(gate) {
+        // Find and remove all occurrences of gate
+      for (let i = this.qbarOutputs.length - 1; i >= 0; i--) {
+        if (this.qbarOutputs[i] === gate) {
+          this.qbarOutputs.splice(i, 1);
+            }
+        }
     }
     registerComponent(workingArea, x = 0, y = 0) {
         const parent = document.getElementById(workingArea);
@@ -621,7 +696,7 @@ export function checkConnectionsDD() {
             break;
         }
 
-        if (gate.qIsConnected === false) {
+        if (gate.qIsConnected === false || gate.qOutputs.length===0) {
             correctConnection = false;
             printErrors("Q of flip flops must be connected\n",id);
             break;
@@ -641,11 +716,11 @@ export function checkConnectionsDD() {
     let oriVal=false;
     for (let gateId in gates) {
         const gate = gates[gateId];
-        if(gate.type==="Input"){
+        if(gate.type==="Input" && gate.type!=="Clock"){
             oriVal=gate.output;
         }
         if (gate.isInput) {
-            if (!gate.isConnected) {
+            if (!gate.isConnected || gate.outputs.length===0) {
                 correctConnection = false;
                 break;
             }
@@ -660,7 +735,7 @@ export function checkConnectionsDD() {
             if (gate.inputPoints.length !== gate.inputs.length) {
                 correctConnection = false;
             }
-            else if (!gate.isConnected && !gate.isOutput) {
+            else if (!gate.isOutput && gate.type!== "Clock" && (!gate.isConnected || gate.outputs.length===0)) {
                 correctConnection = false;
             }
         }
@@ -719,6 +794,12 @@ export function deleteFF(ffid) {
             if (flipFlops[key].clk[0] === ff) {
                 flipFlops[key].clk = null;
             }
+            if(flipFlops[key].qOutputs.includes(ff)) {
+                flipFlops[key].removeqOutput(ff);
+            }
+            if(flipFlops[key].qbarOutputs.includes(ff)) {
+                flipFlops[key].removeqbarOutput(ff);
+            }
         }
         else if (ff.constructor.name === "RSFlipFlop") {
             if (flipFlops[key].r[0] === ff) {
@@ -729,6 +810,12 @@ export function deleteFF(ffid) {
             }
             if (flipFlops[key].clk[0] === ff) {
                 flipFlops[key].clk = null;
+            }
+            if(flipFlops[key].qOutputs.includes(ff)) {
+                flipFlops[key].removeqOutput(ff);
+            }
+            if(flipFlops[key].qbarOutputs.includes(ff)) {
+                flipFlops[key].removeqbarOutput(ff);
             }
         }
         else if (ff.constructor.name === "DFlipFlop") {
@@ -746,6 +833,12 @@ export function deleteFF(ffid) {
             {
                 flipFlops[key].clr = null;
             }
+            if(flipFlops[key].qOutputs.includes(ff)) {
+                flipFlops[key].removeqOutput(ff);
+            }
+            if(flipFlops[key].qbarOutputs.includes(ff)) {
+                flipFlops[key].removeqbarOutput(ff);
+            }
         }
     }
 
@@ -759,6 +852,9 @@ export function deleteFF(ffid) {
         }
         if (found === 1) {
             gates[elem].removeInput(ff);
+        }
+        if(gates[elem].outputs.includes(ff)) {
+            gates[elem].removeOutput(ff);
         }
     }
 
