@@ -1,7 +1,7 @@
 import { registerGate, jsPlumbInstance } from "./main.js";
 import { setPosition } from "./layout.js";
 import {computeAnd, computeNand, computeNor, computeOr, computeXnor, computeXor, testBasicCounter, testRingCounter } from "./validator.js";
-import {checkConnectionsJK, simulateFFJK, testSimulateFFJK, simulateFFDD, checkConnectionsDD, testSimulateDD } from "./flipflop.js";
+import {flipFlops, checkConnectionsJK, simulateFFJK, testSimulateFFJK, simulateFFDD, checkConnectionsDD, testSimulateDD } from "./flipflop.js";
 
 'use strict';
 const EMPTY="";
@@ -26,6 +26,7 @@ export class Gate {
         this.inputPoints = [];
         this.outputPoints = [];
         this.inputs = []; // List of input gates
+        this.outputs=[];
         this.output = null; // Output value
         this.isInput = false;
         this.isOutput = false;
@@ -37,19 +38,22 @@ export class Gate {
     addInput(gate, pos) {
         this.inputs.push([gate, pos]);
     }
+    addOutput(gate) {
+        this.outputs.push(gate);
+    }
     removeInput(gate) {
-        let index = -1;
-        let i = 0;
-        for (let input in this.inputs) {
-            if (this.inputs[input][0] === gate) {
-                index = i;
-                break;
+        for (let i = this.inputs.length - 1; i >= 0; i--) {
+            if (this.inputs[i][0] === gate) {
+              this.inputs.splice(i, 1);
             }
-            i++;
         }
-
-        if (index > -1) {
-            this.inputs.splice(index, 1);
+    }
+    removeOutput(gate) {
+        // Find and remove all occurrences of gate
+      for (let i = this.outputs.length - 1; i >= 0; i--) {
+        if (this.outputs[i] === gate) {
+          this.outputs.splice(i, 1);
+            }
         }
     }
     updatePosition(id) {
@@ -254,7 +258,7 @@ export function checkConnections() {
             printErrors("highlighted component not connected properly",id);
             return false;
         }
-        else if (!gate.isConnected && !gate.isOutput) {
+        else if (gate.type!=="Clock" && (!gate.isConnected || gate.outputs.length==0) && !gate.isOutput) {
             printErrors("highlighted component not connected properly",id);
             return false;
         }
@@ -619,6 +623,9 @@ export function deleteElement(gateid) {
         }
         if (found === 1) {
             gates[elem].removeInput(gate);
+        }
+        if(gates[elem].outputs.includes(gate)) {
+            gates[elem].removeOutput(gate);
         }
     }
     delete gates[gateid];
