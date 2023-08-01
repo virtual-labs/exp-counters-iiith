@@ -2,7 +2,7 @@
     "version": 2.0,
     "questions": [
         {
-            "question": "1. An asynchronous basic counter that consist of 10 flip-flops can act as a  ",
+            "question": "1. An asynchronous basic counter that consists of 10 flip-flops can act as a  ",
             "answers": {
                 "a": "10: 1 counter",
                 "b": "512: 1 counter",
@@ -16,7 +16,7 @@
             "difficulty": "beginner"
         },
         {
-            "question": "2. A synchronous ring counter that consist of 10 flip-flops acts as a ",
+            "question": "2. A synchronous ring counter that consists of 10 flip-flops acts as a ",
             "answers": {
                 "a": "10: 1 counter",
                 "b": "512: 1 counter",
@@ -25,7 +25,7 @@
             },
             "correctAnswer": "a",
             "explanations": {
-                "a":"For n flip-flops the basic counter acts as n: 1 counter"
+                "a":"For n flip-flops the ring counter acts as n: 1 counter"
             },
             "difficulty": "beginner"
         },
@@ -53,7 +53,7 @@
             },
             "correctAnswer": "d",
             "explanations": {
-                "d":"Use of Q` instead of Q makes it a asynchronous down counter"
+                "d":"Use of Q` instead of Q makes it an asynchronous down counter"
             },
             "difficulty": "advanced"
         },

@@ -52,6 +52,9 @@ export const connectGate = function () {
             return false;
         } else if (start_uuid === "output" && end_uuid === "output") {
             return false;
+        } else if ((end_uuid==="input" && toEndpoint.connections.length > 0) || (start_uuid==="input" && fromEndpoint.connections.length>1)) {
+            // If it already has a connection, do not establish a new connection
+            return false;
         } else {
             jsPlumbInstance.connect({ uuids: [fromEndpoint.uuid, toEndpoint.uuid], paintStyle: { stroke: wireColours[num_wires], strokeWidth: 4 } });
             num_wires++;
@@ -60,10 +63,12 @@ export const connectGate = function () {
                 const input = gatejs.gates[fromEndpoint.elementId];
                 input.isConnected = true;
                 gatejs.gates[toEndpoint.elementId].addInput(input, "");
+                input.addOutput(gatejs.gates[toEndpoint.elementId]);
             } else if (end_uuid === "output") {
                 const input = gatejs.gates[toEndpoint.elementId];
                 input.isConnected = true;
                 gatejs.gates[fromEndpoint.elementId].addInput(input, "");
+                input.addOutput(gatejs.gates[fromEndpoint.elementId]);
             }
 
         }
@@ -86,6 +91,9 @@ export const connectRSFF = function () {
             return false;
         } else if (start_uuid === "output" && end_uuid === "output") {
             return false;
+        } else if ((end_uuid==="input" && toEndpoint.connections.length > 0) || (start_uuid==="input" && fromEndpoint.connections.length>1)) {
+            // If it already has a connection, do not establish a new connection
+            return false;
         } else {
             jsPlumbInstance.connect({ uuids: [fromEndpoint.uuid, toEndpoint.uuid], paintStyle: { stroke: wireColours[num_wires], strokeWidth: 4 } });
             num_wires++;
@@ -101,9 +109,11 @@ export const connectRSFF = function () {
                     let pos = "";
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     if (Object.keys(toEndpoint.overlays)[0].includes("rin")) {
@@ -120,9 +130,11 @@ export const connectRSFF = function () {
                     let pos = "";
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     if (Object.keys(fromEndpoint.overlays)[0].includes("rin")) {
@@ -150,6 +162,7 @@ export const connectRSFF = function () {
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("clk")) {
                         flipflopjs.flipFlops[fromEndpoint.elementId].setClk([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                 }
             }
             else if (start_type === "Input" && end_type === "RSFlipFlop") {
@@ -166,6 +179,7 @@ export const connectRSFF = function () {
                     else if (Object.keys(toEndpoint.overlays)[0].includes("clk")) {
                         flipflopjs.flipFlops[toEndpoint.elementId].setClk([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                 }
             }
             else if (start_type === "RSFlipFlop" && end_type === "Output") {
@@ -175,9 +189,11 @@ export const connectRSFF = function () {
                     let pos = ""
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(gatejs.gates[toEndpoint.elementId]);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(gatejs.gates[toEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -190,9 +206,11 @@ export const connectRSFF = function () {
                     let pos = ""
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(gatejs.gates[fromEndpoint.elementId]);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -204,6 +222,7 @@ export const connectRSFF = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (start_type === "Output" && end_type === "Input") {
@@ -212,6 +231,7 @@ export const connectRSFF = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (start_type === "RSFlipFlop" && toEndpoint.elementId in gatejs.gates) {
@@ -223,9 +243,11 @@ export const connectRSFF = function () {
                     let pos = ""
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(output);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -246,6 +268,8 @@ export const connectRSFF = function () {
                         flipflopjs.flipFlops[fromEndpoint.elementId].setClk([input, pos]);
                     }
 
+                    input.addOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
+
                 }
             }
             else if (end_type === "RSFlipFlop" && fromEndpoint.elementId in gatejs.gates) {
@@ -265,6 +289,8 @@ export const connectRSFF = function () {
                         flipflopjs.flipFlops[toEndpoint.elementId].setClk([input, pos]);
                     }
 
+                    input.addOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
+
 
                 }
                 // connection is started from the inputs of gate
@@ -276,9 +302,11 @@ export const connectRSFF = function () {
                     let pos = ""
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(output);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -292,6 +320,7 @@ export const connectRSFF = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (fromEndpoint.elementId in gatejs.gates && end_type === "Input") {
@@ -300,6 +329,7 @@ export const connectRSFF = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
 
                 }
             }
@@ -309,6 +339,7 @@ export const connectRSFF = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (fromEndpoint.elementId in gatejs.gates && end_type === "Output") {
@@ -317,6 +348,7 @@ export const connectRSFF = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             
@@ -327,11 +359,13 @@ export const connectRSFF = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 } else if (end_uuid === "output") {
                     const input = gatejs.gates[toEndpoint.elementId];
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
         }
@@ -355,6 +389,9 @@ export const connectJKFF = function () {
             return false;
         } else if (start_uuid === "output" && end_uuid === "output") {
             return false;
+        } else if ((end_uuid==="input" && toEndpoint.connections.length > 0) || (start_uuid==="input" && fromEndpoint.connections.length>1)) {
+            // If it already has a connection, do not establish a new connection
+            return false;
         } else {
             jsPlumbInstance.connect({ uuids: [fromEndpoint.uuid, toEndpoint.uuid], paintStyle: { stroke: wireColours[num_wires], strokeWidth: 4 } });
             num_wires++;
@@ -371,9 +408,11 @@ export const connectJKFF = function () {
                     let pos = "";
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     if (Object.keys(toEndpoint.overlays)[0].includes("kin")) {
@@ -390,9 +429,11 @@ export const connectJKFF = function () {
                     let pos = "";
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     if (Object.keys(fromEndpoint.overlays)[0].includes("kin")) {
@@ -421,6 +462,7 @@ export const connectJKFF = function () {
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("clk")) {
                         flipflopjs.flipFlops[fromEndpoint.elementId].setClk([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                 }
             }
             
@@ -438,6 +480,7 @@ export const connectJKFF = function () {
                     else if (Object.keys(toEndpoint.overlays)[0].includes("clk")) {
                         flipflopjs.flipFlops[toEndpoint.elementId].setClk([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                 }
             }
             
@@ -448,9 +491,11 @@ export const connectJKFF = function () {
                     let pos = ""
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(gatejs.gates[toEndpoint.elementId]);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(gatejs.gates[toEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -464,9 +509,11 @@ export const connectJKFF = function () {
                     let pos = ""
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(gatejs.gates[fromEndpoint.elementId]);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -479,6 +526,7 @@ export const connectJKFF = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (start_type === "Output" && end_type === "Input") {
@@ -487,6 +535,7 @@ export const connectJKFF = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
            
@@ -499,9 +548,11 @@ export const connectJKFF = function () {
                     let pos = ""
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(output);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -521,6 +572,7 @@ export const connectJKFF = function () {
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("clk")) {
                         flipflopjs.flipFlops[fromEndpoint.elementId].setClk([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
 
                 }
             }
@@ -540,6 +592,7 @@ export const connectJKFF = function () {
                     else if (Object.keys(toEndpoint.overlays)[0].includes("clk")) {
                         flipflopjs.flipFlops[toEndpoint.elementId].setClk([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
 
 
                 }
@@ -552,9 +605,11 @@ export const connectJKFF = function () {
                     let pos = ""
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(output);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -568,6 +623,7 @@ export const connectJKFF = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (fromEndpoint.elementId in gatejs.gates && end_type === "Input") {
@@ -576,6 +632,7 @@ export const connectJKFF = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
 
                 }
             }
@@ -585,6 +642,7 @@ export const connectJKFF = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (fromEndpoint.elementId in gatejs.gates && end_type === "Output") {
@@ -593,6 +651,7 @@ export const connectJKFF = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             // need to check
@@ -603,11 +662,13 @@ export const connectJKFF = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 } else if (end_uuid === "output") {
                     const input = gatejs.gates[toEndpoint.elementId];
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             // return true;
@@ -632,6 +693,9 @@ export const connectDFlipFlopGate = function () {
             return false;
         } else if (start_uuid === "output" && end_uuid === "output") {
             return false;
+        } else if ((end_uuid==="input" && toEndpoint.connections.length > 0) || (start_uuid==="input" && fromEndpoint.connections.length>1)) {
+            // If it already has a connection, do not establish a new connection
+            return false;
         } else {
             jsPlumbInstance.connect({ uuids: [fromEndpoint.uuid, toEndpoint.uuid], paintStyle: { stroke: wireColours[num_wires], strokeWidth: 4 } });
             num_wires++;
@@ -647,9 +711,11 @@ export const connectDFlipFlopGate = function () {
                     let pos = "";
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     if (Object.keys(toEndpoint.overlays)[0].includes("din")) {
@@ -669,9 +735,11 @@ export const connectDFlipFlopGate = function () {
                     let pos = "";
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     if (Object.keys(fromEndpoint.overlays)[0].includes("din")) {
@@ -705,6 +773,7 @@ export const connectDFlipFlopGate = function () {
                     else if(Object.keys(fromEndpoint.overlays)[0].includes("clr")){
                         flipflopjs.flipFlops[fromEndpoint.elementId].setClr([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
                 }
             }
             else if (start_type === "Input" && end_type === "DFlipFlop") {
@@ -724,6 +793,7 @@ export const connectDFlipFlopGate = function () {
                     else if(Object.keys(toEndpoint.overlays)[0].includes("clr")){
                         flipflopjs.flipFlops[toEndpoint.elementId].setClr([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
                 }
             }
             else if (start_type === "DFlipFlop" && end_type === "Output") {
@@ -733,9 +803,11 @@ export const connectDFlipFlopGate = function () {
                     let pos = ""
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(gatejs.gates[toEndpoint.elementId]);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(gatejs.gates[toEndpoint.elementId]);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -748,9 +820,11 @@ export const connectDFlipFlopGate = function () {
                     let pos = ""
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(gatejs.gates[fromEndpoint.elementId]);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -762,6 +836,7 @@ export const connectDFlipFlopGate = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (start_type === "Output" && end_type === "Input") {
@@ -770,6 +845,7 @@ export const connectDFlipFlopGate = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (start_type === "DFlipFlop" && toEndpoint.elementId in gatejs.gates) {
@@ -781,9 +857,11 @@ export const connectDFlipFlopGate = function () {
                     let pos = ""
                     if (Object.keys(fromEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(output);
                     }
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -806,6 +884,7 @@ export const connectDFlipFlopGate = function () {
                     else if(Object.keys(fromEndpoint.overlays)[0].includes("clr")){
                         flipflopjs.flipFlops[fromEndpoint.elementId].setClr([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
 
                 }
             }
@@ -828,6 +907,7 @@ export const connectDFlipFlopGate = function () {
                     else if(Object.keys(toEndpoint.overlays)[0].includes("clr")){
                         flipflopjs.flipFlops[toEndpoint.elementId].setClr([input, pos]);
                     }
+                    input.addOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
 
                 }
                 // connection is started from the inputs of gate
@@ -839,9 +919,11 @@ export const connectDFlipFlopGate = function () {
                     let pos = ""
                     if (Object.keys(toEndpoint.overlays)[0].includes("qout")) {
                         pos = "Q";
+                        input.addqOutput(output);
                     }
                     else if (Object.keys(toEndpoint.overlays)[0].includes("qbarout")) {
                         pos = "Q'";
+                        input.addqbarOutput(output);
                     }
                     input.setConnected(true, pos);
                     output.addInput(input, pos);
@@ -855,6 +937,7 @@ export const connectDFlipFlopGate = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (fromEndpoint.elementId in gatejs.gates && end_type === "Input") {
@@ -863,6 +946,7 @@ export const connectDFlipFlopGate = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
 
                 }
             }
@@ -872,6 +956,7 @@ export const connectDFlipFlopGate = function () {
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             else if (fromEndpoint.elementId in gatejs.gates && end_type === "Output") {
@@ -880,6 +965,7 @@ export const connectDFlipFlopGate = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
             // need to check
@@ -890,11 +976,13 @@ export const connectDFlipFlopGate = function () {
                     const output = gatejs.gates[toEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 } else if (end_uuid === "output") {
                     const input = gatejs.gates[toEndpoint.elementId];
                     const output = gatejs.gates[fromEndpoint.elementId];
                     input.setConnected(true);
                     output.addInput(input, "");
+                    input.addOutput(output);
                 }
             }
         }

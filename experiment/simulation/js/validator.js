@@ -33,10 +33,17 @@ export function testBasicCounter(inputJ, inputK, inputClk, outputQB, outputQA)  
     let k = gates_list[inputK];
     let clk = gates_list[inputClk];
     let circuitIsCorrect = true;
+    let init_j = j.output;
+    let init_k = k.output;
+    let init_Clk = clk.output;
 
 
     let qa = gates_list[outputQA];
     let qb = gates_list[outputQB];
+
+    let init_qa = qa.output;
+    let init_qb = qb.output;
+
     // each list element consists of 2 values QB,QA
     // there are 4 unique states that are going to occur in a fixed order
     // we first simulate and find the current states
@@ -82,6 +89,11 @@ export function testBasicCounter(inputJ, inputK, inputClk, outputQB, outputQA)  
             result.innerHTML = "<span>&#10007;</span> Fail";
             result.className = "failure-message";
         }
+        j.setOutput(init_j);
+        k.setOutput(init_k);
+        clk.setOutput(init_Clk);
+        qa.setOutput(init_qa);
+        qb.setOutput(init_qb);
     }
 }
 
@@ -97,6 +109,12 @@ export function testRingCounter(inputOri, inputClk, outputA, outputB, outputC)  
     let outputb = gates_list[outputB];
     let outputc = gates_list[outputC];
     let circuitIsCorrect = true;
+
+    let init_ori = ori.output;
+    let init_Clk = clk.output;
+    let init_a = outputa.output;
+    let init_b = outputb.output;
+    let init_c = outputc.output;
     
     clk.setOutput(false);
     // each list element consists of e values QC,QB,QA
@@ -144,4 +162,9 @@ export function testRingCounter(inputOri, inputClk, outputA, outputB, outputC)  
             result.className = "failure-message";
         }
     }
+    ori.setOutput(init_ori);
+    clk.setOutput(init_Clk);
+    outputa.setOutput(init_a);
+    outputb.setOutput(init_b);
+    outputc.setOutput(init_c);
 }
