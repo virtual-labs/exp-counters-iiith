@@ -48,7 +48,6 @@ export class Clock {
         }
     }
 
-
     registerComponent(workingArea, x = 0, y = 0) {
 
          // get width of working area

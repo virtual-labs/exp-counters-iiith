@@ -267,6 +267,7 @@ export const connectRSFF = function () {
                     else if (Object.keys(fromEndpoint.overlays)[0].includes("clk")) {
                         flipflopjs.flipFlops[fromEndpoint.elementId].setClk([input, pos]);
                     }
+
                     input.addOutput(flipflopjs.flipFlops[fromEndpoint.elementId]);
 
                 }
@@ -287,6 +288,7 @@ export const connectRSFF = function () {
                     else if (Object.keys(toEndpoint.overlays)[0].includes("clk")) {
                         flipflopjs.flipFlops[toEndpoint.elementId].setClk([input, pos]);
                     }
+
                     input.addOutput(flipflopjs.flipFlops[toEndpoint.elementId]);
 
 
