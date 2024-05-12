@@ -1,6 +1,6 @@
 import { registerGate, jsPlumbInstance } from "./main.js";
 import { setPosition } from "./layout.js";
-import {computeAnd, computeNand, computeNor, computeOr, computeXnor, computeXor, testBasicCounter, testRingCounter } from "./validator.js";
+import {computeAnd, computeNand, computeNor, computeOr, computeXnor, computeXor, testBasicCounter, testRingCounter, testFreqDivider } from "./validator.js";
 import {flipFlops, checkConnectionsJK, simulateFFJK, testSimulateFFJK, simulateFFDD, checkConnectionsDD, testSimulateDD } from "./flipflop.js";
 
 'use strict';
@@ -287,6 +287,11 @@ export function simulate() {
             return false;
         }
     }
+    else if (window.currentTab === "task3") {
+        if (!checkConnectionsJK()) {
+            return false;
+        }
+    }
 
     // handling ori for task 2
     if (window.currentTab === "task2") {
@@ -429,6 +434,9 @@ function simulate2() {
         else if (window.currentTab === "task1") {
             simulateFFJK();
         }
+        else if (window.currentTab === "task3") {
+            simulateFFJK();
+        }
 
     }
     // output bits
@@ -468,6 +476,12 @@ export function testSimulation(gates, flipFlops) {
         }
     }
 
+    else if (window.currentTab === "task3") {
+        if (!checkConnectionsJK()) {
+            return false;
+        }
+    }
+
 
     // input bits
     for (let gateId in gates) {
@@ -495,7 +509,7 @@ export function testSimulation(gates, flipFlops) {
         }
     }
     // logic gates and flip flop
-    if (window.currentTab === "task1") {
+    if (window.currentTab === "task1" || window.currentTab === "task3") {
         for (let iterations = 0; iterations < 4; iterations++) {
             for (let gateId in gates) {
                 const gate = gates[gateId];
@@ -600,6 +614,9 @@ export function submitCircuit() {
     }
     else if (window.currentTab === "task1") {
         testBasicCounter("Input-0", "Input-1", "Clock-0", "Output-2", "Output-3");
+    }
+    else if (window.currentTab === "task3") {
+        testFreqDivider("Input-0", "Input-1", "Clock-0", "Output-2");
     }
 }
 window.submitCircuit = submitCircuit;

@@ -1470,6 +1470,27 @@ export function initTFlipFlop() {
     clockjs.addClock(0.5, 50, "working-area", 40, 400, "Clk", "Clock-0");
 }
 
+export function initFreqDivider() {
+    const ids = ["Input-0", "Input-1", "Output-2"]; // [A B Sum Carry Out]
+    const types = ["Input","Input" ,"Output"];
+    const names = ["J","K" ,"New Clock"];
+    const positions = [
+        { x: 40, y: 200 },
+        { x: 40, y: 550 },
+        { x: 820, y: 200 }
+    ];
+    for (let i = 0; i < ids.length; i++) {
+        let gate = new gatejs.Gate(types[i]);
+        gate.setId(ids[i]);
+        gate.setName(names[i]);
+        const component = gate.generateComponent();
+        const parent = document.getElementById("working-area");
+        parent.insertAdjacentHTML('beforeend', component);
+        gate.registerComponent("working-area", positions[i].x, positions[i].y);
+    }
+    clockjs.addClock(0.5, 50, "working-area", 40, 400, "Clk", "Clock-0");
+}
+
 export function refreshWorkingArea() {
     jsPlumbInstance.reset();
     window.numComponents = 0;
