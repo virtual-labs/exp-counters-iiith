@@ -168,3 +168,73 @@ export function testRingCounter(inputOri, inputClk, outputA, outputB, outputC)  
     outputb.setOutput(init_b);
     outputc.setOutput(init_c);
 }
+
+// Frequency Divider Tester
+export function testFreqDivider(inputJ, inputK, inputClk, output)  // This function takes 4 ids of the respective Gates
+{
+    let gates_list = gates;
+    let flipflops_list = flipFlops;
+    let j = gates_list[inputJ];
+    let k = gates_list[inputK];
+    let clk = gates_list[inputClk];
+    let circuitIsCorrect = true;
+    let init_j = j.output;
+    let init_k = k.output;
+    let init_Clk = clk.output;
+
+
+    let out = gates_list[output];
+
+    let init_out = out.output;
+
+    // each list element consists of 2 values QB,QA
+    // there are 4 unique states that are going to occur in a fixed order
+    // we first simulate and find the current states
+    // simulate further 7 times to check if the order matches or not
+    const expectedOutputs = [[false], [true], [true], [false], [false], [true], [true], [false]];
+    j.setOutput(true);
+    k.setOutput(true);
+    clk.setOutput(false);
+    if (testSimulation(gates_list, flipflops_list)) {
+        clk.setOutput(true);
+        testSimulation(gates_list, flipflops_list);
+        clk.setOutput(false);
+        testSimulation(gates_list, flipflops_list);
+        let firstOutput = -1;
+        for (let i = 0; i < 4; i++) {
+            if (out.output == expectedOutputs[i][0]) {
+                firstOutput = i;
+                break;
+            }
+        }
+        if (firstOutput == -1) {
+            circuitIsCorrect = false;
+        }
+        else {
+            for (let i = 1; i < 8; i++) {
+                clk.setOutput(true);
+                testSimulation(gates_list, flipflops_list);
+                clk.setOutput(false);
+                testSimulation(gates_list, flipflops_list);
+                // check if output is correct
+                if (out.output !== expectedOutputs[(i + firstOutput) % 8][0]) {
+                    circuitIsCorrect = false;
+                }
+            }
+        }
+        const result = document.getElementById('result');
+
+        if (circuitIsCorrect) {
+            result.innerHTML = "<span>&#10003;</span> Success";
+            result.className = "success-message";
+        }
+        else {
+            result.innerHTML = "<span>&#10007;</span> Fail";
+            result.className = "failure-message";
+        }
+        j.setOutput(init_j);
+        k.setOutput(init_k);
+        clk.setOutput(init_Clk);
+        out.setOutput(init_out);
+    }
+}

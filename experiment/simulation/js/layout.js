@@ -1,5 +1,5 @@
 import { deleteElement } from "./gate.js";
-import { connectJKFF, unbindEvent, initDFlipFlop , refreshWorkingArea, initTFlipFlop, connectDFlipFlopGate } from "./main.js";
+import { connectJKFF, unbindEvent, initDFlipFlop , refreshWorkingArea, initTFlipFlop, connectDFlipFlopGate, initFreqDivider } from "./main.js";
 import { deleteFF } from "./flipflop.js";
 
 'use strict';
@@ -70,6 +70,14 @@ function changeTabs(e) {
     refreshWorkingArea();
     initDFlipFlop();
   }
+
+  else if (task === "task3") {
+    unbindEvent();
+    connectJKFF();
+    refreshWorkingArea();
+    initFreqDivider();
+  }
+
   window.simulate = 1;
   simButton.innerHTML = "Simulate";  
   updateInstructions();
@@ -87,6 +95,9 @@ function updateInstructions() {
   else if (window.currentTab === "task2") {
     document.getElementById("task-description").innerHTML = 'Instructions<br>Implement a Ring Counter using D Flip-Flops where set bit must move from QA->QB->QC';
   }
+  else if (window.currentTab === "task3") {
+    document.getElementById("task-description").innerHTML = 'Instructions<br>Implement a clock that has frequency which is by 4 of the given clock (Frequency Divider)';
+  }
 }
 
 // Toolbar
@@ -100,6 +111,17 @@ function updateToolbar() {
   else if (window.currentTab === "task2") {
     elem='<div class="component-button dflipflop" onclick="addDFlipFlop(event)"></div>'
     //elem = '<div class="component-button and" onclick="addGate(event)">AND</div><div class="component-button or" onclick="addGate(event)">OR</div><div class="component-button not" onclick="addGate(event)">NOT</div><div class="component-button nand" onclick="addGate(event)">NAND</div><div class="component-button nor" onclick="addGate(event)">NOR</div><div class="component-button xor" onclick="addGate(event)">XOR</div><div class="component-button xnor" onclick="addGate(event)">XNOR</div><div class="component-button rsflipflop" onclick="addRSFlipFlop(event)"></div>'
+  }
+
+  else if (window.currentTab === "task3") {
+    elem=`<div class="component-button and" onclick="addGate(event)">AND</div>
+    <div class="component-button or" onclick="addGate(event)">OR</div>
+    <div class="component-button not" onclick="addGate(event)">NOT</div>
+    <div class="component-button nand" onclick="addGate(event)">NAND</div>
+    <div class="component-button nor" onclick="addGate(event)">NOR</div>
+    <div class="component-button xor" onclick="addGate(event)">XOR</div>
+    <div class="component-button xnor" onclick="addGate(event)">XNOR</div>
+    <div class="component-button jkflipflop" onclick="addJKFlipFlop(event)"></div>`
   }
 
   document.getElementById("toolbar").innerHTML = elem;
