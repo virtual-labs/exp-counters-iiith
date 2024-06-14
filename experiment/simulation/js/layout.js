@@ -1,6 +1,6 @@
-import { deleteElement } from "./gate.js";
+
 import { connectJKFF, unbindEvent, initDFlipFlop , refreshWorkingArea, initTFlipFlop, connectDFlipFlopGate, initFreqDivider } from "./main.js";
-import { deleteFF } from "./flipflop.js";
+
 
 'use strict';
 
@@ -8,39 +8,8 @@ import { deleteFF } from "./flipflop.js";
 export const wireColours = ["#ff0000", "#00ff00", "#0000ff", "#bf6be3", "#ff00ff", "#00ffff", "#ff8000", "#00ff80", "#80ff00", "#ff0080", "#8080ff", "#c0c0c0"];
 const EMPTY="";
 // Contextmenu
-const menu = document.querySelector(".menu");
-const menuOption = document.querySelector(".menu-option");
-let menuVisible = false;
 
-const toggleMenu = command => {
-  menu.style.display = command === "show" ? "block" : "none";
-  menuVisible = !menuVisible;
-};
 
-export const setPosition = ({ top, left }) => {
-  menu.style.left = `${left}px`;
-  menu.style.top = `${top}px`;
-  toggleMenu("show");
-};
-
-window.addEventListener("click", () => {
-  if (menuVisible) toggleMenu("hide");
-  window.selectedComponent = null;
-  window.componentType = null;
-});
-
-menuOption.addEventListener("click", e => {
-  if (e.target.innerHTML === "Delete") {
-    if (window.componentType === "gate") {
-      deleteElement(window.selectedComponent);
-    }
-    else if (window.componentType === "flipFlop") {
-      deleteFF(window.selectedComponent);
-    }
-  }
-  window.selectedComponent = null;
-  window.componentType = null;
-});
 
 // Tabs
 

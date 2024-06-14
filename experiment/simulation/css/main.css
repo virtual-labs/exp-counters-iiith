@@ -1,6 +1,6 @@
 .window { z-index:20; }
 .jtk-connector { z-index:4; }
-.jtk-connector { z-index:4;stroke-width: 7; }
+.jtk-connector :hover { z-index:4;stroke-width: 7; }
 .jtk-endpoint { z-index:5; }
 .jtk-overlay { z-index:6; }
 
@@ -28,7 +28,7 @@ text {
   height: 50px;
   border-radius: 0.75em;
   border: 0.2rem solid rgb(98, 178, 235);
-  z-index: 1;
+  z-index: 6;
   background-size: 100%;
 }
 
