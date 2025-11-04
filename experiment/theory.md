@@ -2,8 +2,6 @@
 
 ### Binary Counters
 
-<img src="images/binary_counter.png">
-
 A binary counter is a sequential circuit that counts in binary sequence (0, 1, 2, 3, ...). It consists of a series of flip-flops connected to count in binary progression. Binary counters are fundamental building blocks in digital systems and are used to track events, generate timing signals, and perform frequency division.
 
 #### Logic Equations
@@ -26,7 +24,7 @@ This configuration makes each flip-flop toggle on every active clock edge, creat
 
 The counters are assembled using two 74LS73 dual J-K flip-flop chips and a 74LS02 quad NOR chip. Each flip-flop has an asynchronous Reset (R') input besides the synchronous J-K inputs, enabling reset of any flip-flop by making R' = 0 irrespective of the clock status.
 
-<img src="images/counters.png">
+<img src="images/74LS02-quad-NOR.png" width="420px" height="380px"><img src="images/74LS73-dual-J-K.png" width="420px" height="380px"><img src="images/CD-4029-4-bit-cntr.png" width="420px" height="380px">
 
 #### Experimental Setup
 
@@ -46,7 +44,7 @@ The counters are assembled using two 74LS73 dual J-K flip-flop chips and a 74LS0
 
 ### Asynchronous (Ripple) Counter
 
-<img src="images/ripple_counter.png">
+<img src="images/asynchronous.png">
 
 An asynchronous counter, also known as a ripple counter, is a circuit where flip-flops are not clocked simultaneously. Instead, the output of each flip-flop serves as the clock input for the next flip-flop in the chain. The clock signal "ripples" through the flip-flops from LSB to MSB.
 
@@ -139,7 +137,7 @@ For a 4-bit ripple counter, each bit position has its own toggle behavior. The k
 
 ### Synchronous Counter
 
-<img src="images/synchronous_counter.png">
+<img src="images/synchronous.png">
 
 A synchronous counter is a sequential circuit where all flip-flops are clocked simultaneously by the same clock signal. This eliminates the propagation delay issues found in ripple counters and allows for higher-speed operation.
 
@@ -190,7 +188,7 @@ All flip-flops receive the same clock signal, but their J and K inputs are contr
 
 ### Decade Counter (BCD Counter)
 
-<img src="images/decade_counter.png">
+<img src="images/decade.png">
 
 A decade counter, also known as a BCD (Binary Coded Decimal) counter, counts from 0 to 9 and then resets to 0. It uses 4 flip-flops but only utilizes 10 of the possible 16 states, making it ideal for decimal-based applications.
 
@@ -255,7 +253,7 @@ The decimal equivalent of the count equals **8×Q₃ + 4×Q₂ + 2×Q₁ + 1×Q�
 
 ### Ring Counter
 
-<img src="images/ring_counter.png">
+<img src="images/ring.png">
 
 A ring counter is a special type of counter where the output of the last flip-flop is connected back to the input of the first flip-flop, forming a circular or "ring" configuration. Only one flip-flop is HIGH at any time, and this HIGH state circulates through the counter.
 
@@ -312,7 +310,7 @@ The ring counter requires initialization to place a single '1' in the first flip
 
 ### Johnson Counter (Twisted Ring Counter)
 
-<img src="images/johnson_counter.png">
+<img src="images/jhonson.png">
 
 A Johnson counter, also known as a twisted ring counter, is a variation of the ring counter where the complement of the last flip-flop output is fed back to the first flip-flop input. This creates a counter with 2n states for n flip-flops.
 
@@ -368,7 +366,7 @@ The Johnson counter connects the Q̄ output of the last flip-flop to the input o
 
 ### Modulo-N Counters
 
-<img src="images/modulo_n_counter.png">
+<img src="images/modn.png">
 
 A modulo-N counter is a counter that counts from 0 to N-1 and then resets to 0. These counters are designed to have any desired number of states, not just powers of 2.
 
