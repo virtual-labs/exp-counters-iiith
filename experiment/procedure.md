@@ -1,11 +1,5 @@
 ### 2-bit Asynchronous Binary Counter
 
-#### Circuit Diagram
-
-<img src="images/two_bit_counter.png" alt="2-bit Asynchronous Binary Counter Circuit Diagram">
-
-_Figure 1: 2-bit Asynchronous Binary Counter circuit diagram showing two J-K flip-flops connected in cascade with Q output of first flip-flop driving clock input of second flip-flop. Reference: Theory section_
-
 #### Components Required
 
 - 2 J-K flip-flops
@@ -26,12 +20,6 @@ _Figure 1: 2-bit Asynchronous Binary Counter circuit diagram showing two J-K fli
 - If the circuit has been made as described above, a "Success" message will be displayed upon clicking "Submit".
 
 ### 3-bit Asynchronous Ring Counter
-
-#### Circuit Diagram
-
-<img src="images/ring_counter.png" alt="3-bit Asynchronous Ring Counter Circuit Diagram" style="width: 100%; max-width: 500px; margin: 10px 0;">
-
-_Figure 2: 3-bit Asynchronous Ring Counter circuit diagram showing three D flip-flops connected in a ring configuration with output of last flip-flop feeding back to input of first flip-flop. Reference: Theory section_
 
 #### Components Required
 
@@ -56,12 +44,6 @@ _Figure 2: 3-bit Asynchronous Ring Counter circuit diagram showing three D flip-
 
 ### 4-bit Synchronous Binary Counter
 
-#### Circuit Diagram
-
-<img src="images/synchronous_counter.png" alt="4-bit Synchronous Binary Counter Circuit Diagram" style="width: 100%; max-width: 600px; margin: 10px 0;">
-
-_Figure 3: 4-bit Synchronous Binary Counter circuit diagram showing four J-K flip-flops with all clocks connected to common clock input and logic gates controlling J-K inputs. Reference: Theory section_
-
 #### Components Required
 
 - 4 J-K flip-flops
@@ -85,12 +67,6 @@ _Figure 3: 4-bit Synchronous Binary Counter circuit diagram showing four J-K fli
 - If the circuit has been made as described above, a "Success" message will be displayed upon clicking "Submit".
 
 ### Frequency Divider Circuit
-
-#### Circuit Diagram
-
-<img src="images/frequency_divider.png" alt="Frequency Divider Circuit Diagram" style="width: 100%; max-width: 500px; margin: 10px 0;">
-
-_Figure 4: Frequency Divider circuit using flip-flops to divide input frequency by powers of 2. Reference: Theory section_
 
 #### Components Required
 
