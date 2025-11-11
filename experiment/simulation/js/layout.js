@@ -1,46 +1,33 @@
-import { deleteElement } from "./gate.js";
-import { connectJKFF, unbindEvent, initDFlipFlop , refreshWorkingArea, initTFlipFlop, connectDFlipFlopGate } from "./main.js";
-import { deleteFF } from "./flipflop.js";
+import {
+  connectJKFF,
+  unbindEvent,
+  initDFlipFlop,
+  refreshWorkingArea,
+  initTFlipFlop,
+  connectDFlipFlopGate,
+  initFreqDivider,
+} from "./main.js";
+import { simulate } from "./gate.js";
 
-'use strict';
+("use strict");
 
 // Wires
-export const wireColours = ["#ff0000", "#00ff00", "#0000ff", "#bf6be3", "#ff00ff", "#00ffff", "#ff8000", "#00ff80", "#80ff00", "#ff0080", "#8080ff", "#c0c0c0"];
-const EMPTY="";
+export const wireColours = [
+  "#ff0000",
+  "#00ff00",
+  "#0000ff",
+  "#bf6be3",
+  "#ff00ff",
+  "#00ffff",
+  "#ff8000",
+  "#00ff80",
+  "#80ff00",
+  "#ff0080",
+  "#8080ff",
+  "#c0c0c0",
+];
+const EMPTY = "";
 // Contextmenu
-const menu = document.querySelector(".menu");
-const menuOption = document.querySelector(".menu-option");
-let menuVisible = false;
-
-const toggleMenu = command => {
-  menu.style.display = command === "show" ? "block" : "none";
-  menuVisible = !menuVisible;
-};
-
-export const setPosition = ({ top, left }) => {
-  menu.style.left = `${left}px`;
-  menu.style.top = `${top}px`;
-  toggleMenu("show");
-};
-
-window.addEventListener("click", () => {
-  if (menuVisible) toggleMenu("hide");
-  window.selectedComponent = null;
-  window.componentType = null;
-});
-
-menuOption.addEventListener("click", e => {
-  if (e.target.innerHTML === "Delete") {
-    if (window.componentType === "gate") {
-      deleteElement(window.selectedComponent);
-    }
-    else if (window.componentType === "flipFlop") {
-      deleteFF(window.selectedComponent);
-    }
-  }
-  window.selectedComponent = null;
-  window.componentType = null;
-});
 
 // Tabs
 
@@ -50,28 +37,44 @@ function changeTabs(e) {
     return;
   }
 
+  // Initialize currentTab if it's null
+  if (window.currentTab === undefined) {
+    window.currentTab = null;
+  }
+
   if (window.currentTab !== null) {
-    document.getElementById(window.currentTab).classList.remove("is-active");
+    const currentElement = document.getElementById(window.currentTab);
+    if (currentElement) {
+      currentElement.classList.remove("is-active");
+    }
   }
   window.currentTab = task;
-  document.getElementById(task).classList.add("is-active");
+  const taskElement = document.getElementById(task);
+  if (taskElement) {
+    taskElement.classList.add("is-active");
+  }
 
-  // Half adder
+  // Basic Counter implementation
   if (task === "task1") {
     unbindEvent();
     connectJKFF();
     refreshWorkingArea();
     initTFlipFlop();
-  }
-  
-  else if (task === "task2") {
+    window.simulate = simulate;
+  } else if (task === "task2") {
     unbindEvent();
     connectDFlipFlopGate();
     refreshWorkingArea();
     initDFlipFlop();
+    window.simulate = simulate;
+  } else if (task === "task3") {
+    unbindEvent();
+    connectJKFF();
+    refreshWorkingArea();
+    initFreqDivider();
+    window.simulate = simulate;
   }
-  window.simulate = 1;
-  simButton.innerHTML = "Simulate";  
+
   updateInstructions();
   updateToolbar();
   clearObservations();
@@ -81,12 +84,17 @@ function changeTabs(e) {
 window.changeTabs = changeTabs;
 
 function updateInstructions() {
-  if (window.currentTab === "task1") {
-    document.getElementById("task-description").innerHTML = 'Instructions<br>Implement a Basic Counter using JK Flip-Flops where QB is MSB and QA is LSB.'
+  const task = window.currentTab;
+  const instructionBox = document.getElementById("task-description");
+  let title = "";
+  if (task === "task1") {
+    title = `Instructions<br>Implement a Basic Counter using JK Flip-Flops where QB is MSB and QA is LSB.`;
+  } else if (task === "task2") {
+    title = `Instructions<br>Implement a Ring Counter using D Flip-Flops where set bit must move from QA->QB->QC.`;
+  } else if (task === "task3") {
+    title = `Instructions<br>Implement a Frequency Divider circuit that has frequency which is 1/4 of the given clock.`;
   }
-  else if (window.currentTab === "task2") {
-    document.getElementById("task-description").innerHTML = 'Instructions<br>Implement a Ring Counter using D Flip-Flops where set bit must move from QA->QB->QC';
-  }
+  instructionBox.innerHTML = title;
 }
 
 // Toolbar
@@ -94,24 +102,40 @@ function updateInstructions() {
 function updateToolbar() {
   let elem = EMPTY;
   if (window.currentTab === "task1") {
-    elem = '<div class="component-button jkflipflop" onclick="addJKFlipFlop(event)"></div>'
-  }
-  
-  else if (window.currentTab === "task2") {
-    elem='<div class="component-button dflipflop" onclick="addDFlipFlop(event)"></div>'
-    //elem = '<div class="component-button and" onclick="addGate(event)">AND</div><div class="component-button or" onclick="addGate(event)">OR</div><div class="component-button not" onclick="addGate(event)">NOT</div><div class="component-button nand" onclick="addGate(event)">NAND</div><div class="component-button nor" onclick="addGate(event)">NOR</div><div class="component-button xor" onclick="addGate(event)">XOR</div><div class="component-button xnor" onclick="addGate(event)">XNOR</div><div class="component-button rsflipflop" onclick="addRSFlipFlop(event)"></div>'
+    elem =
+      '<div class="component-button jkflipflop" onclick="addJKFlipFlop(event)"></div>';
+  } else if (window.currentTab === "task2") {
+    elem =
+      '<div class="component-button dflipflop" onclick="addDFlipFlop(event)"></div>';
+  } else if (window.currentTab === "task3") {
+    elem = `<div class="component-button and" onclick="addGate(event)">AND</div>
+    <div class="component-button or" onclick="addGate(event)">OR</div>
+    <div class="component-button not" onclick="addGate(event)">NOT</div>
+    <div class="component-button nand" onclick="addGate(event)">NAND</div>
+    <div class="component-button nor" onclick="addGate(event)">NOR</div>
+    <div class="component-button xor" onclick="addGate(event)">XOR</div>
+    <div class="component-button xnor" onclick="addGate(event)">XNOR</div>
+    <div class="component-button jkflipflop" onclick="addJKFlipFlop(event)"></div>`;
   }
 
-  document.getElementById("toolbar").innerHTML = elem;
+  const toolbar = document.getElementById("toolbar");
+  if (toolbar) {
+    toolbar.innerHTML = elem;
+  }
 }
+
+// Make updateToolbar available globally
+window.updateToolbar = updateToolbar;
 
 // Clear observations
 function clearObservations() {
+  const tableBody = document.getElementById("table-body");
+  const tableHead = document.getElementById("table-head");
+  const result = document.getElementById("result");
 
-  document.getElementById("table-body").innerHTML = EMPTY;
-  document.getElementById("table-head").innerHTML = EMPTY;
-  document.getElementById('result').innerHTML = EMPTY;
-
+  if (tableBody) tableBody.innerHTML = EMPTY;
+  if (tableHead) tableHead.innerHTML = EMPTY;
+  if (result) result.innerHTML = EMPTY;
 }
 
 // Simulation
@@ -120,47 +144,51 @@ const simButton = document.getElementById("simulate-button");
 function toggleSimulation() {
   if (window.simulate === 0) {
     window.simulate = 1;
-    simButton.innerHTML = "Simulate";
-  }
-  else {
+    if (simButton) simButton.innerHTML = "Simulate";
+  } else {
     window.simulate = 0;
-    simButton.innerHTML = "Stop";
-    if(!window.sim())
-    {
+    if (simButton) simButton.innerHTML = "Stop";
+    if (!window.sim()) {
       window.simulate = 1;
-      simButton.innerHTML = "Simulate";
+      if (simButton) simButton.innerHTML = "Simulate";
     }
   }
 }
 
-simButton.addEventListener("click", toggleSimulation);
+// Only add event listener if simButton exists
+if (simButton) {
+  simButton.addEventListener("click", toggleSimulation);
+}
 
 // Making webpage responsive
 
 // Dimensions of working area
 const circuitBoard = document.getElementById("circuit-board");
-// Distance of working area from top
-const circuitBoardTop = circuitBoard.offsetTop;
-// Full height of window
-const windowHeight = window.innerHeight;
-const width = window.innerWidth;
-if (width < 1024) {
-  circuitBoard.style.height ="600px";
-} else {
-  circuitBoard.style.height = `${windowHeight - circuitBoardTop - 20}px`;
+if (circuitBoard) {
+  // Distance of working area from top
+  const circuitBoardTop = circuitBoard.offsetTop;
+  // Full height of window
+  const windowHeight = window.innerHeight;
+  const width = window.innerWidth;
+  if (width < 1024) {
+    circuitBoard.style.height = "600px";
+  } else {
+    circuitBoard.style.height = `${windowHeight - circuitBoardTop - 20}px`;
+  }
 }
 
 function resize() {
   const circuitBoard = document.getElementById("circuit-board");
-  const sidePanels = document.getElementsByClassName("v-datalist-container");
+  if (circuitBoard) {
+    const sidePanels = document.getElementsByClassName("v-datalist-container");
+    const width = window.innerWidth;
 
-  if (width >= 1024) {
-    for (let i = 0; i < sidePanels.length; i++) {
-      sidePanels[i].style.height = circuitBoard.style.height;
+    if (width >= 1024) {
+      for (let i = 0; i < sidePanels.length; i++) {
+        sidePanels[i].style.height = circuitBoard.style.height;
+      }
     }
   }
 }
 
 resize();
-
-
