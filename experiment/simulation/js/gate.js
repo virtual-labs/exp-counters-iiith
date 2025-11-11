@@ -645,6 +645,7 @@ export function submitCircuit() {
   }
 }
 window.submitCircuit = submitCircuit;
+window.simulate = simulate;
 
 export function deleteElement(gateid) {
   let gate = gates[gateid];
