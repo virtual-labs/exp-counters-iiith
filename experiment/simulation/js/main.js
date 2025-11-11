@@ -1369,6 +1369,19 @@ export function registerGate(id, gate) {
         ],
       })
     );
+    // output Q'
+    gate.addOutputPoints(
+      jsPlumbInstance.addEndpoint(element, {
+        anchor: [1, 0.7, 1, 0, 7, -1],
+        source: true,
+        target: true,
+        connectionsDetachable: false,
+        uuid: "output:3:" + id,
+        overlays: [
+          { type: "Label", options: { id: "qbarout", location: [-1, 0.2] } },
+        ],
+      })
+    );
   }
 }
 
