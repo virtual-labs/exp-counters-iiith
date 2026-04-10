@@ -1,0 +1,1144 @@
+<!DOCTYPE html><html lang="en"><head>
+      <!--Google Tag Manager-->
+      <script class="gtm">
+        var dataLayer = [{
+        'labName': 'Virtual Lab',
+        'discipline': 'Test',
+        'college': 'IIITH',
+        'phase': 'Testing',
+        'expName': 'COUNTERS',
+        'expShortName': 'counters'
+        }];
+    
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-5NMQ9NQ');
+      </script>
+      <!--End Google Tag Manager-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description">
+    <meta content="" name="author">
+    
+    	<meta name="experiment-short-name" content="counters">
+    	<meta name="developer-institute" content="IIITH">
+    	<meta name="learning-unit" content="COUNTERS">
+    	<meta name="task-name" content="Theory">
+    
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#4076e0">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#4076e0">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#4076e0">
+    <title>Virtual Labs</title>
+    <link rel="shortcut icon" href="./assets/images/favicon.ico">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css" integrity="sha512-Oy18vBnbSJkXTndr2n6lDMO5NN31UljR8e/ICzVPrGpSud4Gkckb8yUpqhKuUNoE+o9gAb4O/rAxxw1ojyUVzg==" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/github-markdown.min.css">
+    <link rel="stylesheet" href="./assets/css/vlabs-style.css">
+    <link rel="stylesheet" href="./assets/css/toast.css">
+    <link rel="stylesheet" href="./assets/katex_assets/katex.min.css">
+    
+    <script src="./assets/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      h1 {
+      font-size: 1.8rem;
+      }
+      h2 {
+      font-size: 1.4rem;
+      }
+      h3 {
+      font-size: 1.2rem;
+      }
+
+      h2, h3 {
+      font-weight: 800;
+      }
+    </style>
+    
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"></head>
+  <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
+      <!--Google Tag Manager (noscript)-->
+      <noscript class="gtm">
+        <iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-5NMQ9NQ" style="display:none;visibility:hidden" width="0">
+        </iframe>
+      </noscript>
+      <!--End Google Tag Manager (noscript)-->
+  
+      <header class="vlabs-header sticky-top bg-white">
+        <nav class="p-0 navbar navbar-light d-flex align-items-stretch">
+          
+          <button class="navbar-toggler px-4" type="button" onclick="toggle()">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="d-flex justify-content-center">        
+            <a href="https://vlab.co.in" class="navbar-brand">
+              <img src="./assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+            </a>
+          </div>
+          
+          <div id="headerNavbar" class="d-none border-top flex-grow-1 d-lg-flex align-items-center justify-content-end">
+            <div class="svc-rating-display">
+                <rating-display spreadsheetid="1x12nhpp0QvnsA6x-O1sV4IA9SAbfVsq_wiexWkutOmU" sheetname="Experiment-Database" columnname="Experiment Short Name" columnvalue="counters" imagesdirectory="/plugins/svc-rating/images/">
+                </rating-display>
+            </div>      <div class="svc-rating-submit">
+                <rating-submit title="Rate" this="" experiment="">
+                </rating-submit>
+            </div>      <bug-report id="bug-report" title="[BUG REPORT] COUNTERS" page-type="text" context-info="{&quot;organisation&quot;:&quot;Virtual Labs&quot;,&quot;developer_institute&quot;:&quot;IIITH&quot;,&quot;expname&quot;:&quot;COUNTERS&quot;,&quot;labname&quot;:&quot;Virtual Lab&quot;,&quot;phase&quot;:&quot;Testing&quot;}" checkbox-json="{&quot;text&quot;:[&quot;Insufficient Content&quot;],&quot;video&quot;:[&quot;Insufficient Content&quot;],&quot;assesment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;assessment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;simulation&quot;:[&quot;Simulation Not Working&quot;,&quot;Incorrect Results/Observations&quot;,&quot;Insufficient/Incorrect Instructions&quot;],&quot;DEFAULT&quot;:[&quot;Page Not Loading&quot;,&quot;Content Not Visible&quot;,&quot;Incorrect Content&quot;]}" button_style="border: none; color: #fff; background-color: #288ec8; text-align: center; font-size: 1.05rem; border-radius: 1em;padding: 0.6em 1.2em; margin: 0 10px" position="override" custom_button_class="v-button"></bug-report>
+          </div>
+        </nav>
+      </header>
+      <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+        <div class="row d-flex justify-content-between">
+          <div class="flex-column">
+          <div class="row py-4 px-4 breadcrumbs">
+          	<div class="title is-4 tools">Tools</div>
+          	<span class="mx-2">
+          		<i aria-hidden="true" class="fa fa-angle-right"></i>
+          	</span>
+          	<a href="performance-report.html" class="my-2 mx-3" target="_blank">
+          		<button class="v-button">Performance Tool</button>
+          	</a>
+          	<a href="validator-report.html" class="my-2 mx-3" target="_blank">
+          		<button class="v-button">Validation Tool</button>
+          	</a>
+          </div>
+          </div>
+        </div>
+        <div class="row flex-grow-1 d-flex flex-nowrap flex-column flex-lg-row">
+          <div class="modal fade popupmenu" id="popupMenu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">
+                              <a href="https://vlab.co.in" class="navbar-brand">
+                                  <img src="./assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+                              </a>
+                          </h5>
+                          <button type="button" class="btn-close align-self-center" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body nav-menu">
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="index.html" class="p-2 ">
+                                      Aim
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="theory.html" class="p-2  current-item ">
+                                      Theory
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="objective.html" class="p-2 ">
+                                      Objective
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="procedure.html" class="p-2 ">
+                                      Procedure
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="pretest.html" class="p-2 ">
+                                      Pretest
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="basic_counter.html" class="p-2 ">
+                                      Demo
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="practice.html" class="p-2 ">
+                                      Practice
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="posttest.html" class="p-2 ">
+                                      Posttest
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="assignment.html" class="p-2 ">
+                                      Assignment
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="references.html" class="p-2 ">
+                                      References
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="contributors.html" class="p-2 ">
+                                      Contributors
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="feedback.html" class="p-2 ">
+                                      Feedback
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="nav flex-column sidebar nav-menu flex-shrink-0 px-lg-4 align-items-center align-items-lg-start hidden d-none d-lg-flex" id="menu">
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="index.html" class="p-2 ">
+                        Aim
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="theory.html" class="p-2  current-item ">
+                        Theory
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="objective.html" class="p-2 ">
+                        Objective
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="procedure.html" class="p-2 ">
+                        Procedure
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="pretest.html" class="p-2 ">
+                        Pretest
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="basic_counter.html" class="p-2 ">
+                        Demo
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="practice.html" class="p-2 ">
+                        Practice
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="posttest.html" class="p-2 ">
+                        Posttest
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="assignment.html" class="p-2 ">
+                        Assignment
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="references.html" class="p-2 ">
+                        References
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="contributors.html" class="p-2 ">
+                        Contributors
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="feedback.html" class="p-2 ">
+                        Feedback
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+          </div>          <div class="vlabs-page-content px-5 pb-4 flex-grow-1 markdown-body">
+            <div class="text-center fix-spacing">
+              <h2 id="counters">Counters</h2>
+          
+            </div>
+              <p>﻿Counters are sequential digital circuits that produce a specific sequence of states through their outputs when driven by a clock signal. They are fundamental building blocks in digital systems and are used extensively in timing applications, frequency division, and control systems.</p>
+          <h3 id="binary-counters">Binary Counters</h3>
+          <p>A binary counter is a sequential circuit that counts in binary sequence (0, 1, 2, 3, ...). It consists of a series of flip-flops connected to count in binary progression. Binary counters are fundamental building blocks in digital systems and are used to track events, generate timing signals, and perform frequency division.</p>
+          <h4 id="logic-equations">Logic Equations</h4>
+          <p>For a basic binary counter using JK flip-flops:</p>
+          <p><strong>J = K = 1</strong> (converts JK flip-flops to T flip-flops)</p>
+          <p>This configuration makes each flip-flop toggle on every active clock edge, creating the binary counting sequence. The decimal equivalent of the count equals <strong>2³×Q₃ + 2²×Q₂ + 2¹×Q₁ + 2⁰×Q₀</strong>.</p>
+          <h4 id="key-features">Key Features</h4>
+          <ul>
+          <li>Counts in natural binary sequence (2ⁿ states for n flip-flops)</li>
+          <li>Can be implemented as asynchronous (ripple) or synchronous counters</li>
+          <li>Each flip-flop represents one bit of the count</li>
+          <li>Output changes with each clock pulse</li>
+          <li>Essential component in digital timing and control systems</li>
+          </ul>
+          <h4 id="circuit-implementation">Circuit Implementation</h4>
+          <p>The counters are assembled using two 74LS73 dual J-K flip-flop chips and a 74LS02 quad NOR chip. Each flip-flop has an asynchronous Reset (R') input besides the synchronous J-K inputs, enabling reset of any flip-flop by making R' = 0 irrespective of the clock status.</p>
+          <p><img src="images/74LS02-quad-NOR.png" width="420px" height="380px"><img src="images/74LS73-dual-J-K.png" width="420px" height="380px"><img src="images/CD-4029-4-bit-cntr.png" width="420px" height="380px"></p>
+          <h4 id="experimental-setup">Experimental Setup</h4>
+          <ol>
+          <li>Make J = K = 1 for all flip-flops, converting J-K flip-flops to T flip-flops</li>
+          <li>Connect all R' inputs to an Input Switch, and outputs Q0, Q1, Q2, Q3 to LED displays</li>
+          <li>Set up Up-counting Binary Ripple Counter: CK0 = Manual Clock, CK1 = Q0, CK2 = Q1, CK3 = Q2</li>
+          <li>Apply clock pulses and tabulate the state sequence</li>
+          <li>For Down-counting: connect CK1 = Q0', CK2 = Q1', CK3 = Q2'</li>
+          </ol>
+          <h4 id="applications">Applications</h4>
+          <ul>
+          <li>Digital clocks and timers</li>
+          <li>Frequency dividers in communication systems</li>
+          <li>Address generation in memory systems</li>
+          <li>Event counting in industrial automation</li>
+          <li>Microprocessor program counters</li>
+          </ul>
+          <h3 id="asynchronous-ripple-counter">Asynchronous (Ripple) Counter</h3>
+          <img src="images/asynchronous.png">
+          
+          <p>An asynchronous counter, also known as a ripple counter, is a circuit where flip-flops are not clocked simultaneously. Instead, the output of each flip-flop serves as the clock input for the next flip-flop in the chain. The clock signal "ripples" through the flip-flops from LSB to MSB.</p>
+          <h4 id="understanding-circuit-layout-vs-computational-flow">Understanding Circuit Layout vs. Computational Flow</h4>
+          <p><strong>Traditional Sequential Notation</strong>: Counter states are typically written with MSB (Most Significant Bit) on the left and LSB (Least Significant Bit) on the right, such as Q₃Q₂Q₁Q₀ for a 4-bit counter.</p>
+          <p><strong>Computational Flow in Ripple Counters</strong>: However, the actual counting propagation starts from the LSB and ripples toward the MSB. This is because:</p>
+          <ul>
+          <li>Counting begins with the rightmost (least significant) bit</li>
+          <li>Any state change must propagate leftward to the next higher bit position</li>
+          <li>The clock signal "ripples" from LSB→MSB (right to left in traditional notation)</li>
+          </ul>
+          <p><strong>Simulation Demo Layout</strong>: In our interactive simulation, the circuit may be arranged to clearly visualize this computational flow and help students understand the sequential nature of state propagation.</p>
+          <h4 id="logic-equations-1">Logic Equations</h4>
+          <p>For a 4-bit ripple counter, each bit position has its own toggle behavior. The key concept is that each stage depends on the output from the previous stage. The counting process flows from right to left (LSB to MSB):</p>
+          <p><strong>Bit 0 (LSB - Rightmost):</strong></p>
+          <ul>
+          <li>Input: External Clock</li>
+          <li>Output: Q₀ toggles on each clock pulse</li>
+          </ul>
+          <p><strong>Bit 1:</strong></p>
+          <ul>
+          <li>Input: Q₀ output (or Q₀' for down counter)</li>
+          <li>Output: Q₁ toggles when Q₀ changes from 1→0</li>
+          </ul>
+          <p><strong>Bit 2:</strong></p>
+          <ul>
+          <li>Input: Q₁ output (or Q₁' for down counter)</li>
+          <li>Output: Q₂ toggles when Q₁ changes from 1→0</li>
+          </ul>
+          <p><strong>Bit 3 (MSB - Leftmost):</strong></p>
+          <ul>
+          <li>Input: Q₂ output (or Q₂' for down counter)</li>
+          <li>Output: Q₃ toggles when Q₂ changes from 1→0</li>
+          </ul>
+          <h4 id="circuit-operation">Circuit Operation</h4>
+          <p><strong>Clock Connections for 4-bit Up Counter:</strong></p>
+          <ul>
+          <li>CK₀ = External Clock (CLK)</li>
+          <li>CK₁ = Q₀ (output of first flip-flop)</li>
+          <li>CK₂ = Q₁ (output of second flip-flop)</li>
+          <li>CK₃ = Q₂ (output of third flip-flop)</li>
+          </ul>
+          <p><strong>For Down Counter:</strong> Replace Q with Q̄ (complement outputs)</p>
+          <h4 id="key-features-1">Key Features</h4>
+          <ul>
+          <li>Simple design with minimal hardware</li>
+          <li>Lower power consumption compared to synchronous counters</li>
+          <li>Propagation delay increases with number of stages</li>
+          <li>May produce glitches during state transitions</li>
+          <li>Clock frequency limited by cumulative propagation delays</li>
+          <li>The count "ripples" from LSB to MSB, which is why it is called a ripple counter</li>
+          <li>Counting starts from the rightmost bit (LSB) and propagates leftward to the MSB</li>
+          </ul>
+          <h4 id="truth-table-4-bit-ripple-counter">Truth Table (4-bit Ripple Counter)</h4>
+          <table>
+          <thead>
+          <tr>
+          <th>Clock</th>
+          <th>Q₃</th>
+          <th>Q₂</th>
+          <th>Q₁</th>
+          <th>Q₀</th>
+          <th>Decimal</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>2</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>2</td>
+          </tr>
+          <tr>
+          <td>3</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>3</td>
+          </tr>
+          <tr>
+          <td>4</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>4</td>
+          </tr>
+          <tr>
+          <td>5</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+          <td>5</td>
+          </tr>
+          <tr>
+          <td>6</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>6</td>
+          </tr>
+          <tr>
+          <td>7</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>7</td>
+          </tr>
+          <tr>
+          <td>8</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>8</td>
+          </tr>
+          <tr>
+          <td>9</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>9</td>
+          </tr>
+          <tr>
+          <td>10</td>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>10</td>
+          </tr>
+          <tr>
+          <td>11</td>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>11</td>
+          </tr>
+          <tr>
+          <td>12</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>12</td>
+          </tr>
+          <tr>
+          <td>13</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+          <td>13</td>
+          </tr>
+          <tr>
+          <td>14</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>14</td>
+          </tr>
+          <tr>
+          <td>15</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>15</td>
+          </tr>
+          <tr>
+          <td>16</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          </tbody></table>
+          <h4 id="applications-1">Applications</h4>
+          <ul>
+          <li><strong>Low-frequency digital systems</strong>: Basic timing and control applications</li>
+          <li><strong>Battery-powered devices</strong>: Efficient for low-power applications due to minimal hardware</li>
+          <li><strong>Simple counting applications</strong>: Basic event counting and frequency measurement</li>
+          <li><strong>Educational demonstrations</strong>: Teaching sequential logic and binary counting concepts</li>
+          <li><strong>Basic digital clocks</strong>: Simple timekeeping applications where speed is not critical</li>
+          </ul>
+          <h3 id="synchronous-counter">Synchronous Counter</h3>
+          <img src="images/synchronous.png">
+          
+          <p>A synchronous counter is a sequential circuit where all flip-flops are clocked simultaneously by the same clock signal. This eliminates the propagation delay issues found in ripple counters and allows for higher-speed operation.</p>
+          <h4 id="principle-of-operation">Principle of Operation</h4>
+          <p><strong>Synchronous Operation</strong>: All flip-flops change state simultaneously on the same clock edge.
+          <strong>Parallel Logic Control</strong>: Each flip-flop's J and K inputs are controlled by combinational logic that determines when that particular bit should toggle based on the current state of all lower-order bits.</p>
+          <p>The synchronous design eliminates the cumulative propagation delay found in ripple counters, allowing for much higher operating frequencies.</p>
+          <h4 id="logic-equations-2">Logic Equations</h4>
+          <p>For each bit position i in a synchronous binary counter:</p>
+          <ul>
+          <li><strong>J₀ = K₀ = 1</strong> (LSB toggles on every clock pulse)</li>
+          <li><strong>J₁ = K₁ = Q₀</strong> (toggles when Q₀ is HIGH)</li>
+          <li><strong>J₂ = K₂ = Q₀ · Q₁</strong> (toggles when both Q₀ and Q₁ are HIGH)</li>
+          <li><strong>J₃ = K₃ = Q₀ · Q₁ · Q₂</strong> (toggles when Q₀, Q₁, and Q₂ are all HIGH)</li>
+          </ul>
+          <h4 id="circuit-operation-1">Circuit Operation</h4>
+          <p>All flip-flops receive the same clock signal, but their J and K inputs are controlled by logic gates that determine when each flip-flop should toggle based on the current state of lower-order bits.</p>
+          <p><strong>Toggle Conditions:</strong></p>
+          <ul>
+          <li>Bit 0: Toggles every clock pulse</li>
+          <li>Bit 1: Toggles when bit 0 is HIGH</li>
+          <li>Bit 2: Toggles when bits 1 and 0 are HIGH</li>
+          <li>Bit n: Toggles when all lower bits (n-1 to 0) are HIGH</li>
+          </ul>
+          <h4 id="key-features-2">Key Features</h4>
+          <ul>
+          <li>All flip-flops change state simultaneously on the same clock edge</li>
+          <li>No propagation delay between stages (eliminates cumulative delay)</li>
+          <li>Higher operating frequency capability compared to ripple counters</li>
+          <li>More complex control logic required for toggle conditions</li>
+          <li>Eliminates glitches during state transitions</li>
+          <li>Faster and more reliable than asynchronous counters</li>
+          <li>Requires additional AND gates for control logic</li>
+          </ul>
+          <h4 id="applications-2">Applications</h4>
+          <ul>
+          <li><strong>High-speed digital systems</strong>: Processors and high-frequency applications</li>
+          <li><strong>Microprocessor timing circuits</strong>: CPU clock generation and timing control</li>
+          <li><strong>Digital signal processing</strong>: High-speed mathematical operations</li>
+          <li><strong>Communication systems</strong>: Fast data processing and protocol handling</li>
+          <li><strong>Precision timing applications</strong>: Accurate time measurement and control systems</li>
+          </ul>
+          <h3 id="decade-counter-bcd-counter">Decade Counter (BCD Counter)</h3>
+          <img src="images/decade.png">
+          
+          <p>A decade counter, also known as a BCD (Binary Coded Decimal) counter, counts from 0 to 9 and then resets to 0. It uses 4 flip-flops but only utilizes 10 of the possible 16 states, making it ideal for decimal-based applications.</p>
+          <h4 id="principle-of-operation-1">Principle of Operation</h4>
+          <p><strong>Decade Counting</strong>: The counter performs normal binary counting from 0000 to 1001 (0 to 9 in decimal).
+          <strong>Reset Logic</strong>: When the counter reaches 1010 (decimal 10), it immediately resets to 0000 through additional reset circuitry.</p>
+          <p>The decade counter essentially creates a modulo-10 counter by truncating the normal 16-state binary sequence to only 10 states, making it perfect for decimal digit representation.</p>
+          <h4 id="logic-equations-3">Logic Equations</h4>
+          <p>For a synchronous decade counter:</p>
+          <ul>
+          <li><strong>J₀ = K₀ = 1</strong></li>
+          <li><strong>J₁ = Q₀ · Q₃', K₁ = Q₀</strong></li>
+          <li><strong>J₂ = K₂ = Q₀ · Q₁</strong></li>
+          <li><strong>J₃ = Q₀ · Q₁ · Q₂, K₃ = Q₀</strong></li>
+          </ul>
+          <h4 id="circuit-operation-2">Circuit Operation</h4>
+          <p>The decade counter modifies a standard 4-bit binary counter by adding reset logic that forces the counter to return to 0000 when it reaches 1010 (decimal 10).</p>
+          <p><strong>Reset Logic:</strong> R' = (Q₃ · Q₁)' for all flip-flops</p>
+          <p>This creates the count sequence: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 0...</p>
+          <p>The decimal equivalent of the count equals <strong>8×Q₃ + 4×Q₂ + 2×Q₁ + 1×Q₀</strong> for valid BCD states.</p>
+          <h4 id="truth-table">Truth Table</h4>
+          <table>
+          <thead>
+          <tr>
+          <th>Clock</th>
+          <th>Q₃</th>
+          <th>Q₂</th>
+          <th>Q₁</th>
+          <th>Q₀</th>
+          <th>Decimal</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>2</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>2</td>
+          </tr>
+          <tr>
+          <td>3</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>3</td>
+          </tr>
+          <tr>
+          <td>4</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>4</td>
+          </tr>
+          <tr>
+          <td>5</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+          <td>5</td>
+          </tr>
+          <tr>
+          <td>6</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>6</td>
+          </tr>
+          <tr>
+          <td>7</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>7</td>
+          </tr>
+          <tr>
+          <td>8</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>8</td>
+          </tr>
+          <tr>
+          <td>9</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>9</td>
+          </tr>
+          <tr>
+          <td>10</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          </tbody></table>
+          <h4 id="key-features-3">Key Features</h4>
+          <ul>
+          <li>Counts in decimal sequence (0-9) then resets</li>
+          <li>Uses 4 flip-flops but only 10 of 16 possible states</li>
+          <li>Automatic reset when reaching decimal 10</li>
+          <li>Compatible with BCD (Binary Coded Decimal) systems</li>
+          <li>Essential for decimal display applications</li>
+          <li>More complex reset logic than simple binary counters</li>
+          </ul>
+          <h4 id="applications-3">Applications</h4>
+          <ul>
+          <li><strong>Digital clocks and watches</strong>: Hours, minutes, and seconds display</li>
+          <li><strong>Decimal counters and displays</strong>: Seven-segment display drivers</li>
+          <li><strong>Frequency dividers (÷10)</strong>: Creating decade frequency relationships</li>
+          <li><strong>BCD arithmetic circuits</strong>: Decimal arithmetic processing units</li>
+          <li><strong>Industrial process control</strong>: Decimal counting and measurement systems</li>
+          </ul>
+          <h3 id="ring-counter">Ring Counter</h3>
+          <img src="images/ring.png">
+          
+          <p>A ring counter is a special type of counter where the output of the last flip-flop is connected back to the input of the first flip-flop, forming a circular or "ring" configuration. Only one flip-flop is HIGH at any time, and this HIGH state circulates through the counter.</p>
+          <h4 id="principle-of-operation-2">Principle of Operation</h4>
+          <p><strong>Circular Data Flow</strong>: The output of the last stage feeds back to the input of the first stage, creating a closed loop.
+          <strong>Single Active Bit</strong>: Only one flip-flop output is HIGH (1) at any given time, while all others remain LOW (0).
+          <strong>Sequential Shifting</strong>: The active HIGH bit "walks" through the counter in sequence with each clock pulse.</p>
+          <p>The ring counter creates a sequence where exactly one output is active at a time, making it ideal for applications requiring sequential activation of multiple devices or processes.</p>
+          <h4 id="logic-equations-4">Logic Equations</h4>
+          <p>For an n-bit ring counter, the data input for each flip-flop comes from the previous stage:</p>
+          <ul>
+          <li><strong>D₀ = Qₙ₋₁</strong> (input to first flip-flop comes from last flip-flop)</li>
+          <li><strong>D₁ = Q₀</strong> (input to second flip-flop comes from first flip-flop)</li>
+          <li><strong>D₂ = Q₁</strong> (input to third flip-flop comes from second flip-flop)</li>
+          <li><strong>Dᵢ = Qᵢ₋₁</strong> (general form for any flip-flop i)</li>
+          </ul>
+          <h4 id="circuit-operation-3">Circuit Operation</h4>
+          <p>The ring counter requires initialization to place a single '1' in the first flip-flop and '0' in all others. This is achieved using preset and clear inputs:</p>
+          <ul>
+          <li><strong>Preset:</strong> Applied to the first flip-flop (sets Q₁ = 1)</li>
+          <li><strong>Clear:</strong> Applied to all other flip-flops (sets Q₂ = Q₃ = ... = 0)</li>
+          </ul>
+          <h4 id="key-features-4">Key Features</h4>
+          <ul>
+          <li>Number of states equals number of flip-flops (n flip-flops = n states)</li>
+          <li>Only one output is HIGH at any time (one-hot encoding)</li>
+          <li>Self-starting with proper initialization</li>
+          <li>Decoded outputs (no additional decoding required)</li>
+          <li>Simple control logic with direct feedback connection</li>
+          <li>Natural sequence generation without complex decode logic</li>
+          </ul>
+          <h4 id="truth-table-4-bit-ring-counter">Truth Table (4-bit Ring Counter)</h4>
+          <table>
+          <thead>
+          <tr>
+          <th>Clock</th>
+          <th>Q₃</th>
+          <th>Q₂</th>
+          <th>Q₁</th>
+          <th>Q₀</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>2</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>3</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>4</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          </tr>
+          </tbody></table>
+          <h4 id="applications-4">Applications</h4>
+          <ul>
+          <li><strong>Sequence generators</strong>: Creating timed sequential events</li>
+          <li><strong>Control signal generation</strong>: Sequential activation of system components</li>
+          <li><strong>Multiplexer/demultiplexer control</strong>: Channel selection in data routing</li>
+          <li><strong>State machine implementations</strong>: Simple sequential state control</li>
+          <li><strong>Rotating displays and indicators</strong>: LED pattern generation and visual effects</li>
+          </ul>
+          <h3 id="johnson-counter-twisted-ring-counter">Johnson Counter (Twisted Ring Counter)</h3>
+          <img src="images/jhonson.png">
+          
+          <p>A Johnson counter, also known as a twisted ring counter, is a variation of the ring counter where the complement of the last flip-flop output is fed back to the first flip-flop input. This creates a counter with 2n states for n flip-flops.</p>
+          <h4 id="principle-of-operation-3">Principle of Operation</h4>
+          <p><strong>Twisted Feedback</strong>: Unlike a regular ring counter, the Johnson counter feeds back the complement (Q̄) of the last flip-flop to the first flip-flop.
+          <strong>Fill and Empty Sequence</strong>: The counter first "fills" with 1s from right to left, then "empties" with 0s from right to left.
+          <strong>Double State Count</strong>: An n-bit Johnson counter produces 2n unique states, twice as many as a ring counter.</p>
+          <p>The twisted feedback creates a unique counting sequence that naturally avoids forbidden states and provides excellent self-correction properties.</p>
+          <h4 id="logic-equations-5">Logic Equations</h4>
+          <p>For an n-bit Johnson counter:</p>
+          <ul>
+          <li><strong>D₀ = Q̄ₙ₋₁</strong> (input to first flip-flop is complement of last flip-flop)</li>
+          <li><strong>D₁ = Q₀</strong> (input to second flip-flop comes from first flip-flop)</li>
+          <li><strong>D₂ = Q₁</strong> (input to third flip-flop comes from second flip-flop)</li>
+          <li><strong>Dᵢ = Qᵢ₋₁</strong> (general form for flip-flops 1 to n-1)</li>
+          </ul>
+          <h4 id="circuit-operation-4">Circuit Operation</h4>
+          <p>The Johnson counter connects the Q̄ output of the last flip-flop to the input of the first flip-flop, creating a sequence where the counter fills with 1s and then empties with 0s.</p>
+          <h4 id="key-features-5">Key Features</h4>
+          <ul>
+          <li>2n states for n flip-flops (double the states of a ring counter)</li>
+          <li>Self-correcting (automatically recovers from illegal states)</li>
+          <li>No decoding gates required for most applications</li>
+          <li>Glitch-free operation due to systematic state transitions</li>
+          <li>Simple implementation with just one inverter added to ring counter</li>
+          <li>Natural protection against forbidden state lockup</li>
+          </ul>
+          <h4 id="truth-table-3-bit-johnson-counter">Truth Table (3-bit Johnson Counter)</h4>
+          <table>
+          <thead>
+          <tr>
+          <th>Clock</th>
+          <th>Q₂</th>
+          <th>Q₁</th>
+          <th>Q₀</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>2</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>3</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>4</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>5</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>6</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          </tr>
+          </tbody></table>
+          <h4 id="applications-5">Applications</h4>
+          <ul>
+          <li><strong>Frequency dividers</strong>: Creating precise frequency division ratios</li>
+          <li><strong>Sequence detection</strong>: Pattern recognition in digital systems</li>
+          <li><strong>Control signal generation</strong>: Multi-phase timing signal generation</li>
+          <li><strong>Digital phase-locked loops</strong>: Clock recovery and synchronization circuits</li>
+          <li><strong>Waveform generation</strong>: Creating specific digital waveform patterns</li>
+          </ul>
+          <h3 id="modulo-n-counters">Modulo-N Counters</h3>
+          <img src="images/modn.png">
+          
+          <p>A modulo-N counter is a counter that counts from 0 to N-1 and then resets to 0. These counters are designed to have any desired number of states, not just powers of 2.</p>
+          <h4 id="principle-of-operation-4">Principle of Operation</h4>
+          <p><strong>Modulo-N Counting</strong>: The counter performs normal binary counting until it reaches count N, then immediately resets to 0.
+          <strong>Custom Modulus</strong>: N can be any desired number, not restricted to powers of 2 (2, 4, 8, 16, etc.).
+          <strong>Efficient Design</strong>: Uses the minimum number of flip-flops needed to represent the highest count value.</p>
+          <p>Modulo-N counters provide maximum flexibility in creating custom counting sequences for specific applications where standard binary or decade counting is not suitable.</p>
+          <h4 id="logic-equations-6">Logic Equations</h4>
+          <p>For a modulo-N counter, the reset logic is designed to detect when the count reaches N:</p>
+          <p><strong>Reset Logic:</strong> R' = (Detection of state N)'</p>
+          <p>The specific logic depends on the binary representation of N. For example:</p>
+          <ul>
+          <li><strong>Modulo-6</strong>: Reset when Q₂Q₁Q₀ = 110₂ (decimal 6)</li>
+          <li><strong>Modulo-12</strong>: Reset when Q₃Q₂Q₁Q₀ = 1100₂ (decimal 12)</li>
+          </ul>
+          <h4 id="design-principle">Design Principle</h4>
+          <p>To create a modulo-N counter:</p>
+          <ol>
+          <li>Use the minimum number of flip-flops required (⌈log₂(N)⌉)</li>
+          <li>Add reset logic to force the counter to 0 when it reaches state N</li>
+          <li>The reset logic detects the Nth state and immediately resets all flip-flops</li>
+          </ol>
+          <h4 id="key-features-6">Key Features</h4>
+          <ul>
+          <li>Flexible counting sequence (any modulus from 1 to maximum flip-flop capacity)</li>
+          <li>Custom state sequences possible for specialized applications</li>
+          <li>Uses minimum hardware for required states (optimal flip-flop count)</li>
+          <li>Reset logic increases complexity slightly but provides maximum flexibility</li>
+          <li>Efficient for non-binary applications requiring specific count sequences</li>
+          <li>Can be implemented as either synchronous or asynchronous designs</li>
+          </ul>
+          <h4 id="applications-6">Applications</h4>
+          <ul>
+          <li><strong>Custom frequency division</strong>: Creating non-standard frequency ratios</li>
+          <li><strong>Non-binary counting systems</strong>: Specialized counting requirements</li>
+          <li><strong>Traffic light controllers</strong>: Custom timing sequences for traffic management</li>
+          <li><strong>Industrial process timing</strong>: Specialized manufacturing sequence control</li>
+          <li><strong>Specialized sequencing applications</strong>: Any application requiring custom count patterns</li>
+          </ul>
+          
+          </div>
+          <div class="bug-report-mobile">
+              <bug-report id="bug-report" title="[BUG REPORT] COUNTERS" page-type="text" context-info="{&quot;organisation&quot;:&quot;Virtual Labs&quot;,&quot;developer_institute&quot;:&quot;IIITH&quot;,&quot;expname&quot;:&quot;COUNTERS&quot;,&quot;labname&quot;:&quot;Virtual Lab&quot;,&quot;phase&quot;:&quot;Testing&quot;}" checkbox-json="{&quot;text&quot;:[&quot;Insufficient Content&quot;],&quot;video&quot;:[&quot;Insufficient Content&quot;],&quot;assesment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;assessment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;simulation&quot;:[&quot;Simulation Not Working&quot;,&quot;Incorrect Results/Observations&quot;,&quot;Insufficient/Incorrect Instructions&quot;],&quot;DEFAULT&quot;:[&quot;Page Not Loading&quot;,&quot;Content Not Visible&quot;,&quot;Incorrect Content&quot;]}" position="override" button_style="
+                          position: fixed; 
+                          bottom: 20px;
+                          right: 20px;
+                          z-index: 1;
+                          font-size: 0;
+                          padding: 25px;
+                          border-radius: 50%;
+                          border: none;
+                          background-color: #0fc0ff;
+                          background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAAAAXNSR0IArs4c6QAABiFJREFUaEPFmVuMFEUUhv/TM7uwoBGVyG22u7ZnYGG5REETo8RA1BhFIka8ABFf0PCgDxhFEpCLqAlE1OiTiSj4gFGjD0QBETQaEqPRICALSHdPV+8YQQJBA+wuO1PHdMNcWGame2ZWqMfuc/nq1KlT1acJAzhShjFVAUsYdL8G3HjRdA7gHwna5uahLR91dnaeb9QlNWrA1+/o6GjuPnv2DQ30LICKNhk4qLF63PK8g434rejATJhjKa6m9WazOzOZzKlKTmYAcc8QnxEwJwqIAk5STpvpZJwD1eTHjR43PKflhtkZ2+ovVxbaTJiTSVM/gzCYGIebu4fc1nmi80w5J0nDWA7Qq1GACzLMR3pV7pZMJtNdTs/UzelE6msAQ0BYb7vuS6VyZaGTungGhPfygkRYZ7nusv4OEonEDc2xuEfA0JqgATBhieO6b/fXE0IM1pgPECgVvGP+x/bksFDo1JhUguPZI8FMAz0+zzFtSjqd9p8VRlJvew7E79QKHNgEDjrSndRfNyXEGmasLK4KttmeOysU2hdIGm0vA/xKUZh32VLeW6psCrGMmO+uB5qIeEh398P7jx8/m9cP9pGm9vtpmQ9WjHDzUSkPRYJOpVKDuK9vP0Dj8goMfsSR8ot6IKPoJI22XUBpEHitLWUx6heNVC15pmHMItCXBYeKPUZsLlFWVYNQsVg2nU7v82XaW1tHZ4lGhUEztOlEKOQ4A/b5XHZyuc0aWqdNIbYSY3aY00veM/9te3KE/ywlxGpmrKpJP8h5ftCR8qtyeqHQY3XdVNAO5vMskvMGoRWrT9Ke90QlX6HQF6N16Y4OI28Ampn/jatcxx+ZzJ8NQScSiZZBWvzJwAhhJoCKUQhkaoVmnAZoJcC9WowOH02nf6gWl0iRLpQk3ZwOym0n0DVVg10rNAAF7Ig1xedYltUbtpCRoZO6Po1J+z7S6VcHdLCIClusLnfBgED7NVv1ZX8lYGKYwbrSo8Qogxc4Um5pOD1Mo20DgZ+PBFxPTpcYJuBUljDRdd1jdW/EcYnEmKwWSxNR05WADnwo2mB3pV+oGzopxDowlkYGbjDSF9ILpwd1D2mtdB2uuhEv3D+yfwG4/opCB5WVnrZk+v1yfqtCJ3X9TpC2pybggYj0BYcf29KdXwe0WArCuqsCzSxtT4qq0GareStIXXo3JjxGwNSrAh0crMFFq3jYEJ9wpPygkB6mYZwg0PCaAcsp1Hm4RPFtS5eK0LpxvqayVs3DlYIO7r0K8xUhlufRGKNrupLmFQcImsEZBhWaOxq4y5ZyRvXqIcSnYDwaZdkukRkgaGqK32RZ1on+/qt/buliFRFWXxXokonXBJ3S22Yz8darAc2sdjqed1/NddpvnMQUHwPRdTWBD0R6EBbbrltoGJX6D71PJ3V9E0h76kpCMzirNTWNLpfPPkcodNDXi6m9QLGqhE6gwUgzaKMj04sq+QmF9hVrjnYj0IwejmvtjuN4DUEbhjEqztgLoqCXEToagQavsKV8rZqPSJH2DaSEmMGMXZHSpE5oZnzneK7fL8w1DJ1sTU6CltvEwPj/88OWwRYx77Y9b3HD0KYuvqUL/Y5oo85I542TooesrnTF8yE0PUwh5hGj6tfxZTNpEBqKvUE9QyfW9bnV3t5+bV9P7yECxuTBFGOvRn5v5eJgTLzsUhUFmuGCcLJoBiNL/ZT7bVFYiWrrnTSM9QC9WBSmzy2ZnluqI4QYGQcWM/O8Qi+7EjSjB4xtTNqHjuf4HVHO20q1tiZZi/k/j1r8Z8zcRxyfanfZv/dnrJgeYw1jQo6xr+SOfY5j2oRq9VMIIWLA7QSMslz3raDGG8ZMJhoPpR1QmvrFdd2eSoFKGm0rAF5bfM97bCnvKp2c/64idFLXd4C0woWFwMstKV+PthPrk/L/R/aeOfcbCBOKq8uLLCk3llos/0tON+8hUt+U5O1Rao5PjtIcrA+3qOWvDEC78wFlIO1I1wyFTuptC0G8uWSZHrCl3N4oUFT9NiE2a4yFQW6DLUfKsaHQU0aMGHq2pWULM98Bpncdzy35yxXVdf1yftXK9vS8CUVjtBjWHHXdn0qt/Qf/x1JblU8EiAAAAABJRU5ErkJggg==);
+                          background-repeat: no-repeat;
+                          background-position: center;
+                          background-size: 30px;
+                          filter: invert(1);">
+              </bug-report>
+          </div>        </div>
+      </div>
+      <footer class="text-light pt-2 vlabs-footer d-flex flex-column">
+        <div class="row px-5 mx-0">
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Community Links</span>
+            <a href="https://www.sakshat.ac.in/" class="text-light">Sakshat Portal</a>
+            <a href="http://outreach.vlabs.ac.in/" class="text-light">Outreach Portal</a>
+            <a href="https://vlab.co.in/faq" class="text-light">FAQ: Virtual Labs</a>
+          </div>
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Contact Us</span>
+            <span> Phone: General Information: 011-26582050 </span>
+            <span> Email: support@vlabs.ac.in </span>
+          </div>
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Follow Us</span>
+            <div class="social-links">
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #55acee;" href="https://twitter.com/TheVirtualLabs">
+      	  <i class="fab fa-twitter"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #3b5998;" href="https://www.facebook.com/Virtual-Labs-IIT-Delhi-301510159983871/">
+      	  <i class="fab fa-facebook"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #e52d27;" href="https://www.youtube.com/watch?v=asxRaOgk6a0">
+      	  <i class="fab fa-youtube"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #2867B2;" href="https://in.linkedin.com/in/virtual-labs-008ba9136">
+      	  <i class="fab fa-linkedin"></i>
+      	</a>
+            </div>
+          </div>
+        </div>
+        <div class="m-0 py-2 text-center" style="font-family: &quot;Open Sans&quot;, sans-serif; background: #212121;">
+          <a class="text-primary font-weight-bold" href="https://www.gnu.org/licenses/agpl-3.0.en.html"> AGPL 3.0 </a>
+          &nbsp;&amp;&nbsp;
+          <a class="text-primary font-weight-bold" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons (CC BY-NC-SA 4.0) </a>
+        </div>
+      </footer>
+    <script src="./assets/js/toggleSidebar.js"></script>
+    <script src="./assets/js/event-handler.js"></script>
+
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register("sw.js");
+        });
+      }
+    </script>
+  
+
+<script type="module" src="https://cdn.vlabs.ac.in/bug-report/vlabs-bug-report.js"></script><script type="module" src="/exp-counters-iiith/plugins/svc-rating/index.js"></script><script type="module" src="/exp-counters-iiith/plugins/svc-rating/config.js"></script><script type="module" src="https://apis.google.com/js/api.js"></script></body></html>

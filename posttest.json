@@ -1,0 +1,90 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "1. In a basic binary counter using JK flip-flops, what should the values of input J and K be set to respectively:",
+      "answers": {
+        "a": "1, 1",
+        "b": "0, 0",
+        "c": "0, 1",
+        "d": "1, 0"
+      },
+      "correctAnswer": "a",
+      "explanations": {
+        "a": "Correct. J and K are both set to 1, which converts the JK flip-flops to T (toggle) flip-flops for counter operation.",
+        "b": "Incorrect. When J=0 and K=0, the flip-flop maintains its current state and does not toggle.",
+        "c": "Incorrect. When J=0 and K=1, the flip-flop resets to 0 regardless of clock transitions.",
+        "d": "Incorrect. When J=1 and K=0, the flip-flop sets to 1 regardless of clock transitions."
+      },
+      "difficulty": "beginner"
+    },
+    {
+      "question": "2. In a 3-bit asynchronous binary counter, how is the clock input of the second flip-flop connected?",
+      "answers": {
+        "a": "To the main clock signal",
+        "b": "To the J input of the first flip-flop",
+        "c": "To the Q output of the first flip-flop",
+        "d": "To the Q̄ output of the first flip-flop"
+      },
+      "correctAnswer": "c",
+      "explanations": {
+        "a": "Incorrect. Only the first flip-flop receives the main clock signal directly in an asynchronous counter.",
+        "b": "Incorrect. The J input is used for data control, not for clock cascading in counters.",
+        "c": "Correct. In an asynchronous binary counter, each flip-flop's clock input is connected to the Q output of the previous flip-flop.",
+        "d": "Incorrect. Connecting to Q̄ would create a down counter instead of an up counter."
+      },
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "3. In a ring counter circuit, what is the purpose of the preset and clear inputs?",
+      "answers": {
+        "a": "To stop the counter operation",
+        "b": "To initialize the counter with a single '1' circulating through the stages",
+        "c": "To reset all flip-flops to zero",
+        "d": "To enable synchronous operation"
+      },
+      "correctAnswer": "b",
+      "explanations": {
+        "a": "Incorrect. Preset and clear are used for initialization, not for stopping operation.",
+        "b": "Correct. Preset sets the first flip-flop to '1' and clear resets others to '0', creating the initial circulating pattern.",
+        "c": "Incorrect. This would prevent the ring counter from having any '1' to circulate.",
+        "d": "Incorrect. Preset and clear are for initialization, not for determining synchronous vs asynchronous operation."
+      },
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "4. In a ring counter, the number of states is equal to:",
+      "answers": {
+        "a": "Half the number of flip-flops used",
+        "b": "Twice the number of flip-flops used",
+        "c": "The number of flip-flops used",
+        "d": "2^(number of flip-flops used)"
+      },
+      "correctAnswer": "c",
+      "explanations": {
+        "a": "Incorrect. The number of states equals the number of flip-flops, not half.",
+        "b": "Incorrect. The number of states is not double the flip-flops in a ring counter.",
+        "c": "Correct. A ring counter with n flip-flops has exactly n states, as only one flip-flop holds '1' at any time.",
+        "d": "Incorrect. This formula applies to binary counters, not ring counters."
+      },
+      "difficulty": "beginner"
+    },
+    {
+      "question": "5. In a basic binary counter, the number of flip-flops used is equal to:",
+      "answers": {
+        "a": "Half the number of possible states",
+        "b": "ln(number of possible states)",
+        "c": "log₂(number of possible states)",
+        "d": "2^(number of possible states)"
+      },
+      "correctAnswer": "c",
+      "explanations": {
+        "a": "Incorrect. This relationship does not apply to binary counters.",
+        "b": "Incorrect. Natural logarithm is not the correct relationship for binary systems.",
+        "c": "Correct. Since number of states = 2^(number of flip-flops), then number of flip-flops = log₂(number of states).",
+        "d": "Incorrect. This would give an exponentially large number of flip-flops."
+      },
+      "difficulty": "advanced"
+    }
+  ]
+}
