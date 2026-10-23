@@ -1,4 +1,4 @@
-﻿Counters are sequential digital circuits that produce a specific sequence of states through their outputs when driven by a clock signal. They are fundamental building blocks in digital systems and are used extensively in timing applications, frequency division, and control systems.
+Counters are sequential digital circuits that produce a specific sequence of states through their outputs when driven by a clock signal. They are fundamental building blocks in digital systems and are used extensively in timing applications, frequency division, and control systems.
 
 ### Binary Counters
 
@@ -214,6 +214,8 @@ The decade counter modifies a standard 4-bit binary counter by adding reset logi
 
 **Reset Logic:** R' = (Q₃ · Q₁)' for all flip-flops
 
+The equations above give the synchronous version, which returns to 0000 by itself after 1001. In the asynchronous version the reset logic above clears the flip-flops when 1010 appears.
+
 This creates the count sequence: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 0...
 
 The decimal equivalent of the count equals **8×Q₃ + 4×Q₂ + 2×Q₁ + 1×Q₀** for valid BCD states.
@@ -278,8 +280,8 @@ For an n-bit ring counter, the data input for each flip-flop comes from the prev
 
 The ring counter requires initialization to place a single '1' in the first flip-flop and '0' in all others. This is achieved using preset and clear inputs:
 
-- **Preset:** Applied to the first flip-flop (sets Q₁ = 1)
-- **Clear:** Applied to all other flip-flops (sets Q₂ = Q₃ = ... = 0)
+- **Preset:** Applied to the first flip-flop (sets Q₀ = 1)
+- **Clear:** Applied to all other flip-flops (sets Q₁ = Q₂ = ... = 0)
 
 #### Key Features
 
@@ -320,7 +322,7 @@ A Johnson counter, also known as a twisted ring counter, is a variation of the r
 **Fill and Empty Sequence**: The counter first "fills" with 1s from right to left, then "empties" with 0s from right to left.
 **Double State Count**: An n-bit Johnson counter produces 2n unique states, twice as many as a ring counter.
 
-The twisted feedback creates a unique counting sequence that naturally avoids forbidden states and provides excellent self-correction properties.
+The twisted feedback creates a unique counting sequence. Only 2n of the 2ⁿ states are used, so the counter has to be cleared at the start, as the ring counter is.
 
 #### Logic Equations
 
@@ -338,11 +340,10 @@ The Johnson counter connects the Q̄ output of the last flip-flop to the input o
 #### Key Features
 
 - 2n states for n flip-flops (double the states of a ring counter)
-- Self-correcting (automatically recovers from illegal states)
-- No decoding gates required for most applications
-- Glitch-free operation due to systematic state transitions
+- Not self-starting: it has to be initialised, because the unused states do not lead back to the normal sequence (in the 3-bit counter the unused states 010 and 101 follow each other forever)
+- Each state is decoded with a single 2-input gate
+- Only one flip-flop changes at each clock pulse, so the decoded outputs are free of glitches
 - Simple implementation with just one inverter added to ring counter
-- Natural protection against forbidden state lockup
 
 #### Truth Table (3-bit Johnson Counter)
 
@@ -413,3 +414,10 @@ To create a modulo-N counter:
 - **Traffic light controllers**: Custom timing sequences for traffic management
 - **Industrial process timing**: Specialized manufacturing sequence control
 - **Specialized sequencing applications**: Any application requiring custom count patterns
+
+### Notes on the Simulation
+
+- The J-K and D flip-flops of the simulation are **negative-edge triggered**: they change their outputs when the clock goes from 1 to 0.
+- In the Practice tasks every J-K flip-flop starts with Q = 1, so the 2-bit counter starts in the state QB QA = 11, and its first clock pulse gives 00.
+- The simulated counters are the 2-bit asynchronous counter of the figure above (CK₀ = Clock, CK₁ = Q₀), the 3-bit ring counter (the set bit moves from QA to QB to QC), and a frequency divider made of the same two J-K flip-flops, whose second stage gives a signal with a quarter of the clock frequency. In the figures of the Procedure the outputs of the first and the second flip-flop are called QA and QB.
+- The **Simulate** button starts the clock, which runs until **Stop** (or Reset, or a change of tab) is pressed. The **Submit** button applies its own clock pulses and shows the expected and the observed outputs in the Observations table.

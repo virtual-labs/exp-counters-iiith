@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" font-family="Arial, Helvetica, sans-serif">
+<rect width="760" height="330" fill="#ffffff"/>
+<g stroke="#000000" stroke-width="2" fill="none">
+<rect x="220" y="70" width="110" height="130"/>
+<circle cx="215" cy="135" r="5" fill="#ffffff"/>
+<polyline points="220,126 234,135 220,144"/>
+<rect x="500" y="70" width="110" height="130"/>
+<circle cx="495" cy="135" r="5" fill="#ffffff"/>
+<polyline points="500,126 514,135 500,144"/>
+<polyline points="45,100 220,100"/>
+<circle cx="110" cy="100" r="4" fill="#000000" stroke="none"/>
+<polyline points="110,100 110,35 470,35 470,100 500,100"/>
+<polyline points="45,170 220,170"/>
+<circle cx="110" cy="170" r="4" fill="#000000" stroke="none"/>
+<polyline points="110,170 110,245 470,245 470,170 500,170"/>
+<polyline points="85,135 210,135"/>
+<polyline points="330,100 400,100 400,135 490,135"/>
+<circle cx="365" cy="100" r="4" fill="#000000" stroke="none"/>
+<polyline points="365,100 365,30"/>
+<polyline points="610,100 670,100"/>
+</g>
+<text x="234" y="106" text-anchor="start" font-size="18">J</text>
+<text x="234" y="176" text-anchor="start" font-size="18">K</text>
+<text x="244" y="141" text-anchor="start" font-size="15">clk</text>
+<text x="318" y="106" text-anchor="end" font-size="18">Q</text>
+<text x="318" y="176" text-anchor="end" font-size="18">Q'</text>
+<text x="275" y="220" text-anchor="middle" font-size="15">J-K flip-flop 1</text>
+<text x="514" y="106" text-anchor="start" font-size="18">J</text>
+<text x="514" y="176" text-anchor="start" font-size="18">K</text>
+<text x="524" y="141" text-anchor="start" font-size="15">clk</text>
+<text x="598" y="106" text-anchor="end" font-size="18">Q</text>
+<text x="598" y="176" text-anchor="end" font-size="18">Q'</text>
+<text x="555" y="220" text-anchor="middle" font-size="15">J-K flip-flop 2</text>
+<text x="20" y="106" text-anchor="start" font-size="18">J</text>
+<text x="20" y="176" text-anchor="start" font-size="18">K</text>
+<text x="20" y="141" text-anchor="start" font-size="18">Clock</text>
+<text x="365" y="22" text-anchor="middle" font-size="18">QA</text>
+<text x="680" y="106" text-anchor="start" font-size="18">QB</text>
+</svg>

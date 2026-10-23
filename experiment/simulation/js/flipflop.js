@@ -473,16 +473,7 @@ export function checkConnectionsJK() {
     }
   }
 
-  if (correctConnection) {
-    if (count !== 2) {
-      printErrors("J,K must be initialised to 1\n", null);
-
-      return false;
-    }
-    return true;
-  } else {
-    return false;
-  }
+  return correctConnection;
 }
 
 export function simulateFFJK() {
@@ -738,17 +729,7 @@ export function checkConnectionsDD() {
     }
   }
 
-  if (correctConnection) {
-    if (window.firstSimulation === true && oriVal === true) {
-      printErrors("Ori value has to be initalized to 0\n", null);
-
-      return false;
-    }
-    window.firstSimulation = false;
-    return true;
-  } else {
-    return false;
-  }
+  return correctConnection;
 }
 
 export function simulateFFDD() {
@@ -784,13 +765,13 @@ export function deleteFF(ffid) {
   for (let key in flipFlops) {
     if (ff.constructor.name === "JKFlipFlop") {
       if (flipFlops[key].j != null && flipFlops[key].j[0] === ff) {
-        flipFlops[key].j = null;
+        flipFlops[key].j = [];
       }
-      if (flipFlops[key].k[0] === ff) {
-        flipFlops[key].k = null;
+      if (flipFlops[key].k !== null && flipFlops[key].k[0] === ff) {
+        flipFlops[key].k = [];
       }
       if (flipFlops[key].clk[0] === ff) {
-        flipFlops[key].clk = null;
+        flipFlops[key].clk = [];
       }
       if (flipFlops[key].qOutputs.includes(ff)) {
         flipFlops[key].removeqOutput(ff);
@@ -806,7 +787,7 @@ export function deleteFF(ffid) {
         flipFlops[key].s = null;
       }
       if (flipFlops[key].clk[0] === ff) {
-        flipFlops[key].clk = null;
+        flipFlops[key].clk = [];
       }
       if (flipFlops[key].qOutputs.includes(ff)) {
         flipFlops[key].removeqOutput(ff);
@@ -816,16 +797,16 @@ export function deleteFF(ffid) {
       }
     } else if (ff.constructor.name === "DFlipFlop") {
       if (flipFlops[key].d !== null && flipFlops[key].d[0] === ff) {
-        flipFlops[key].d = null;
+        flipFlops[key].d = [];
       }
       if (flipFlops[key].clk !== null && flipFlops[key].clk[0] === ff) {
-        flipFlops[key].clk = null;
+        flipFlops[key].clk = [];
       }
       if (flipFlops[key].pr !== null && flipFlops[key].pr[0] === ff) {
-        flipFlops[key].pr = null;
+        flipFlops[key].pr = [];
       }
       if (flipFlops[key].clr !== null && flipFlops[key].clr[0] === ff) {
-        flipFlops[key].clr = null;
+        flipFlops[key].clr = [];
       }
       if (flipFlops[key].qOutputs.includes(ff)) {
         flipFlops[key].removeqOutput(ff);

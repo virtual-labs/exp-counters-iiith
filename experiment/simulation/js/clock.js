@@ -91,9 +91,11 @@ export class Clock {
         let currentState = false;
         let timerOff = null;
         let timerOn = null;
+        // a newer simulation (or a stop) ends this loop
+        const generation = window.simulationGeneration;
 
         const run = () => {
-            if(window.simulate === 1) {
+            if(window.simulationStatus === 1 || window.simulationGeneration !== generation) {
                 return;
             }
             if (!currentState) {
