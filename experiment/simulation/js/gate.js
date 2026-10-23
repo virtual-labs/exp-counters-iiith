@@ -89,7 +89,7 @@ export class Gate {
 
     switch (this.type) {
       case "Input":
-        component = `<div class="high" id= ${this.id} ><a ondblclick="setInput(event)">1</a><p> ${this.name}  </p></div>`;
+        component = `<div class="high" id= ${this.id} ><a onclick="setInput(event)" title="Click to toggle between 0 and 1">1</a><p> ${this.name}  </p></div>`;
         this.output = true;
         this.isInput = true;
         break;
@@ -253,7 +253,24 @@ export function getResult(gate) {
   return;
 }
 
+// Position of the last mouse/touch press, used to tell a click apart from the end of a drag
+let pressPosition = { x: 0, y: 0 };
+document.addEventListener(
+  "pointerdown",
+  function (event) {
+    pressPosition = { x: event.clientX, y: event.clientY };
+  },
+  true
+);
+
+// Set the Input values of the input bits on click
 function setInput(event) {
+  // ignore the click that ends a drag of the input bit
+  if (
+    Math.hypot(event.clientX - pressPosition.x, event.clientY - pressPosition.y) > 5
+  ) {
+    return;
+  }
   let parentElement = event.target.parentElement;
   let element = event.target;
   let type = parentElement.className.split(" ")[0];
@@ -303,11 +320,27 @@ export function checkConnections() {
   return true;
 }
 
+// Stops the clock of a running simulation and brings the Simulate and Submit buttons back to their normal state
+export function stopSimulation() {
+  window.simulationStatus = 1;
+  const simulateButton = document.getElementById("simulate-button");
+  if (simulateButton) {
+    simulateButton.innerHTML = "Simulate";
+  }
+  const submitButton = document.getElementById("submit-button");
+  if (submitButton) {
+    submitButton.disabled = false;
+  }
+}
+
+// Starts the clock and shows how the counter works on the circuit board. The Submit button does the grading.
 export function simulate() {
-  window.simulate = 0; // status store of infinte clock ulte naming
+  window.simulationStatus = 0;
 
   const result = document.getElementById("result");
   result.innerHTML = EMPTY;
+  document.getElementById("table-body").innerHTML = EMPTY;
+  document.getElementById("table-head").innerHTML = EMPTY;
 
   if (!checkConnections()) {
     return false;
@@ -317,24 +350,22 @@ export function simulate() {
     if (!checkConnectionsDD()) {
       return false;
     }
-  } else if (window.currentTab === "task1") {
-    if (!checkConnectionsJK()) {
-      return false;
-    }
-  } else if (window.currentTab === "task3") {
+  } else if (window.currentTab === "task1" || window.currentTab === "task3") {
     if (!checkConnectionsJK()) {
       return false;
     }
   }
 
-  // handling ori for task 2
+  // every new simulation gets its own number, so that the loops of an earlier one stop by themselves
+  window.simulationGeneration = (window.simulationGeneration || 0) + 1;
+
+  // the ring counter is first initialised with Ori = 0, and then runs with Ori = 1
   if (window.currentTab === "task2") {
     for (let gateId in gates) {
       const gate = gates[gateId];
       if (gate.type === "Input") {
-        if (gate.output === false) {
-          simulate2();
-        }
+        gate.output = false;
+        simulate2();
         gate.output = true;
         let element = document.getElementById(gate.id);
         element.className = "high";
@@ -343,18 +374,18 @@ export function simulate() {
     }
   }
 
-  let circuitHasClock = false;
-
   for (let gateId in gates) {
     const gate = gates[gateId];
     if (gate.type === "Clock") {
-      circuitHasClock = true;
+      // the clock starts low, so that its first rise is not a clock edge
+      gate.isOn = false;
+      gate.updateOutput();
       gate.simulate();
     }
   }
-  if (!circuitHasClock) {
-    simulate2();
-  }
+
+  // show the starting state on the output bits right away; the clock edges follow
+  simulate2();
 
   return true;
 }
@@ -487,7 +518,6 @@ function simulate2() {
   }
 }
 
-window.sim = simulate;
 window.sim2 = simulate2;
 window.simulate = simulate;
 
@@ -634,6 +664,7 @@ export function testSimulation(gates, flipFlops) {
 // function to submit the desired circuit and get the final success or failure message
 export function submitCircuit() {
   document.getElementById("table-body").innerHTML = EMPTY;
+  document.getElementById("table-head").innerHTML = EMPTY;
   const result = document.getElementById("result");
   result.innerHTML = EMPTY;
   if (window.currentTab === "task2") {
