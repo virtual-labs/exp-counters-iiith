@@ -23,218 +23,218 @@ export function computeNor(a, b) {
     return !(a || b);
 }
 
+// The tests below change the values of the input bits, the clock and the flip-flops while they run.
+// This remembers everything they change, so that the circuit board is as the student left it afterwards.
+function saveState() {
+    const state = { bits: [], flipFlops: [] };
+    for (const id in gates) {
+        const gate = gates[id];
+        if (gate.isInput || gate.isOutput) {
+            state.bits.push([gate, gate.output]);
+        }
+    }
+    for (const id in flipFlops) {
+        const ff = flipFlops[id];
+        state.flipFlops.push([ff, ff.q, ff.qbar, ff.prevclk, ff.dbefore]);
+    }
+    return state;
+}
 
-// Basic Counter Tester
-export function testBasicCounter(inputJ, inputK, inputClk, outputQB, outputQA)  // This function takes 4 ids of the respective Gates
+function restoreState(state) {
+    state.bits.forEach(([gate, output]) => gate.setOutput(output));
+    state.flipFlops.forEach(([ff, q, qbar, prevclk, dbefore]) => {
+        ff.q = q;
+        ff.qbar = qbar;
+        ff.prevclk = prevclk;
+        ff.dbefore = dbefore;
+    });
+}
+
+// Every test starts from the state in which the flip-flops are when a simulation starts: Q = 1, Q' = 0
+function presetFlipFlops() {
+    for (const id in flipFlops) {
+        const ff = flipFlops[id];
+        ff.q = true;
+        ff.qbar = false;
+        ff.prevclk = false;
+        ff.dbefore = false;
+    }
+}
+
+// One clock pulse: the clock goes to 1 and back to 0. The flip-flops change at the falling edge.
+// Returns false if the circuit is not connected properly (the error is already shown on the screen).
+function clockPulse(clk) {
+    clk.setOutput(true);
+    if (!testSimulation(gates, flipFlops)) {
+        return false;
+    }
+    clk.setOutput(false);
+    return testSimulation(gates, flipFlops);
+}
+
+function showResult(head, rows, circuitIsCorrect, successMessage, failMessage) {
+    document.getElementById('table-head').innerHTML = head;
+    document.getElementById('table-body').innerHTML = rows;
+    const result = document.getElementById('result');
+    if (circuitIsCorrect) {
+        result.innerHTML = "<span>&#10003;</span> " + successMessage;
+        result.className = "success-message";
+    }
+    else {
+        result.innerHTML = "<span>&#10007;</span> " + failMessage;
+        result.className = "failure-message";
+    }
+}
+
+const bit = (value) => (value ? 1 : 0);
+
+// Basic Counter Tester: a 2-bit binary counter made of two J-K flip-flops
+export function testBasicCounter(inputJ, inputK, inputClk, outputQB, outputQA)  // This function takes the ids of the respective Gates
 {
-    let gates_list = gates;
-    let flipflops_list = flipFlops;
-    let j = gates_list[inputJ];
-    let k = gates_list[inputK];
-    let clk = gates_list[inputClk];
-    let circuitIsCorrect = true;
-    let init_j = j.output;
-    let init_k = k.output;
-    let init_Clk = clk.output;
+    const j = gates[inputJ];
+    const k = gates[inputK];
+    const clk = gates[inputClk];
+    const qa = gates[outputQA];
+    const qb = gates[outputQB];
+    const saved = saveState();
 
-
-    let qa = gates_list[outputQA];
-    let qb = gates_list[outputQB];
-
-    let init_qa = qa.output;
-    let init_qb = qb.output;
-
+    // the counter starts in the state QB QA = 11, so the first pulse gives 00
     // each list element consists of 2 values QB,QA
-    // there are 4 unique states that are going to occur in a fixed order
-    // we first simulate and find the current states
-    // simulate further 7 times to check if the order matches or not
-    const expectedOutputs = [[false, false], [false, true], [true, false], [true, true],[false, false], [false, true], [true, false], [true, true]];
+    const expectedOutputs = [[1, 1], [0, 0], [0, 1], [1, 0], [1, 1], [0, 0], [0, 1], [1, 0], [1, 1]];
+    let circuitIsCorrect = true;
+    let rows = "";
+    let connected = true;
+
+    presetFlipFlops();
     j.setOutput(true);
     k.setOutput(true);
     clk.setOutput(false);
-    if (testSimulation(gates_list, flipflops_list)) {
-        clk.setOutput(true);
-        testSimulation(gates_list, flipflops_list);
-        clk.setOutput(false);
-        testSimulation(gates_list, flipflops_list);
-        let firstOutput = -1;
-        for (let i = 0; i < 4; i++) {
-            if (qa.output == expectedOutputs[i][1] && qb.output == expectedOutputs[i][0]) {
-                firstOutput = i;
+    connected = testSimulation(gates, flipFlops);
+    for (let pulse = 0; connected && pulse < expectedOutputs.length; pulse++) {
+        if (pulse > 0) {
+            connected = clockPulse(clk);
+            if (!connected) {
                 break;
             }
         }
-        if (firstOutput == -1) {
+        const observed = [bit(qb.output), bit(qa.output)];
+        const expected = expectedOutputs[pulse];
+        const okB = observed[0] === expected[0];
+        const okA = observed[1] === expected[1];
+        if (!okB || !okA) {
             circuitIsCorrect = false;
         }
-        else {
-            for (let i = 1; i < 8; i++) {
-                clk.setOutput(true);
-                testSimulation(gates_list, flipflops_list);
-                clk.setOutput(false);
-                testSimulation(gates_list, flipflops_list);
-                // check if output is correct
-                if ((qb.output !== expectedOutputs[(i + firstOutput) % 8][0] || qa.output !== expectedOutputs[(i + firstOutput) % 8][1])) {
-                    circuitIsCorrect = false;
-                }
-            }
-        }
-        const result = document.getElementById('result');
-
-        if (circuitIsCorrect) {
-            result.innerHTML = "<span>&#10003;</span> Success";
-            result.className = "success-message";
-        }
-        else {
-            result.innerHTML = "<span>&#10007;</span> Fail";
-            result.className = "failure-message";
-        }
-        j.setOutput(init_j);
-        k.setOutput(init_k);
-        clk.setOutput(init_Clk);
-        qa.setOutput(init_qa);
-        qb.setOutput(init_qb);
+        rows += `<tr class="bold-table"><th>${pulse}</th><td>${expected[0]}</td><td>${expected[1]}</td>` +
+            `<td class="${okB ? "success-table" : "failure-table"}">${observed[0]}</td>` +
+            `<td class="${okA ? "success-table" : "failure-table"}">${observed[1]}</td></tr>`;
     }
+    restoreState(saved);
+    if (!connected) {
+        return;
+    }
+    const head = `<tr><th rowspan="2">Clock pulses</th><th colspan="2">Expected</th><th colspan="2">Observed</th></tr>` +
+        `<tr><th>QB</th><th>QA</th><th>QB</th><th>QA</th></tr>`;
+    showResult(head, rows, circuitIsCorrect,
+        "Success - the circuit counts 00, 01, 10, 11 in binary",
+        "Fail - the outputs do not follow the binary count");
 }
 
 
 // Ring Counter Flip FLop Tester
-export function testRingCounter(inputOri, inputClk, outputA, outputB, outputC)  // This function takes 4 ids of the respective Gates
+export function testRingCounter(inputOri, inputClk, outputA, outputB, outputC)  // This function takes the ids of the respective Gates
 {
-    let gates_list = gates;
-    let flipflops_list = flipFlops;
-    let ori = gates_list[inputOri];
-    let clk = gates_list[inputClk];
-    let outputa = gates_list[outputA];
-    let outputb = gates_list[outputB];
-    let outputc = gates_list[outputC];
-    let circuitIsCorrect = true;
+    const ori = gates[inputOri];
+    const clk = gates[inputClk];
+    const outputa = gates[outputA];
+    const outputb = gates[outputB];
+    const outputc = gates[outputC];
+    const saved = saveState();
 
-    let init_ori = ori.output;
-    let init_Clk = clk.output;
-    let init_a = outputa.output;
-    let init_b = outputb.output;
-    let init_c = outputc.output;
-    
+    // each list element consists of 3 values QA,QB,QC: the set bit moves from QA to QB to QC and back to QA
+    const expectedOutputs = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 0, 0]];
+    let circuitIsCorrect = true;
+    let rows = "";
+    let connected = true;
+
+    // Ori = 0 presets the first flip-flop and clears the other two, then Ori = 1 lets the counter run
+    presetFlipFlops();
     clk.setOutput(false);
-    // each list element consists of e values QC,QB,QA
-    // there are 3 unique states that are going to occur in a fixed order
-    // we first simulate and find the current states
-    // simulate further 5 times to check if the order matches or not
-    
-    const expectedOutputs = [[false, true, false], [true, false, false], [false, false, true],[false, true, false], [true, false, false], [false, false, true]]
-    if (testSimulation(gates_list, flipflops_list)) {
+    ori.setOutput(false);
+    connected = testSimulation(gates, flipFlops);
+    if (connected) {
         ori.setOutput(true);
-        clk.setOutput(true);
-        testSimulation(gates_list, flipflops_list);
-        clk.setOutput(false);
-        testSimulation(gates_list, flipflops_list);
-        let firstOutput = -1;
-        for (let i = 0; i < 3; i++) {
-            if (outputc.output == expectedOutputs[i][0] && outputb.output == expectedOutputs[i][1] && outputa.output == expectedOutputs[i][2]) {
-                firstOutput = i;
+        connected = testSimulation(gates, flipFlops);
+    }
+    for (let pulse = 0; connected && pulse < expectedOutputs.length; pulse++) {
+        if (pulse > 0) {
+            connected = clockPulse(clk);
+            if (!connected) {
                 break;
             }
         }
-        if (firstOutput == -1) {
+        const observed = [bit(outputa.output), bit(outputb.output), bit(outputc.output)];
+        const expected = expectedOutputs[pulse];
+        const ok = observed.map((value, i) => value === expected[i]);
+        if (ok.includes(false)) {
             circuitIsCorrect = false;
         }
-        else {
-            for (let i = 1; i < 6; i++) {
-                clk.setOutput(true);
-                testSimulation(gates_list, flipflops_list);
-                clk.setOutput(false);
-                testSimulation(gates_list, flipflops_list);
-                // check if output is correct
-                if ((outputc.output !== expectedOutputs[(i + firstOutput) % 6][0] || outputb.output !== expectedOutputs[(i + firstOutput) % 6][1] || outputa.output !== expectedOutputs[(i + firstOutput) % 6][2])) {
-                    circuitIsCorrect = false;
-                }
-            }
-        }
-        const result = document.getElementById('result');
-
-        if (circuitIsCorrect) {
-            result.innerHTML = "<span>&#10003;</span> Success";
-            result.className = "success-message";
-        }
-        else {
-            result.innerHTML = "<span>&#10007;</span> Fail";
-            result.className = "failure-message";
-        }
+        rows += `<tr class="bold-table"><th>${pulse}</th><td>${expected[0]}</td><td>${expected[1]}</td><td>${expected[2]}</td>` +
+            observed.map((value, i) => `<td class="${ok[i] ? "success-table" : "failure-table"}">${value}</td>`).join("") + `</tr>`;
     }
-    ori.setOutput(init_ori);
-    clk.setOutput(init_Clk);
-    outputa.setOutput(init_a);
-    outputb.setOutput(init_b);
-    outputc.setOutput(init_c);
+    restoreState(saved);
+    if (!connected) {
+        return;
+    }
+    const head = `<tr><th rowspan="2">Clock pulses</th><th colspan="3">Expected</th><th colspan="3">Observed</th></tr>` +
+        `<tr><th>QA</th><th>QB</th><th>QC</th><th>QA</th><th>QB</th><th>QC</th></tr>`;
+    showResult(head, rows, circuitIsCorrect,
+        "Success - the set bit moves from QA to QB to QC and back",
+        "Fail - the set bit does not move from QA to QB to QC and back");
 }
 
-// Frequency Divider Tester
-export function testFreqDivider(inputJ, inputK, inputClk, output)  // This function takes 4 ids of the respective Gates
+// Frequency Divider Tester: the output has to have a quarter of the frequency of the clock
+export function testFreqDivider(inputJ, inputK, inputClk, output)  // This function takes the ids of the respective Gates
 {
-    let gates_list = gates;
-    let flipflops_list = flipFlops;
-    let j = gates_list[inputJ];
-    let k = gates_list[inputK];
-    let clk = gates_list[inputClk];
-    let circuitIsCorrect = true;
-    let init_j = j.output;
-    let init_k = k.output;
-    let init_Clk = clk.output;
+    const j = gates[inputJ];
+    const k = gates[inputK];
+    const clk = gates[inputClk];
+    const out = gates[output];
+    const saved = saveState();
 
+    const pulses = 12;
+    const samples = [];
+    let connected = true;
 
-    let out = gates_list[output];
-
-    let init_out = out.output;
-
-    // each list element consists of 2 values QB,QA
-    // there are 4 unique states that are going to occur in a fixed order
-    // we first simulate and find the current states
-    // simulate further 7 times to check if the order matches or not
-    const expectedOutputs = [[false], [true], [true], [false], [false], [true], [true], [false]];
+    presetFlipFlops();
     j.setOutput(true);
     k.setOutput(true);
     clk.setOutput(false);
-    if (testSimulation(gates_list, flipflops_list)) {
-        clk.setOutput(true);
-        testSimulation(gates_list, flipflops_list);
-        clk.setOutput(false);
-        testSimulation(gates_list, flipflops_list);
-        let firstOutput = -1;
-        for (let i = 0; i < 4; i++) {
-            if (out.output == expectedOutputs[i][0]) {
-                firstOutput = i;
-                break;
-            }
+    connected = testSimulation(gates, flipFlops);
+    for (let pulse = 1; connected && pulse <= pulses; pulse++) {
+        connected = clockPulse(clk);
+        if (connected) {
+            samples.push(bit(out.output));
         }
-        if (firstOutput == -1) {
+    }
+    restoreState(saved);
+    if (!connected) {
+        return;
+    }
+
+    // A signal with a quarter of the clock frequency is low for 2 clock pulses and high for 2 clock pulses,
+    // whichever of the 4 phases it starts in. So every sample is the opposite of the one 2 pulses before it.
+    let circuitIsCorrect = true;
+    let rows = "";
+    samples.forEach((value, i) => {
+        const ok = i < 2 || value !== samples[i - 2];
+        if (!ok) {
             circuitIsCorrect = false;
         }
-        else {
-            for (let i = 1; i < 8; i++) {
-                clk.setOutput(true);
-                testSimulation(gates_list, flipflops_list);
-                clk.setOutput(false);
-                testSimulation(gates_list, flipflops_list);
-                // check if output is correct
-                if (out.output !== expectedOutputs[(i + firstOutput) % 8][0]) {
-                    circuitIsCorrect = false;
-                }
-            }
-        }
-        const result = document.getElementById('result');
-
-        if (circuitIsCorrect) {
-            result.innerHTML = "<span>&#10003;</span> Success";
-            result.className = "success-message";
-        }
-        else {
-            result.innerHTML = "<span>&#10007;</span> Fail";
-            result.className = "failure-message";
-        }
-        j.setOutput(init_j);
-        k.setOutput(init_k);
-        clk.setOutput(init_Clk);
-        out.setOutput(init_out);
-    }
+        const note = i < 2 ? "-" : (ok ? "opposite of the output 2 pulses before" : "same as the output 2 pulses before");
+        rows += `<tr class="bold-table"><th>${i + 1}</th><td class="${ok ? "success-table" : "failure-table"}">${value}</td><td>${note}</td></tr>`;
+    });
+    const head = `<tr><th>Clock pulse</th><th>Output</th><th>Expected</th></tr>`;
+    showResult(head, rows, circuitIsCorrect,
+        "Success - the output has 1/4 of the frequency of the clock",
+        "Fail - the output does not have 1/4 of the frequency of the clock");
 }

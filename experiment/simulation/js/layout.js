@@ -7,7 +7,7 @@ import {
   connectDFlipFlopGate,
   initFreqDivider,
 } from "./main.js";
-import { simulate } from "./gate.js";
+import { simulate, stopSimulation } from "./gate.js";
 
 ("use strict");
 
@@ -49,6 +49,7 @@ function changeTabs(e) {
     }
   }
   window.currentTab = task;
+  stopSimulation();
   const taskElement = document.getElementById(task);
   if (taskElement) {
     taskElement.classList.add("is-active");
@@ -108,14 +109,8 @@ function updateToolbar() {
     elem =
       '<div class="component-button dflipflop" onclick="addDFlipFlop(event)"></div>';
   } else if (window.currentTab === "task3") {
-    elem = `<div class="component-button and" onclick="addGate(event)">AND</div>
-    <div class="component-button or" onclick="addGate(event)">OR</div>
-    <div class="component-button not" onclick="addGate(event)">NOT</div>
-    <div class="component-button nand" onclick="addGate(event)">NAND</div>
-    <div class="component-button nor" onclick="addGate(event)">NOR</div>
-    <div class="component-button xor" onclick="addGate(event)">XOR</div>
-    <div class="component-button xnor" onclick="addGate(event)">XNOR</div>
-    <div class="component-button jkflipflop" onclick="addJKFlipFlop(event)"></div>`;
+    elem =
+      '<div class="component-button jkflipflop" onclick="addJKFlipFlop(event)"></div>';
   }
 
   const toolbar = document.getElementById("toolbar");
@@ -141,24 +136,22 @@ function clearObservations() {
 // Simulation
 
 const simButton = document.getElementById("simulate-button");
+const submitButton = document.getElementById("submit-button");
 function toggleSimulation() {
-  if (window.simulate === 0) {
-    window.simulate = 1;
-    if (simButton) simButton.innerHTML = "Simulate";
+  if (window.simulationStatus === 0) {
+    stopSimulation();
   } else {
-    window.simulate = 0;
+    window.simulationStatus = 0;
     if (simButton) simButton.innerHTML = "Stop";
-    if (!window.sim()) {
-      window.simulate = 1;
-      if (simButton) simButton.innerHTML = "Simulate";
+    if (submitButton) submitButton.disabled = true;
+    // the clock keeps running until Stop (or Reset, or a change of tab) is pressed
+    if (!simulate()) {
+      stopSimulation();
     }
   }
 }
-
-// Only add event listener if simButton exists
-if (simButton) {
-  simButton.addEventListener("click", toggleSimulation);
-}
+window.toggleSimulation = toggleSimulation;
+window.simulationStatus = 1;
 
 // Making webpage responsive
 

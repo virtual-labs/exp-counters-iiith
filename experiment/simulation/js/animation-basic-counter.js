@@ -230,6 +230,9 @@ function outputHandler() {
     }
 }
 function unsetI1() {
+    if (timeline.progress() === 1) {
+        rewindDemo();
+    }
     if (textInput[0].textContent !== "0" && timeline.progress() === 0) {
         jDisappear();
         textInput[0].textContent = 0;
@@ -277,6 +280,9 @@ function setI1() {
 
 }
 function unsetI2() {
+    if (timeline.progress() === 1) {
+        rewindDemo();
+    }
 
     if (textInput[1].textContent !== "0" && timeline.progress() === 0) {
         kDisappear();
@@ -339,6 +345,9 @@ function clockToOne() {
 
 
 function unsetClock() {
+    if (timeline.progress() === 1) {
+        rewindDemo();
+    }
 
     if (textClock[0].textContent !== "0" && timeline.progress() === 0) {
         clockDisappear();
@@ -375,12 +384,26 @@ function setClock() {
 
 }
 function reboot() {
-    for (const text of textInput) {
-        text.textContent = 2;
-    }
+    // the demo starts with J = 1, K = 1 and Clock = 0, the values the counter needs
     for (const text of textClock) {
         text.textContent = 2;
     }
+    setI1();
+    setI2();
+    unsetClock();
+    observ.innerHTML = "J = 1, K = 1 and the clock is 0, the values the counter needs. Click on Start. You can click on the input bits to change them.";
+}
+
+function rewindDemo() {
+    // back to the starting state, after a run has finished
+    circuitStarted = false;
+    timeline.seek(0);
+    timeline.pause();
+    allDisappear();
+    reboot();
+    decide = false;
+    status.innerHTML = "Start";
+    speed.selectedIndex = 0;
 }
 
 function outputSetter() {
@@ -393,7 +416,9 @@ function outputSetter() {
 
 
 function display() {
-    observ.innerHTML = "Simulation has finished. Please click on Reset and repeat the instructions given to start again."
+    decide = false;
+    status.innerHTML = "Start";
+    observ.innerHTML = "Simulation has finished. Click on Start to run it again, or change the inputs first."
 }
 function setter(value, component) {
     //toggles the text content a of input/output component b
@@ -448,6 +473,9 @@ function stopCircuit() {
 }
 
 function startCircuit() {
+    if (timeline.progress() === 1) {
+        rewindDemo();
+    }
     if (circuitStarted) {
         timeline.play();
         timeline.timeScale(1);
@@ -614,5 +642,6 @@ timeline.pause();
 
 jkDotDisappear();
 jkDotDisappear();
+reboot();
 
 clockDotDisappear();

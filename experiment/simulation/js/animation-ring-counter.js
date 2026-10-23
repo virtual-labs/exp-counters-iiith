@@ -192,6 +192,9 @@ function outputHandler() {
     textOutput[0].textContent = temp;
 }
 function unsetOri() {
+    if (timeline.progress() === 1) {
+        rewindDemo();
+    }
     if (textInput[0].textContent !== "0" && timeline.progress() === 0) {
         oriTextDisappear();
         textInput[0].textContent = 0;
@@ -224,6 +227,9 @@ function setOri() {
     observ.innerHTML = "ori is set to 1";
 }
 function unsetClock() {
+    if (timeline.progress() === 1) {
+        rewindDemo();
+    }
     if (textClock[0].textContent !== "0" && timeline.progress() === 0) {
         clockDisappear();
         textClock[0].textContent = 0;
@@ -256,8 +262,24 @@ function setClock() {
 }
 
 function reboot() {
+    // the demo starts with Ori = 0 and Clock = 0, the values the counter needs
     textInput[0].textContent = 2;
     textClock[0].textContent = 2;
+    unsetOri();
+    unsetClock();
+    observ.innerHTML = "Ori = 0 and the clock is 0, the values the counter needs. Click on Start. You can click on the input bits to change them.";
+}
+
+function rewindDemo() {
+    // back to the starting state, after a run has finished
+    circuitStarted = false;
+    timeline.seek(0);
+    timeline.pause();
+    allDisappear();
+    reboot();
+    decide = false;
+    status.innerHTML = "Start";
+    speed.selectedIndex = 0;
 }
 
 function outputSetter() {
@@ -267,7 +289,9 @@ function outputSetter() {
     }
 }
 function display() {
-    observ.innerHTML = "Simulation has finished. Please click on Reset and repeat the instructions given to start again"
+    decide = false;
+    status.innerHTML = "Start";
+    observ.innerHTML = "Simulation has finished. Click on Start to run it again, or change the inputs first."
 }
 function setter(value, component) {
     if (value === "1") {
@@ -333,6 +357,9 @@ function stopCircuit() {
     }
 }
 function startCircuit() {
+    if (timeline.progress() === 1) {
+        rewindDemo();
+    }
     if (circuitStarted) {
         timeline.play();
         timeline.timeScale(1);
@@ -536,3 +563,4 @@ timeline.to(clockDots[2], {
 timeline.pause();
 oriDotDisappear();
 clockDotDisappear();
+reboot();

@@ -62,14 +62,16 @@
                   selecting the delete option.
                 </li>
                 <li>
-                  You can set the input bits, which are by default 1, to any
-                  values of your choice for testing, by double-clicking on them.
+                  You can set the input bits, which are by default 1 (Ori of the
+                  ring counter is 0), to any values of your choice for testing,
+                  by clicking on them.
                 </li>
                 <li>
-                  Click on the "Simulate" button after setting the input bits as
-                  per your choice. This will simulate the circuit you built for
-                  the input bits set, and will change the output bit values
-                  accordingly, for you to test your circuit.
+                  Click on the "Simulate" button to start the clock. The output
+                  bits change at every falling edge of the clock, so you can
+                  watch your circuit at work. The button now reads "Stop":
+                  click on it to stop the clock. "Submit" can be used only while
+                  the clock is stopped.
                 </li>
                 <li>
                   Click on the "Submit" button to submit the circuit once you
@@ -122,8 +124,8 @@
             </div>
           </div>
           <div class="v-datalist-row">
-            <button class="v-button" onclick="simulate()">Simulate</button>
-            <button class="v-button" onclick="submitCircuit()">Submit</button>
+            <button class="v-button" id="simulate-button" onclick="toggleSimulation()">Simulate</button>
+            <button class="v-button" id="submit-button" onclick="submitCircuit()">Submit</button>
             <button id="refresh" class="v-button" style="margin-top: 15px">
               Reset
             </button>
